@@ -3,18 +3,22 @@
    ========================================================================== */
    
 @wrapper-width: 1000px;
-@secondary-background:	#E9E9E9;
+@background: #666;
+@secondary-background:	#888;
+@main-text-color: white;
 html {
 	font-size: 62.5%; 
 } 
 
 body {
+	background: @background;
 	font-size: 14px; font-size: 1.4rem;
 	header.site-head {
 		background: @secondary-background;
 		padding: 50px 0;
 		span.site-title {
 			font-size: 20px; font-size: 2rem;
+			color: @main-text-color;
 		}
 	}
 	
@@ -22,27 +26,39 @@ body {
 			padding: 20px 0;
 			overflow: hidden;
 			section.products{
-				article.product {
+			
+				article.product {				
 					float: left;
 					width: 24%;
 					margin-right: 1%;
-					h2.product-title {
-						margin: 0;
-						padding: 0;
-					}
+					margin-bottom: 10px;
+					background: white;
+					
 					img.product-image {
 						width: 100%;
 						height: auto;
 					}
-					span.product-price {
 					
+					div.product-meta {					
+						padding: 10px;
+						
+						h2.product-title {
+							margin: 0;
+							padding: 0;
+						}
+						
+						span.product-price {
+						
+						}
 					}
+					
 				}
 			}
 	}
 	
 	footer {
 		background: @secondary-background;
+		color: @main-text-color;
 		padding: 50px 0;
 	}
 }

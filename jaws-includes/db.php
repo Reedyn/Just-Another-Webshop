@@ -24,7 +24,7 @@ class Database {
     }
     
     public function deleteUser($SSNr) { // Returns a user.
-        if(mysqli_query($database, "DELETE FROM users WHERE SSNr='"$SSNr"'")){
+        if(mysqli_query($database, "DELETE FROM users WHERE SSNr='"$SSNr"'")===TRUE){
             printf("User Successfully deleted.\n");
         }
         return true or false;
@@ -59,23 +59,27 @@ class Database {
     }
     
     public function removeCard($CardId) { // Removes a card
-    if(mysqli_query($database, "DELETE FROM cards WHERE CardNr='"$CardId"'")){
+    if(mysqli_query($database, "DELETE FROM cards WHERE CardNr='"$CardId"'")===TRUE){
         printf("Card successfully deleted.\n");
     }
     }
     
     public function editCard() { // May not be needed, cards never get changed.
-        
+                                 // Will probably use addCard for this if thats the case.
     }
     
     /*  #################################
         Purchase
     */  #################################
     
-    public function addPurchase($personalNr,$discount,$chargedCard,$purchaseList) { // Adds a purchase to the database.
+    public function addPurchase($personalNr,$Discount,$ChargedCard,$purchaseList) { // Adds a purchase to the database.
         
         $time = getUnixTime(); // Get unixtime
-        // ADD PURCHASE TO TABLES
+        if(mysqli_query($database, "INSERT INTO purchases SET PurchaseDate='"$time"',Discount='"$Discount"',ChargedCard='"$ChargedCard"'")===TRUE){
+            // ADD PURCHASE TO TABLES
+            printf("");
+        }
+
         addPurchaseList($purchaseList,$purchaseId); // Call function for adding a purchaseList into the appropriate table.
         return true/false;
         

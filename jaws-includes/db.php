@@ -11,7 +11,11 @@ class Database {
         User
     */  #################################
     
-    public function addUser() { // Adds a user to the database.
+    public function addUser($SSNr,$Mail,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone) { // Adds a user to the database.
+
+        if (mysqli_query($database, "INSERT INTO users SET SSNr='"$SSNr"',Mail='"$Mail"',FirstName='"$FirstName"',LastName='"$LastName"',StreetAddress='"$StreetAddress"',PostAddress='"$PostAddress"',City='"$City"',Telephone='"$Telephone"'") === TRUE) {
+            printf("User successfully created.\n");
+        }
         return true or false;
     }
     
@@ -19,7 +23,10 @@ class Database {
         return true or false;
     }
     
-    public function deleteUser() { // Returns a user.
+    public function deleteUser($SSNr) { // Returns a user.
+        if(mysqli_query($database, "DELETE FROM users WHERE SSNr='"$SSNr"'")){
+            printf("User Successfully deleted.\n");
+        }
         return true or false;
     }
     
@@ -45,12 +52,16 @@ class Database {
     
     // Card
     
-    public function addCard() { // Adds a card
-        
+    public function addCard($CardId,$CardNr,$CardName,$ExpiryMonth,$ExpiryYear) { // Adds a card
+         if (mysqli_query($database, "INSERT INTO cards SET CardId='"$CardId"',CardNr='"$CardNr"',CardName='"$CardName"',ExpiryMonth='"$ExpiryMonth"', ExpiryYear='"$ExpiryYear"'") === TRUE) {
+             printf("Card successfully added.\n");
+         }
     }
     
-    public function removeCard() { // Removes a card
-        
+    public function removeCard($CardId) { // Removes a card
+    if(mysqli_query($database, "DELETE FROM cards WHERE CardNr='"$CardId"'")){
+        printf("Card successfully deleted.\n");
+    }
     }
     
     public function editCard() { // May not be needed, cards never get changed.

@@ -14,9 +14,10 @@ class Database {
     public function addUser($SSNr,$Mail,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone) { // Adds a user to the database.
 
         if (mysqli_query($database, "INSERT INTO users SET SSNr='"$SSNr"',Mail='"$Mail"',FirstName='"$FirstName"',LastName='"$LastName"',StreetAddress='"$StreetAddress"',PostAddress='"$PostAddress"',City='"$City"',Telephone='"$Telephone"'") === TRUE) {
-            printf("User successfully created.\n");
+            return true;
+        }else{
+            return false;
         }
-        return true or false;
     }
     
     public function editUser() { // Edits a user and returns a boolean.
@@ -25,9 +26,10 @@ class Database {
     
     public function deleteUser($SSNr) { // Returns a user.
         if(mysqli_query($database, "DELETE FROM users WHERE SSNr='"$SSNr"'")===TRUE){
-            printf("User Successfully deleted.\n");
+            return true;
+        }else{
+            return false;
         }
-        return true or false;
     }
     
     public function getUser() { // Returns a user.
@@ -54,13 +56,17 @@ class Database {
     
     public function addCard($CardId,$CardNr,$CardName,$ExpiryMonth,$ExpiryYear) { // Adds a card
          if (mysqli_query($database, "INSERT INTO cards SET CardId='"$CardId"',CardNr='"$CardNr"',CardName='"$CardName"',ExpiryMonth='"$ExpiryMonth"', ExpiryYear='"$ExpiryYear"'") === TRUE) {
-             printf("Card successfully added.\n");
-         }
+             return true;
+         }else{
+            return false;
+        }
     }
     
     public function removeCard($CardId) { // Removes a card
-    if(mysqli_query($database, "DELETE FROM cards WHERE CardNr='"$CardId"'")===TRUE){
-        printf("Card successfully deleted.\n");
+        if(mysqli_query($database, "DELETE FROM cards WHERE CardNr='"$CardId"'")===TRUE){
+            return true;
+        }else{
+            return false;
     }
     }
     
@@ -72,17 +78,16 @@ class Database {
         Purchase
     */  #################################
     
-    public function addPurchase($personalNr,$Discount,$ChargedCard,$purchaseList) { // Adds a purchase to the database.
+    public function addPurchase($SSNr,$Discount,$ChargedCard,$purchaseList) { // Adds a purchase to the database.
         
         $time = getUnixTime(); // Get unixtime
-        if(mysqli_query($database, "INSERT INTO purchases SET PurchaseDate='"$time"',Discount='"$Discount"',ChargedCard='"$ChargedCard"'")===TRUE){
+        if(mysqli_query($database, "INSERT INTO purchases SET SSNr='"$SSNr"' PurchaseDate='"$time"',Discount='"$Discount"',ChargedCard='"$ChargedCard"'")===TRUE){
             // ADD PURCHASE TO TABLES
-            printf("");
+            addPurchaseList($purchaseList,$purchaseId); // Call function for adding a purchaseList into the appropriate table.
+            return true;
+        }else{
+            return false;
         }
-
-        addPurchaseList($purchaseList,$purchaseId); // Call function for adding a purchaseList into the appropriate table.
-        return true/false;
-        
     }
     
     private function addPurchaseList($purchaseList,$purchaseId) { 
@@ -93,8 +98,12 @@ class Database {
         return true/false;
     }
     
-    public function removePurchase($purchaseId) { // Removes a purchase and associated purchased items (purchaseList)
-        return true/false;
+    public function removePurchase($PurchaseId) { // Removes a purchase and associated purchased items (purchaseList)
+        if(mysqli_query($database, "DELETE FROM purchases WHERE PurchaseId='"$PurchaseId"'")===TRUE){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public function getPurchase($purchaseId) { // Returns a purchase
@@ -109,16 +118,24 @@ class Database {
         return array;
     }
     
-    public function addProduct() { // Adds a product to the database.
-        return True/False;
+    public function addProduct($Name,$Category,$Price,$Stock) { // Adds a product to the database.
+        if(mysqli_query($database, "INSERT INTO products SET Name='"$Name"',Category='"$Category"',Price='"$Price"',Stock='"$Stock"'")===TRUE){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public function editProduct() { // Edits a product and returns a boolean.
         return True/False;
     }
     
-    public function deleteProduct() { // Returns a product.
-        return True;
+    public function deleteProduct($ProductId) { // Removes a product from table
+        if(mysqli_query($database, "DELETE FROM products WHERE ProductId='"$ProductId"'")===TRUE){
+            return true;
+        }else{
+            return false;
+    }
     }
     
     public function getProduct() { // Returns a product.

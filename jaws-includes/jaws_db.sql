@@ -2,10 +2,10 @@
 -- version 4.0.4
 -- http://www.phpmyadmin.net
 --
--- Värd: localhost
--- Skapad: 21 nov 2013 kl 15:28
--- Serverversion: 5.6.12-log
--- PHP-version: 5.4.12
+-- Host: localhost
+-- Generation Time: Nov 21, 2013 at 08:54 PM
+-- Server version: 5.6.12-log
+-- PHP Version: 5.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databas: `jaws_db`
+-- Database: `jaws_db`
 --
 CREATE DATABASE IF NOT EXISTS `jaws_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `jaws_db`;
@@ -25,7 +25,7 @@ USE `jaws_db`;
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `cards`
+-- Table structure for table `cards`
 --
 
 CREATE TABLE IF NOT EXISTS `cards` (
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `cards` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumpning av Data i tabell `cards`
+-- Dumping data for table `cards`
 --
 
 INSERT INTO `cards` (`CardId`, `CardNr`, `CardName`, `ExpiryMonth`, `ExpiryYear`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `cards` (`CardId`, `CardNr`, `CardName`, `ExpiryMonth`, `ExpiryYear`
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE IF NOT EXISTS `categories` (
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumpning av Data i tabell `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`Id`, `Name`) VALUES
@@ -68,7 +68,52 @@ INSERT INTO `categories` (`Id`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `products`
+-- Table structure for table `orders`
+--
+
+CREATE TABLE IF NOT EXISTS `orders` (
+  `OrderId` int(11) NOT NULL AUTO_INCREMENT,
+  `SSNr` double NOT NULL,
+  `OrderDate` text NOT NULL,
+  `Discount` float NOT NULL,
+  `ChargedCard` int(11) NOT NULL,
+  PRIMARY KEY (`OrderId`),
+  KEY `SSNr` (`SSNr`),
+  KEY `ChargedCard` (`ChargedCard`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`OrderId`, `SSNr`, `OrderDate`, `Discount`, `ChargedCard`) VALUES
+(1, 199205075931, '2013-11-19', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_list`
+--
+
+CREATE TABLE IF NOT EXISTS `order_list` (
+  `OrderId` int(11) NOT NULL,
+  `ProductId` int(11) NOT NULL,
+  `Amount` int(11) NOT NULL,
+  UNIQUE KEY `ProductId` (`ProductId`),
+  KEY `PurchaseId` (`OrderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_list`
+--
+
+INSERT INTO `order_list` (`OrderId`, `ProductId`, `Amount`) VALUES
+(1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
 --
 
 CREATE TABLE IF NOT EXISTS `products` (
@@ -82,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumpning av Data i tabell `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`ProductId`, `Name`, `Category`, `Price`, `Stock`) VALUES
@@ -91,52 +136,7 @@ INSERT INTO `products` (`ProductId`, `Name`, `Category`, `Price`, `Stock`) VALUE
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `purchases`
---
-
-CREATE TABLE IF NOT EXISTS `purchases` (
-  `PurchaseId` int(11) NOT NULL AUTO_INCREMENT,
-  `SSNr` double NOT NULL,
-  `PurchaseDate` text NOT NULL,
-  `Discount` float NOT NULL,
-  `ChargedCard` int(11) NOT NULL,
-  PRIMARY KEY (`PurchaseId`),
-  KEY `SSNr` (`SSNr`),
-  KEY `ChargedCard` (`ChargedCard`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumpning av Data i tabell `purchases`
---
-
-INSERT INTO `purchases` (`PurchaseId`, `SSNr`, `PurchaseDate`, `Discount`, `ChargedCard`) VALUES
-(1, 199205075931, '2013-11-19', 0, 1);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `purchase_list`
---
-
-CREATE TABLE IF NOT EXISTS `purchase_list` (
-  `PurchaseId` int(11) NOT NULL,
-  `ProductId` int(11) NOT NULL,
-  `Amount` int(11) NOT NULL,
-  UNIQUE KEY `ProductId` (`ProductId`),
-  KEY `PurchaseId` (`PurchaseId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `purchase_list`
---
-
-INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`, `Amount`) VALUES
-(1, 1, 0);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `taxanomies`
+-- Table structure for table `taxanomies`
 --
 
 CREATE TABLE IF NOT EXISTS `taxanomies` (
@@ -148,19 +148,16 @@ CREATE TABLE IF NOT EXISTS `taxanomies` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Dumpning av Data i tabell `taxanomies`
+-- Dumping data for table `taxanomies`
 --
 
 INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
-(1, 'KING', NULL),
-(2, 'PRINCE', 1),
-(3, 'KNIGHT', 2),
-(4, 'PRINCESS', 1);
+(1, 'KING', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -180,38 +177,38 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`) VALUES
 (199205075931, 'marcusandreas@hotmail.com', '', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
 
 --
--- Restriktioner för dumpade tabeller
+-- Constraints for dumped tables
 --
 
 --
--- Restriktioner för tabell `products`
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`SSNr`) REFERENCES `users` (`SSNr`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`);
+
+--
+-- Constraints for table `order_list`
+--
+ALTER TABLE `order_list`
+  ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
+  ADD CONSTRAINT `order_list_ibfk_2` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`);
+
+--
+-- Constraints for table `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Category`) REFERENCES `categories` (`Id`);
 
 --
--- Restriktioner för tabell `purchases`
---
-ALTER TABLE `purchases`
-  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`SSNr`) REFERENCES `users` (`SSNr`),
-  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`);
-
---
--- Restriktioner för tabell `purchase_list`
---
-ALTER TABLE `purchase_list`
-  ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
-  ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`PurchaseId`) REFERENCES `purchases` (`PurchaseId`);
-
---
--- Restriktioner för tabell `taxanomies`
+-- Constraints for table `taxanomies`
 --
 ALTER TABLE `taxanomies`
   ADD CONSTRAINT `taxanomies_ibfk_1` FOREIGN KEY (`TaxanomyParent`) REFERENCES `taxanomies` (`TaxanomyId`);

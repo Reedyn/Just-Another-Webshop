@@ -1,7 +1,9 @@
 <?php 
 include '../jaws-includes/db.php';
 function getUsers(){
-    
+    // Get all users from database
+    // Create User classes and put them into an array
+    // Return an array of all users
 }
 
 function getUser($personalNr) { // Returns a user from the database as a User class.
@@ -10,14 +12,14 @@ function getUser($personalNr) { // Returns a user from the database as a User cl
     return $user;
 }
 
-class User{
-    private $personalNr;
-    private $name;
-    private $lastName;
-    private $streetAddress;
-    private $postAddress;
-    private $city;
-    private $phone;
+class User {
+    protected $personalNr;
+    protected $name;
+    protected $lastName;
+    protected $streetAddress;
+    protected $postAddress;
+    protected $city;
+    protected $phone;
 
     public function __construct($personalNr, $name, $lastName, $streetAddress, $postAddress, $city, $phone) {
         $this->personalNr    = $personalNr;
@@ -28,71 +30,71 @@ class User{
         $this->city          = $city;
         $this->phone         = $phone;
     }
-    public function getPersonalNr(){
+    public function getPersonalNr() {
         return $this->personalNr;
     }
     
-    public function setPersonalNr($personalNr){
+    public function setPersonalNr($personalNr) {
         $this->personalNr = $personalNr;
     }
     
-    public function getName(){
+    public function getName() {
         return $this->name;
     }
     
-    public function setName($name){
+    public function setName($name) {
          $this->name = $name;
     }
     
-    public function getLastName(){
+    public function getLastName() {
         return $this->lastName;
     }
     
-    public function setLastName($lastName){
+    public function setLastName($lastName) {
          $this->lastName = $lastName;
     }
     
-    public function getFullName(){
+    public function getFullName() {
         return $this->name . " " . $this->lastName;
     }
     
-    public function getStreetAddress(){
+    public function getStreetAddress() {
         return $this->streetAddress;
     }
     
-    public function setStreetAddress($streetAddress){
+    public function setStreetAddress($streetAddress) {
          $this->streetAddress = $streetAddress;
     }
     
-    public function getPostAddress(){
+    public function getPostAddress() {
         return $this->postAddress;
     }
     
-    public function setPostAddress($postAddress){
+    public function setPostAddress($postAddress) {
          $this->postAddress = $postAddress;
     }
     
-    public function getCity(){
+    public function getCity() {
         return $this->city;
     }
     
-    public function setCity($city){
+    public function setCity($city) {
          $this->city = $city;
     }
     
-    public function getPhone(){
+    public function getPhone() {
         return $this->phone;
     }
     
-    public function setPhone($phone){
+    public function setPhone($phone) {
          $this->phone = $phone;
     }
 
-    public function getCard(){
+    public function getCard() {
         // return a list of all cards associated with the user, if there is only one card, return that one, else return false
     }
 
-    public function addCard(){
+    public function addCard() {
         // Add a new card associated with the user, return true if successful, else false.
     }
 
@@ -101,13 +103,14 @@ class User{
     }
 
     public function saveUser() {
+        // Save userdata to database
     }
 }
 
 class Admin extends User {
-    private $isAdmin = true;
+    protected $isAdmin = true;
     
-    public function isAdmin(){
+    public function isAdmin() {
         return $this->isAdmin;
     }
 }

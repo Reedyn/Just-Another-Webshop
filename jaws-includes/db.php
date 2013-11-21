@@ -42,17 +42,31 @@ class Database {
     
     public function dbGetUser($SSNr) { // Returns a user.
         $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr='$SSNr'");
-        if($result===TRUE){
-            return true;
-        }else{
+        $row = mysqli_fetch_assoc($result);
+        if (!$row)
+        {
+            echo 'Error - user does not exist';
+            exit();
             return false;
+        }else{
+            var_dump($row);
+            return $row;
         }
     }
     // Purchase
     
     public function dbGetUsersPurchases($SSNr) {
-        $UserPurchases=mysqli_query($this->database, "SELECT * FROM purchases WHERE SSNr='$SSNr'");
-        return $UserPurchases;
+        $result=mysqli_query($this->database, "SELECT * FROM purchases WHERE SSNr='$SSNr'");
+        $row = mysqli_fetch_assoc($result);
+        if (!$row)
+        {
+            echo 'Error - No purchases exist for this user';
+            exit();
+            return false;
+        }else{
+            var_dump($row);
+            return $row;
+        }
     }
     
     // Login
@@ -133,7 +147,18 @@ class Database {
         }
     }
     
-    public function dbGetPurchase($purchaseId) { // Returns a purchase
+    public function dbGetPurchase($PurchaseId) { // Returns a purchase
+        $result=mysqli_query($this->database, "SELECT * FROM purchases WHERE PurchaseId='$PurchaseId'");
+        $row = mysqli_fetch_assoc($result);
+        if (!$row)
+        {
+            echo 'Error - purchase does not exist';
+            exit();
+            return false;
+        }else{
+            var_dump($row);
+            return $row;
+        }
         return true;
     }
     
@@ -169,14 +194,19 @@ class Database {
         }
     }
     
-    public function dbGetProduct() { // Returns a product.
-        return true;
+    public function dbGetProduct($ProductId) { // Returns a product.
+        $result=mysqli_query($this->database, "SELECT * FROM users WHERE ProductId='$ProductId'");
+        $row = mysqli_fetch_assoc($result);
+        if (!$row)
+        {
+            echo 'Error - Product does not exist';
+            exit();
+            return false;
+        }else{
+            var_dump($row);
+            return $row;
+        }
     }
-    
-    public function dbGetProducts() { // Returns an array of products.
-        return true;
-    }
-    
     /*  #################################
         Category/Taxanomies TO BE DETERMINED
     */  #################################     

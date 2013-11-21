@@ -7,5 +7,5 @@
     $dbName = "jaws_db";
 
     $db = new Database($dbHost,$dbUser,$dbPassword,$dbName);
-    $db->getUser(199205075931);
+    $db->dbGetUser(199205075931);
 ?>

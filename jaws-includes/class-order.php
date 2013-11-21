@@ -1,24 +1,24 @@
 <?php
 include '../jaws-includes/db.php';
 
-function getPurchase($purchaseId) {
-    // Return a purchase with a specific Id.
+function getOrder($orderId) {
+    // Return a order with a specific Id.
 }
 
-function getPurchases() {
-    // Return an array of all purchases with relevant data.
+function getOrders() {
+    // Return an array of all orders with relevant data.
 }
 
-class Purchase {
-    protected $purchaseId;
+class Order {
+    protected $orderId;
     protected $personalNr;
     protected $time;
     protected $discount;
     protected $card;
     protected $productList;
 
-    public function __construct($purchaseId, $personalNr, $discount, $card, $productList) {
-        $this->purchaseId   = $purchaseId;
+    public function __construct($orderId, $personalNr, $discount, $card, $productList) {
+        $this->orderId   = $orderId;
         $this->personalNr   = $personalNr;
         $this->price        = $price;
         $this->discount     = $discount;
@@ -26,8 +26,8 @@ class Purchase {
         $this->productList  = $productList;
     }
     
-    public function getPurchaseId() {
-        return $this->purchaseId;
+    public function getorderId() {
+        return $this->orderId;
     }
     
     public function getPersonalNr() {
@@ -46,8 +46,16 @@ class Purchase {
         return $this->card;
     }
     
-    public function getProductList)() {
+    public function setCard($card) {
+        $this->card = $card;
+    }
+    
+    public function getProductList() {
         return $this->productList;
+    }
+    
+    public function setProductList() {
+        
     }
 }
 

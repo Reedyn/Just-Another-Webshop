@@ -105,6 +105,10 @@ class User {
     public function saveUser() {
         // Save userdata to database
     }
+    
+    public function getOrders(){
+        // Return an array of all orders
+    }
 }
 
 class Admin extends User {

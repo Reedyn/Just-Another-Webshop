@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 21 nov 2013 kl 06:59
+-- Skapad: 21 nov 2013 kl 15:28
 -- Serverversion: 5.6.12-log
 -- PHP-version: 5.4.12
 
@@ -136,6 +136,30 @@ INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`, `Amount`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellstruktur `taxanomies`
+--
+
+CREATE TABLE IF NOT EXISTS `taxanomies` (
+  `TaxanomyId` int(11) NOT NULL AUTO_INCREMENT,
+  `TaxanomyName` text NOT NULL,
+  `TaxanomyParent` int(11) DEFAULT NULL,
+  PRIMARY KEY (`TaxanomyId`),
+  KEY `TaxanomyParent` (`TaxanomyParent`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumpning av Data i tabell `taxanomies`
+--
+
+INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
+(1, 'KING', NULL),
+(2, 'PRINCE', 1),
+(3, 'KNIGHT', 2),
+(4, 'PRINCESS', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Tabellstruktur `users`
 --
 
@@ -151,7 +175,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Telephone` text NOT NULL,
   `SessionKey` int(11) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`SSNr`)
+  PRIMARY KEY (`SSNr`),
+  FULLTEXT KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -184,6 +209,12 @@ ALTER TABLE `purchases`
 ALTER TABLE `purchase_list`
   ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
   ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`PurchaseId`) REFERENCES `purchases` (`PurchaseId`);
+
+--
+-- Restriktioner för tabell `taxanomies`
+--
+ALTER TABLE `taxanomies`
+  ADD CONSTRAINT `taxanomies_ibfk_1` FOREIGN KEY (`TaxanomyParent`) REFERENCES `taxanomies` (`TaxanomyId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

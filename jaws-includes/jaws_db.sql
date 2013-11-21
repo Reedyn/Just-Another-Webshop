@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 19 nov 2013 kl 09:26
+-- Skapad: 21 nov 2013 kl 06:59
 -- Serverversion: 5.6.12-log
 -- PHP-version: 5.4.12
 
@@ -97,7 +97,7 @@ INSERT INTO `products` (`ProductId`, `Name`, `Category`, `Price`, `Stock`) VALUE
 CREATE TABLE IF NOT EXISTS `purchases` (
   `PurchaseId` int(11) NOT NULL AUTO_INCREMENT,
   `SSNr` double NOT NULL,
-  `PurchaseDate` date NOT NULL,
+  `PurchaseDate` text NOT NULL,
   `Discount` float NOT NULL,
   `ChargedCard` int(11) NOT NULL,
   PRIMARY KEY (`PurchaseId`),
@@ -121,6 +121,7 @@ INSERT INTO `purchases` (`PurchaseId`, `SSNr`, `PurchaseDate`, `Discount`, `Char
 CREATE TABLE IF NOT EXISTS `purchase_list` (
   `PurchaseId` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
+  `Amount` int(11) NOT NULL,
   UNIQUE KEY `ProductId` (`ProductId`),
   KEY `PurchaseId` (`PurchaseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -129,8 +130,8 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
 -- Dumpning av Data i tabell `purchase_list`
 --
 
-INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`) VALUES
-(1, 1);
+INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`, `Amount`) VALUES
+(1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -141,23 +142,24 @@ INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`) VALUES
 CREATE TABLE IF NOT EXISTS `users` (
   `SSNr` double NOT NULL,
   `Mail` text NOT NULL,
+  `Password` text NOT NULL,
   `FirstName` text NOT NULL,
   `LastName` text NOT NULL,
   `StreetAddress` text NOT NULL,
   `PostAddress` text NOT NULL,
   `City` text NOT NULL,
   `Telephone` text NOT NULL,
-  PRIMARY KEY (`SSNr`),
-  UNIQUE KEY `SSNr` (`SSNr`),
-  KEY `SSNr_2` (`SSNr`)
+  `SessionKey` int(11) NOT NULL,
+  `IsAdmin` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`SSNr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumpning av Data i tabell `users`
 --
 
-INSERT INTO `users` (`SSNr`, `Mail`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`) VALUES
-(199205075931, 'marcusandreas@hotmail.com', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290');
+INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`) VALUES
+(199205075931, 'marcusandreas@hotmail.com', '', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
 
 --
 -- Restriktioner för dumpade tabeller
@@ -173,15 +175,15 @@ ALTER TABLE `products`
 -- Restriktioner för tabell `purchases`
 --
 ALTER TABLE `purchases`
-  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`),
-  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`SSNr`) REFERENCES `users` (`SSNr`);
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`SSNr`) REFERENCES `users` (`SSNr`),
+  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`);
 
 --
 -- Restriktioner för tabell `purchase_list`
 --
 ALTER TABLE `purchase_list`
-  ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`PurchaseId`) REFERENCES `purchases` (`PurchaseId`),
-  ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`);
+  ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
+  ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`PurchaseId`) REFERENCES `purchases` (`PurchaseId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

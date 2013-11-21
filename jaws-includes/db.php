@@ -38,6 +38,8 @@ class Database {
         return array;
     }
     
+    public function
+    
     // Purchase
     
     public function getUsersPurchases() {
@@ -48,6 +50,12 @@ class Database {
     
     public function matchPassword(string email, string password) {
         return true or false;
+    }
+    
+    public function login($email,$password){
+        
+        // SAVE SESSIONKEY TO USER IN TABLE
+        return $sessionKey and $//if successful
     }
     
     // Card

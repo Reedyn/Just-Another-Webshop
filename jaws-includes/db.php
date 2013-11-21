@@ -44,7 +44,7 @@ class Database {
     public function dbGetUser($SSNr) { // Returns a user.
         $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr='$SSNr'");
         if($result===TRUE){
-            return $User;
+            return true;
         }else{
             return false;
         }
@@ -59,6 +59,7 @@ class Database {
     // Login
     
     public function dbMatchPassword($LoginEmail, $LoginPassword) {
+        //NOT DONE-----------------------------------------------------*
         if(mysqli_query($this->database, "SELECT Mail FROM users WHERE Mail='$LoginEmail'")!=FALSE){
             $password=mysqli_query($this->database, "SELECT Password FROM users WHERE Mail='$LoginEmail'");
             if($password==$LoginPassword){
@@ -91,30 +92,44 @@ class Database {
     /*  #################################
         Purchase
     */  #################################
-    
+
+    private function dbAddPurchaseList() {
+        //LOOP THROUGH ARRAY AND ADD EVERY ROW INTO TABLE
+        return true;
+
+    }
+
     public function dbAddPurchase($SSNr,$Discount,$ChargedCard,$purchaseList) { // Adds a purchase to the database.
+        //NOT DONE ----------------------------------------------------------------------------------------------------*
         $time = getUnixTime(); // Get unixtime
         if(mysqli_query($this->database, "INSERT INTO purchases SET SSNr='$SSNr' PurchaseDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){
             // ADD PURCHASE TO TABLES
-            addPurchaseList($purchaseList,$purchaseId); // Call function for adding a purchaseList into the appropriate table.
+            dbAddPurchaseList($purchaseList,$purchaseId); // Call function for adding a purchaseList into the appropriate table.
             return true;
         }else{
             return false;
         }
     }
     
-    private function dbAddPurchaseList($purchaseList,$purchaseId) {
-        // LOOP THROUGH ARRAY AND ADD EVERY ROW INTO TABLE
-    }
-    
-    public function dbEditPurchase($purchaseId) { // Edit a purchase
-        return true;
+    public function dbEditPurchase($PurchaseId,$ChangedRow,$ChangeRowValue) { // Edit a purchase
+        if(mysqli_query($database, "UPDATE purchases SET $ChangedRow='$ChangeRowValue' WHERE PurchaseId='$PurchaseId'")===TRUE){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public function dbRemovePurchase($PurchaseId) { // Removes a purchase and associated purchased items (purchaseList)
-        if(mysqli_query($this->database, "DELETE FROM purchases WHERE PurchaseId='$PurchaseId'")===TRUE && mysqli_query($database, "DELETE FROM purchase_list WHERE PurchaseId='$PurchaseId'")===TRUE){
-            return true;
-        }else{
+        if(mysqli_query($this->database, "DELETE FROM purchases WHERE PurchaseId='$PurchaseId'")===TRUE){
+            if(mysqli_query($this->database, "DELETE FROM purchase_list WHERE PurchaseId='$PurchaseId'")===TRUE){
+                return true;
+            }else{
+                echo "deletes from purchase_list failed";
+                return false;
+            }
+        }
+        else{
+            echo "deletes from purchases failed";
             return false;
         }
     }
@@ -127,7 +142,7 @@ class Database {
         Product
     */  #################################
     
-    public function dbSearchProducts($query){ //Return an array of items matching query
+    public function dbSearchProducts($SearchQuery){ //Return an array of items matching query
         return true;
     }
     

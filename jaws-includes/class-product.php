@@ -1,4 +1,14 @@
 <?php 
+include '../jaws-includes/db.php';
+function getProducts(){
+    return dbGetProducts();
+}
+
+function getProduct($productId) { // Returns a user from the database as a User class.
+    $productData = dbGetProduct();
+    $product = new Product($productData['productId'], $productData['name'], $productData['price'], $productData['stock'], $productData['imageUrl'], $productData['category']);
+    return $product;
+}
 
 class Product{
     private $productId;

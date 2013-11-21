@@ -1,6 +1,8 @@
 <?php 
-include '../jaws-includes/functions.php';
 include '../jaws-includes/db.php';
+function getUsers(){
+    
+}
 
 function getUser($personalNr) { // Returns a user from the database as a User class.
     $userData = loadUser();

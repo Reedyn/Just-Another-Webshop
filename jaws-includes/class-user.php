@@ -10,8 +10,6 @@ function getUser($personalNr) { // Returns a user from the database as a User cl
     return $user;
 }
 
-
-
 class User{
     private $personalNr;
     private $name;

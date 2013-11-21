@@ -1,11 +1,11 @@
 <?php
 include '../jaws-includes/db.php';
 
-getPurchase($purchaseId){
+function getPurchase($purchaseId){
     // Return a purchase with a specific Id.
 }
 
-getPurchases(){
+function getPurchases(){
     // Return an array of all purchases with relevant data.
 }
 

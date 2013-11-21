@@ -18,7 +18,7 @@ class Order {
     protected $productList;
 
     public function __construct($orderId, $personalNr, $discount, $card, $productList) {
-        $this->orderId   = $orderId;
+        $this->orderId      = $orderId;
         $this->personalNr   = $personalNr;
         $this->price        = $price;
         $this->discount     = $discount;

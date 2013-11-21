@@ -5,8 +5,8 @@ function getProducts(){
 }
 
 function getProduct($productId) { // Returns a user from the database as a User class.
-    $productData = dbGetProduct();
-    $product = new Product($productData['productId'], $productData['name'], $productData['price'], $productData['stock'], $productData['imageUrl'], $productData['category']);
+    $data = dbGetProduct();
+    $product = new Product($data['productId'], $data['name'], $data['price'], $data['stock'], $data['imageUrl'], $data['category']);
     return $product;
 }
 

@@ -1,8 +1,7 @@
 <?php
 
 class Database {
-    private $database;
-
+    protected $database;
     public function __construct($dbHost,$dbUser,$dbPassword,$dbName) {
         $this->database = mysqli_connect($dbHost,$dbUser,$dbPassword,$dbName) or die("Error " . mysqli_error($this->database));
         echo "Connect attempt!";
@@ -112,7 +111,7 @@ class Database {
     }
     
     public function dbEditPurchase($PurchaseId,$ChangedRow,$ChangeRowValue) { // Edit a purchase
-        if(mysqli_query($database, "UPDATE purchases SET $ChangedRow='$ChangeRowValue' WHERE PurchaseId='$PurchaseId'")===TRUE){
+        if(mysqli_query($this->database, "UPDATE purchases SET $ChangedRow='$ChangeRowValue' WHERE PurchaseId='$PurchaseId'")===TRUE){
             return true;
         }else{
             return false;

@@ -72,13 +72,23 @@ class Database extends mysqli {
     // Login
     
     public function dbMatchPassword($LoginEmail, $LoginPassword) {
-        //NOT DONE----------------------------------------------------------------------------------------------------*
-        if(mysqli_query($this->database, "SELECT Mail FROM users WHERE Mail='$LoginEmail'")!=FALSE){
-            $password=mysqli_query($this->database, "SELECT Password FROM users WHERE Mail='$LoginEmail'");
-            if($password==$LoginPassword){
+        $result = mysqli_query($this->database, "SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
+        $row = mysqli_fetch_assoc($result);
+        if ($row != NULL) {
+            // Check to see if mail and password match
+            if ($LoginEmail==$row['Mail'] && $LoginPassword==$row['Password']) {
+                echo "Login successful as userid ".$row['SSNr'];
+                //Return the SSNr may be necessary
                 return true;
+            }else{
+                //We know only the password is wrong
+                //But we wont mention it
+                echo 'Error invalid mail or password';
+                return false;
             }
         }else{
+            //No mail exists
+            echo 'Error invalid mail or password';
             return false;
         }
     }

@@ -122,7 +122,7 @@ class Database extends mysqli {
 
     }
 
-    public function dbAddOrder($SSNr,$Discount,$ChargedCard,$orderList) { // Adds a order to the database.
+    public function dbAddOrder($SSNr,$Discount,$ChargedCard) { // Adds a order to the database.
         //NOT DONE ----------------------------------------------------------------------------------------------------*
         $time = getUnixTime(); // Get unixtime
         if(mysqli_query($this->database, "INSERT INTO orders SET SSNr='$SSNr' OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){

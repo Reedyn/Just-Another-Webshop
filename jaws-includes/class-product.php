@@ -1,5 +1,6 @@
 <?php 
 include '../jaws-includes/db.php';
+
 function getProducts(){
     return dbGetProducts();
 }

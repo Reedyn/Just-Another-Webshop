@@ -106,7 +106,7 @@ class Database extends mysqli {
         Order
     */  #################################
 
-    private function dbAddOrderList() {
+    private function dbAddOrderList($OrderId) {
         //LOOP THROUGH ARRAY AND ADD EVERY ROW INTO TABLE
         return true;
 
@@ -117,7 +117,7 @@ class Database extends mysqli {
         $time = getUnixTime(); // Get unixtime
         if(mysqli_query($this->database, "INSERT INTO orders SET SSNr='$SSNr' OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){
             // ADD ORDER TO TABLES
-            dbAddOrderList($OrderList,$OrderId); // Call function for adding a OrderList into the appropriate table.
+            dbAddOrderList($OrderId); // Call function for adding a OrderList into the appropriate table.
             return true;
         }else{
             return false;
@@ -206,7 +206,7 @@ class Database extends mysqli {
     }
     
     public function dbGetProduct($ProductId) { // Returns a product.
-        $result=mysqli_query($this->database, "SELECT * FROM users WHERE ProductId='$ProductId'");
+        $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId='$ProductId'");
         $row = mysqli_fetch_assoc($result);
         if (!$row)
         {
@@ -218,7 +218,25 @@ class Database extends mysqli {
             return $row;
         }
     }
+
+    public function dbGetAllProducts(){
+        $result=mysqli_query($this->database, "SELECT * FROM products");
+        while($row=mysqli_fetch_assoc($result)){
+            var_dump($row);
+        }
+        echo 'No more products to display';
+    }
+
     /*  #################################
-        Category/Taxanomies TO BE DETERMINED
-    */  #################################     
+        Category/Taxanomies
+    */  #################################
+
+    public function dbGetProductsFromTaxanomy($Taxanomy){
+        $result= mysqli_query($this->database, "SELECT * FROM products WHERE Taxanomy='$Taxanomy'");
+        while($row=mysqli_fetch_assoc($result)){
+            var_dump($row);
+        }
+        echo 'No more products with this taxanomy';
+    }
+
 }

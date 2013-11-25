@@ -39,20 +39,34 @@ class Database extends mysqli {
             return false;
         }
     }
-    
-    public function dbGetUser($SSNr) { // Returns a user.
-        $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr='$SSNr'");
-        $row = mysqli_fetch_assoc($result);
-        if (!$row)
-        {
-            echo 'Error - User does not exist';
-            exit();
-            return false;
+
+    public function dbGetUsers(){ //Returns an array with user arrays. If no argument, returns ALL users.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $user_list=NULL;
+        if(!$numargs){
+            $i=0;
+            $result=mysqli_query($this->database, "SELECT * FROM users");
+            while($row=mysqli_fetch_assoc($result)){
+                $user_list[$i]=$row;
+                $i++;
+            }
         }else{
-            var_dump($row);
-            return $row;
+            $param="";
+            for($i=0;$i<$numargs;$i++){
+                $param.=$arg_list[$i].',';
+            }
+            for($i=0;$i<$numargs;$i++){
+                $param=$arg_list[$i];
+                $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr in($param)");
+                $row=mysqli_fetch_assoc($result);
+                $user_list[$i]=$row;
+            }
         }
+        var_dump($user_list);
+        return $user_list;
     }
+
     // Orders
     
     public function dbGetUsersOrders($SSNr) {
@@ -156,50 +170,60 @@ class Database extends mysqli {
             return false;
         }
     }
-    
-    public function dbGetOrders($OrderId) { // Returns a order
-        $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId='$OrderId'");
-        $row = mysqli_fetch_assoc($result);
-        if (!$row)
-        {
-            echo 'Error - order does not exist';
-            exit();
-            return false;
+
+    public function dbGetOrders(){ //Returns an array with order arrays. If no argument, returns ALL orders.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $order_list=NULL;
+        if(!$numargs){
+            $i=0;
+            $result=mysqli_query($this->database, "SELECT * FROM orders");
+            while($row=mysqli_fetch_assoc($result)){
+                $order_list[$i]=$row;
+                $i++;
+            }
         }else{
-            var_dump($row);
-            return $row;
+            $param="";
+            for($i=0;$i<$numargs;$i++){
+                $param.=$arg_list[$i].',';
+            }
+            for($i=0;$i<$numargs;$i++){
+                $param=$arg_list[$i];
+                $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId in($param)");
+                $row=mysqli_fetch_assoc($result);
+                $order_list[$i]=$row;
+            }
         }
-        return true;
+        var_dump($order_list);
+        return $order_list;
     }
+
     
     /*  #################################
-        Product
+        Products
     */  #################################
     
-    public function dbSearchProducts($SearchQuery){ //Return an array of items matching query
-        $result=mysqli_query($this->database, "SELECT * FROM products WHERE Name,Category LIKE '%$SearchQuery%'");
-        $row = mysqli_fetch_assoc($result);
-        if (!$row)
-        {
-            echo 'Error - Couldnt find anything';
-            exit();
-            return false;
-        }else{
-            var_dump($row);
-            return $row;
+    public function dbSearchProducts($SearchQuery){ //Return an array of products arrays matching argument
+        $result=mysqli_query($this->database, "SELECT * FROM products WHERE Name,Description,Taxanomy LIKE '%$SearchQuery%'");
+        $search_list=NULL;
+        $i=0;
+        while($row = mysqli_fetch_assoc($result)){
+            $search_list[$i]=$row;
+            $i++;
         }
-        return true;
+        var_dump($search_list);
+        return $search_list;
     }
     
-    public function dbAddProduct($Name,$Category,$Price,$Stock) { // Adds a product to the database.
-        if(mysqli_query($this->database, "INSERT INTO products SET Name='$Name',Category='$Category',Price='$Price',Stock='$Stock'")===TRUE){
+    public function dbAddProduct($Name,$Description,$ImgUrl,$Taxanomy,$Price,$Stock) { // Adds a product to the database. Returns a boolean, TRUE for success, FALSE for failure.
+        if(mysqli_query($this->database, "INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock'")===TRUE){
             return true;
         }else{
             return false;
         }
     }
     
-    public function dbEditProduct($ProductId,$ChangedRow,$ChangeRowValue) { // Edits a product and returns a boolean.
+    public function dbEditProduct($ProductId,$ChangedRow,$ChangeRowValue) { // Edits a product and returns a boolean. TRUE for success, FALSE for failure.
         if(mysqli_query($this->database, "UPDATE products SET $ChangedRow='$ChangeRowValue' WHERE ProductId='$ProductId'")===TRUE){
             return true;
         }else{
@@ -207,46 +231,56 @@ class Database extends mysqli {
         }
     }
     
-    public function dbDeleteProduct($ProductId) { // Removes a product from table
+    public function dbDeleteProduct($ProductId) { // Removes the product with the id matching the argument from table.
         if(mysqli_query($this->database, "DELETE FROM products WHERE ProductId='$ProductId'")===TRUE){
             return true;
         }else{
             return false;
         }
     }
-    
-    public function dbGetProduct($ProductId) { // Returns a product.
-        $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId='$ProductId'");
-        $row = mysqli_fetch_assoc($result);
-        if (!$row)
-        {
-            echo 'Error - Product does not exist';
-            exit();
-            return false;
-        }else{
-            var_dump($row);
-            return $row;
-        }
-    }
 
-    public function dbGetAllProducts(){
-        $result=mysqli_query($this->database, "SELECT * FROM products");
-        while($row=mysqli_fetch_assoc($result)){
-            var_dump($row);
+    public function dbGetProducts(){ //Returns an array with product arrays. If no argument, returns ALL products.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $product_list=NULL;
+        if(!$numargs){
+            $i=0;
+            $result=mysqli_query($this->database, "SELECT * FROM products");
+            while($row=mysqli_fetch_assoc($result)){
+                $product_list[$i]=$row;
+                $i++;
+            }
+        }else{
+            $param="";
+            for($i=0;$i<$numargs;$i++){
+                $param.=$arg_list[$i].',';
+            }
+            for($i=0;$i<$numargs;$i++){
+                $param=$arg_list[$i];
+                $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in($param)");
+                $row=mysqli_fetch_assoc($result);
+                $product_list[$i]=$row;
+            }
         }
-        echo 'No more products to display';
+        var_dump($product_list);
+        return $product_list;
     }
 
     /*  #################################
         Category/Taxanomies
     */  #################################
 
-    public function dbGetProductsFromTaxanomy($Taxanomy){
+    public function dbGetProductsFromTaxanomy($Taxanomy){ //Returns an array of product arrays where the Taxanomy is matching the argument.
         $result= mysqli_query($this->database, "SELECT * FROM products WHERE Taxanomy='$Taxanomy'");
+        $product_list=NULL;
+        $i=0;
         while($row=mysqli_fetch_assoc($result)){
-            var_dump($row);
+            $product_list[$i]=$row;
+            $i++;
         }
-        echo 'No more products with this taxanomy';
+        var_dump($product_list);
+        return $product_list;
     }
+
 
 }

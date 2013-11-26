@@ -7,5 +7,5 @@
     $dbName = "jaws_db";
 
     $db = new Database($dbHost,$dbUser,$dbPassword,$dbName);
-    $db->dbGetProducts(1,2);
+    $db->PasswordHash("123456");
 ?>

@@ -12,7 +12,8 @@ class Database extends mysqli {
     */  #################################
 
     public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone) { // Adds a user to the database.
-        if (mysqli_query($this->database, "INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone) VALUES ('$SSNr','$Mail','$Password','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone')") === TRUE) {
+        $hashedPassword=$this->PasswordHash($Password);
+        if (mysqli_query($this->database, "INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone')") === TRUE) {
             echo "success addUser\n";
             return true;
         }else{
@@ -128,13 +129,20 @@ class Database extends mysqli {
     }
     
     // Login
+    private function PasswordHash($password){
+        $salt="3af36986c682ac4";
+        $hash = $salt.$password;
+        return hash("md5",$hash);
+    }
+
     
     public function dbMatchPassword($LoginEmail, $LoginPassword) {
         $result = mysqli_query($this->database, "SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
         $row = mysqli_fetch_assoc($result);
+        $hashedPassword=$this->PasswordHash($LoginPassword);
         if ($row != NULL) {
             // Check to see if mail and password match
-            if ($LoginEmail==$row['Mail'] && $LoginPassword==$row['Password']) {
+            if ($LoginEmail==$row['Mail'] && $hashedPassword==$row['Password']) {
                 echo "Login successful as userid ".$row['SSNr'];
                 //Return the SSNr may be necessary
                 return true;

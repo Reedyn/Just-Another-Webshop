@@ -1,6 +1,7 @@
 <?php
 public function listProducts($category,$listType){ // List products in the fashion specified.
-    // Get a list of products from database and save the array in $products
+    // Get a list of products from database and save the array in $products[]
+    var $products[];
     
     if ($listType == 'list') {
         echo '<ul class="product-list">';
@@ -20,9 +21,6 @@ public function listProducts($category,$listType){ // List products in the fashi
             echo '</article>';
     } else {
         echo '<span class="error">No products found.</span>'
-    }
-    
+    }    
 }
-
-
 ?>

@@ -20,8 +20,22 @@ class Database extends mysqli {
             return false;
         }
     }
-    public function dbEditUser($SSNr,$ChangedRow,$ChangeRowValue) { // Edits a user and returns a boolean.
-        if(mysqli_query($this->database, "UPDATE users SET $ChangedRow='$ChangeRowValue' WHERE SSNr=$SSNr")===TRUE){
+    public function dbEditUser($SSNr) { // Edits a user and returns a boolean.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $param="";
+        for($i=1;$i<$numargs;$i++){
+            if($i==$numargs-2){
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."'";
+            }else{
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."',";
+            }
+        }
+        if(mysqli_query($this->database, "UPDATE users SET $param WHERE SSNr=$SSNr")===TRUE){
             echo "success editUser\n";
             return true;
         }else{
@@ -80,8 +94,11 @@ class Database extends mysqli {
             }
             $param=$arg_list[$i];
             $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr in($param)");
-            $row=mysqli_fetch_assoc($result);
-            $user_list[$i]=$row;
+            $i=0;
+            while($row=mysqli_fetch_assoc($result)){
+                $user_list[$i]=$row;
+                $i++;
+            }
         }
         var_dump($user_list);
         return $user_list;
@@ -101,15 +118,13 @@ class Database extends mysqli {
             }
         }
         $result=mysqli_query($this->database, "SELECT * FROM orders WHERE SSNr in ($param)");
-        $row = mysqli_fetch_assoc($result);
-        if (!$row)
-        {
-            echo 'Error - No orders found';
-            return false;
-        }else{
-            var_dump($row);
-            return $row;
+        $i=0;
+        while($row=mysqli_fetch_assoc($result)){
+            $order_list[$i]=$row;
+            $i++;
         }
+        var_dump($row);
+        return $row;
     }
     
     // Login
@@ -148,14 +163,14 @@ class Database extends mysqli {
     
     public function dbRemoveCard() { // Removes a card
         $numargs=func_num_args();
-        if(!$numargs){
+        $arg_list=func_get_args();
+        if($numargs==1 && $arg_list[0]=="ALL"){
             if(mysqli_query($this->database, "DELETE FROM cards")===TRUE){
                 return true;
             }else{
                 return false;
             }
         }else{
-            $arg_list=func_get_args();
             $param="";
             for($i=0;$i<$numargs;$i++){
                 if($i==$numargs-1){
@@ -170,7 +185,6 @@ class Database extends mysqli {
                 return false;
             }
         }
-
     }
 
     
@@ -225,8 +239,22 @@ class Database extends mysqli {
     }
 
     
-    public function dbEditOrder($OrderId,$ChangedRow,$ChangeRowValue) { // Edit an order
-        if(mysqli_query($this->database, "UPDATE orders SET $ChangedRow='$ChangeRowValue' WHERE OrderId='$OrderId'")===TRUE){
+    public function dbEditOrder($OrderId) { // Edit an order
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $param="";
+        for($i=1;$i<$numargs;$i++){
+            if($i==$numargs-2){
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."'";
+            }else{
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."',";
+            }
+        }
+        if(mysqli_query($this->database, "UPDATE orders SET $param WHERE OrderId='$OrderId'")===TRUE){
             return true;
         }else{
             return false;
@@ -237,7 +265,7 @@ class Database extends mysqli {
         $numargs=func_num_args();
         $arg_list=func_get_args();
         $param="";
-        if(!$numargs){
+        if($numargs==1 && $arg_list[0]="ALL"){
             if(mysqli_query($this->database, "DELETE FROM order_list")===TRUE){
                 if(mysqli_query($this->database, "DELETE FROM orders")===TRUE){
                     mysqli_query($this->database,"ALTER TABLE orders AUTO_INCREMENT=1");
@@ -279,7 +307,7 @@ class Database extends mysqli {
         $numargs=func_num_args();
         $arg_list=func_get_args();
         $order_list=NULL;
-        if(!$numargs){
+        if($numargs==1 && $arg_list[0]="ALL"){
             $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM orders");
             while($row=mysqli_fetch_assoc($result)){
@@ -295,10 +323,12 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $param=$arg_list[$i];
             $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId in($param)");
-            $row=mysqli_fetch_assoc($result);
-            $order_list[$i]=$row;
+            $i=0;
+            while($row=mysqli_fetch_assoc($result)){
+                $order_list[$i]=$row;
+                $i++;
+            }
         }
         var_dump($order_list);
         return $order_list;
@@ -329,8 +359,22 @@ class Database extends mysqli {
         }
     }
     
-    public function dbEditProduct($ProductId,$ChangedRow,$ChangeRowValue) { // Edits a product and returns a boolean. TRUE for success, FALSE for failure.
-        if(mysqli_query($this->database, "UPDATE products SET $ChangedRow='$ChangeRowValue' WHERE ProductId='$ProductId'")===TRUE){
+    public function dbEditProduct($ProductId) { // Edits a product and returns a boolean. TRUE for success, FALSE for failure.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $param="";
+        for($i=1;$i<$numargs;$i++){
+            if($i==$numargs-2){
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."'";
+            }else{
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."',";
+            }
+        }
+        if(mysqli_query($this->database, "UPDATE products SET $param WHERE ProductId='$ProductId'")===TRUE){
             return true;
         }else{
             return false;
@@ -339,7 +383,8 @@ class Database extends mysqli {
     
     public function dbDeleteProducts() { // Removes the product with the id matching the argument from table.
         $numargs=func_num_args();
-        if(!$numargs){
+        $arg_list=func_get_args();
+        if($numargs==1 && $arg_list[0]="ALL"){
             if(mysqli_query($this->database,"DELETE FROM products")===TRUE){
                 mysqli_query($this->database, "ALTER TABLE products AUTO_INCREMENT=1");
                 return true;
@@ -348,7 +393,6 @@ class Database extends mysqli {
             }
         }else{
             $param="";
-            $arg_list=func_get_args();
             for($i=0;$i<$numargs;$i++){
                 if($i==$numargs-1){
                     $param.=$arg_list[$i];
@@ -366,8 +410,9 @@ class Database extends mysqli {
 
     public function dbGetProducts(){ //Returns an array with product arrays. If no argument, returns ALL products.
         $numargs=func_num_args();
+        $arg_list=func_get_args();
         $product_list=NULL;
-        if(!$numargs){
+        if($numargs==1 && $arg_list[0]="ALL"){
             $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM products");
             while($row=mysqli_fetch_assoc($result)){
@@ -375,7 +420,6 @@ class Database extends mysqli {
                 $i++;
             }
         }else{
-            $arg_list=func_get_args();
             $param="";
             for($i=0;$i<$numargs;$i++){
                 if($i==$numargs-1){
@@ -384,9 +428,13 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in($param)");
-            $row=mysqli_fetch_assoc($result);
-            $product_list[$i]=$row;
+            $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in ($param)");
+            $i=0;
+            while($row=mysqli_fetch_assoc($result)){
+                $product_list[$i]=$row;
+                $i++;
+            }
+
         }
         var_dump($product_list);
         return $product_list;
@@ -396,8 +444,18 @@ class Database extends mysqli {
         Category/Taxanomies
     */  #################################
 
-    public function dbGetProductsFromTaxanomy($Taxanomy){ //Returns an array of product arrays where the Taxanomy is matching the argument.
-        $result= mysqli_query($this->database, "SELECT * FROM products WHERE Taxanomy='$Taxanomy'");
+    public function dbGetProductsFromTaxanomy(){ //Returns an array of product arrays where the Taxanomy is matching the argument.
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $param="";
+        for($i=0;$i<$numargs;$i++){
+            if($i==$numargs-1){
+                $param.=$arg_list[$i];
+            }else{
+                $param.=$arg_list[$i].",";
+            }
+        }
+        $result= mysqli_query($this->database, "SELECT * FROM products WHERE Taxanomy in ($param)");
         $product_list=NULL;
         $i=0;
         while($row=mysqli_fetch_assoc($result)){

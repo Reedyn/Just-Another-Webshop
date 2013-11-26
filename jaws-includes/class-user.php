@@ -1,5 +1,6 @@
 <?php 
 include '../jaws-includes/db.php';
+
 function getUsers(){
     // Get all users from database
     // Create User classes and put them into an array
@@ -30,6 +31,7 @@ class User {
         $this->city          = $city;
         $this->phone         = $phone;
     }
+    
     public function getPersonalNr() {
         return $this->personalNr;
     }
@@ -108,6 +110,10 @@ class User {
     
     public function getOrders(){
         // Return an array of all orders
+    }
+    
+    public function deleteUser(){
+        
     }
 }
 

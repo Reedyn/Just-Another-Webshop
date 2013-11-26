@@ -46,7 +46,8 @@ class Database extends mysqli {
     
     public function dbDeleteUser() { // Returns true if success,false if failed
         $numargs=func_num_args();
-        if(!$numargs){
+        $arg_list=func_get_args();
+        if($numargs==1 && $arg_list[0]="ALL"){
             if(mysqli_query($this->database, "DELETE FROM users")===TRUE){
                 mysqli_query($this->database,"ALTER TABLE users AUTO_INCREMENT=1");
                 return true;
@@ -55,7 +56,6 @@ class Database extends mysqli {
             }
         }else{
             $param="";
-            $arg_list=func_get_args();
             for($i=0;$i<$numargs;$i++){
                 if($i==$numargs-1){
                     $param.=$arg_list[$i];
@@ -76,7 +76,7 @@ class Database extends mysqli {
         $numargs=func_num_args();
         $arg_list=func_get_args();
         $user_list=NULL;
-        if(!$numargs){
+        if($numargs==1 && $arg_list[0]="ALL"){
             $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM users");
             while($row=mysqli_fetch_assoc($result)){

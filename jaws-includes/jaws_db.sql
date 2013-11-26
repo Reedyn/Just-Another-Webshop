@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2013 at 06:05 PM
+-- Generation Time: Nov 26, 2013 at 03:02 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -82,14 +82,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`OrderId`),
   KEY `SSNr` (`SSNr`),
   KEY `ChargedCard` (`ChargedCard`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`OrderId`, `SSNr`, `OrderDate`, `Discount`, `ChargedCard`) VALUES
-(1, 199205075931, '2013-11-19', 0, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -101,16 +94,9 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   `OrderId` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
-  UNIQUE KEY `ProductId` (`ProductId`),
-  KEY `PurchaseId` (`OrderId`)
+  KEY `PurchaseId` (`OrderId`),
+  KEY `ProductId` (`ProductId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `order_list`
---
-
-INSERT INTO `order_list` (`OrderId`, `ProductId`, `Amount`) VALUES
-(1, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -153,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `taxanomies` (
   `TaxanomyParent` int(11) DEFAULT NULL,
   PRIMARY KEY (`TaxanomyId`),
   KEY `TaxanomyParent` (`TaxanomyParent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `taxanomies`

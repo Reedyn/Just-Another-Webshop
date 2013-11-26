@@ -1,4 +1,15 @@
 <?php
+    //Includes
+    include 'db.php';
+    include 'config.php';
+
+    //Initialize the class Database
+    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
+
+    //Functions
+
+
+
 public function listProducts($category,$listType){ // List products in the fashion specified.
     // Get a list of products from database and save the array in $products
     //Loop through array and add all products to $products as a Product Class

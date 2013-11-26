@@ -1,11 +1,6 @@
 <?php
-include 'db.php';
-
-$dbHost = "";
-$dbUser = "";
-$dbPassword = "";
-$dbName = "";
-
-$db = new Database($dbHost,$dbUser,$dbPassword,$dbName);
-
+    $dbHost = "localhost";
+    $dbUser = "root";
+    $dbPassword = "621955";
+    $dbName = "jaws_db";
 ?>

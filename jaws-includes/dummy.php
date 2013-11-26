@@ -1,11 +1,7 @@
 <?php
     include 'db.php';
-
-    $dbHost = "localhost";
-    $dbUser = "root";
-    $dbPassword = "621955";
-    $dbName = "jaws_db";
+    include 'config.php';
 
     $db = new Database($dbHost,$dbUser,$dbPassword,$dbName);
-    $db->PasswordHash("123456");
+    $db->dbEditUser("199205075931","Password","123456");
 ?>

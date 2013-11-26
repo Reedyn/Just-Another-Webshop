@@ -26,6 +26,10 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $param="";
         for($i=1;$i<$numargs;$i++){
+            if($arg_list[$i]=="Password"){
+                $j=$i+1;
+                $arg_list[$j]=$this->PasswordHash($arg_list[$j]);
+            }
             if($i==$numargs-2){
                 $param.=$arg_list[$i]."='";
                 $i++;

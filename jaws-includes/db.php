@@ -106,8 +106,10 @@ class Database extends mysqli {
         $user_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
             $result=mysqli_query($this->database, "SELECT * FROM users");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $user_list[$row['SSNr']]=$row;
+                $user_list[$i]=$row;
+                $i++;
             }
         }else{
             $param="";
@@ -119,8 +121,10 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr in($param)");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $user_list[$row['SSNr']]=$row;
+                $user_list[$i]=$row;
+                $i++;
             }
         }
         return $user_list;
@@ -145,8 +149,10 @@ class Database extends mysqli {
             }
         }
         $result=mysqli_query($this->database, "SELECT * FROM orders WHERE SSNr in ($param)");
+        $i=0;
         while($row=mysqli_fetch_assoc($result)){
-            $order_list[$row['OrderId']]=$row;
+            $order_list[$i]=$row;
+            $i++;
         }
         return $order_list;
     }
@@ -235,8 +241,10 @@ class Database extends mysqli {
         $card_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
             $result=mysqli_query($this->database, "SELECT * FROM cards");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $card_list[$row['CardId']]=$row;
+                $card_list[$i]=$row;
+                $i++;
             }
         }else{
             $param="";
@@ -249,7 +257,8 @@ class Database extends mysqli {
             }
             $result=mysqli_query($this->database, "SELECT * FROM cards WHERE CardId in($param)");
             while($row=mysqli_fetch_assoc($result)){
-                $card_list[$row['CardId']]=$row;
+                $card_list[$i]=$row;
+                $i++;
             }
         }
         return $card_list;
@@ -407,8 +416,10 @@ class Database extends mysqli {
         $order_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
             $result=mysqli_query($this->database, "SELECT * FROM orders");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $order_list[$row['OrderId']]=$row;
+                $order_list[$i]=$row;
+                $i++;
             }
         }else{
             $param="";
@@ -420,8 +431,10 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId in($param)");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $order_list[$row['OrderId']]=$row;
+                $order_list[$i]=$row;
+                $i++;
             }
         }
         return $order_list;
@@ -532,8 +545,10 @@ class Database extends mysqli {
         $product_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
             $result=mysqli_query($this->database, "SELECT * FROM products");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $product_list[$row['ProductId']]=$row;
+                $product_list[$i]=$row;
+                $i++;
             }
         }else{
             $param="";
@@ -545,8 +560,10 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in ($param)");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $product_list[$row['ProductId']]=$row;
+                $product_list[$i]=$row;
+                $i++;
             }
         }
         return $product_list;
@@ -600,8 +617,10 @@ class Database extends mysqli {
         $currency_list=NULL;
         if($numargs==1 && $arg_list[0]=="ALL"){
             $result=mysqli_query($this->database,"SELECT * FROM currencies");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $currency_list[$row['CurrencyId']]=$row;
+                $currency_list[$i]=$row;
+                $i++;
             }
         }else{
             $param="";
@@ -613,8 +632,10 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM currencies WHERE CurrencyId in ($param)");
+            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $currency_list[$row['CurrencyId']]=$row;
+                $currency_list[$i]=$row;
+                $i++;
             }
         }
         return $currency_list;

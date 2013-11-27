@@ -5,7 +5,6 @@
 
     //Initialize the class Database
     $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
-
     //Functions
 
 
@@ -13,15 +12,23 @@
 public function listProducts($category,$listType){ // List products in the fashion specified.
     // Get a list of products from database and save the array in $products
     //Loop through array and add all products to $products as a Product Class
+    $numargs=func_num_args();
+    $arg_list=func_get_args();
+    $pass_arg_list=NULL;
+    $j=0;
+    for($i=2,$j=0;$i<$numargs;$i++){
+        $pass_arg_list[$j]=$arg_list[$i];
+        $j++;
+    }
     
-    $products[];
+    $products=call_user_func_array(($this->db,"dbGetProducts()"),$pass_arg_list;)
     
     if ($listType == 'list') {
         echo '<ul class="product-list">';
-        for ($i = 0; i < $products.length(); i++){
-            echo '  <li>' . '<span class="name">' . $products[i]->Name . '</span>' . '<span class="price">' . $products[i]->price . '</span>' . '<span class="stock">' . $products[i]->stock . '</span>' . '</li>'
+        for ($i = 0; $i<$products.length(); $i++){
+            echo '  <li>'.'<span class="name">'.$products[$i]->Name.'</span>'.'<span class="price">'.$products[$i]->price.'</span>'.'<span class="stock">'.$products[$i]->stock.'</span>'.'</li>'
         }
-        echo '</ul><!-- .product-list -->'
+        echo '</ul><!-- .product-list -->';
     } elseif ($listType == 'thumbnail') {
         for ($i = 0; i < $products.length(); i++)
             echo '<article class="product">';

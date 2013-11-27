@@ -50,7 +50,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i]."',";
             }
         }
-        if(mysqli_query($this->database, "UPDATE users SET $param WHERE SSNr=$SSNr")===TRUE){
+        if(mysqli_query($this->database, "UPDATE users SET $param WHERE SSNr='$SSNr'")===TRUE){
             return true;
         }else{
             return false;
@@ -105,11 +105,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $user_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM users");
             while($row=mysqli_fetch_assoc($result)){
-                $user_list[$i]=$row;
-                $i++;
+                $user_list[$row['SSNr']]=$row;
             }
         }else{
             $param="";
@@ -120,12 +118,9 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $param=$arg_list[$i];
             $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr in($param)");
-            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $user_list[$i]=$row;
-                $i++;
+                $user_list[$row['SSNr']]=$row;
             }
         }
         return $user_list;
@@ -150,10 +145,8 @@ class Database extends mysqli {
             }
         }
         $result=mysqli_query($this->database, "SELECT * FROM orders WHERE SSNr in ($param)");
-        $i=0;
         while($row=mysqli_fetch_assoc($result)){
-            $order_list[$i]=$row;
-            $i++;
+            $order_list[$row['OrderId']]=$row;
         }
         return $order_list;
     }
@@ -241,11 +234,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $card_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM cards");
             while($row=mysqli_fetch_assoc($result)){
-                $card_list[$i]=$row;
-                $i++;
+                $card_list[$row['CardId']]=$row;
             }
         }else{
             $param="";
@@ -257,10 +248,8 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM cards WHERE CardId in($param)");
-            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $card_list[$i]=$row;
-                $i++;
+                $card_list[$row['CardId']]=$row;
             }
         }
         return $card_list;
@@ -417,11 +406,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $order_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM orders");
             while($row=mysqli_fetch_assoc($result)){
-                $order_list[$i]=$row;
-                $i++;
+                $order_list[$row['OrderId']]=$row;
             }
         }else{
             $param="";
@@ -433,10 +420,8 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId in($param)");
-            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $order_list[$i]=$row;
-                $i++;
+                $order_list[$row['OrderId']]=$row;
             }
         }
         return $order_list;
@@ -538,7 +523,7 @@ class Database extends mysqli {
         // Functions has dynamic amount of arguments.
         // If the first and only argument == "ALL",
         // gets all products.
-        // Otherwise the function will delete
+        // Otherwise the function will get from
         // the ID of products (ProductId) that are entered as arguments.
         // Example: dbGetProducts(ProductId1,ProductId2,ProductId3...);
 
@@ -546,11 +531,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $product_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $i=0;
             $result=mysqli_query($this->database, "SELECT * FROM products");
             while($row=mysqli_fetch_assoc($result)){
-                $product_list[$i]=$row;
-                $i++;
+                $product_list[$row['ProductId']]=$row;
             }
         }else{
             $param="";
@@ -562,12 +545,9 @@ class Database extends mysqli {
                 }
             }
             $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in ($param)");
-            $i=0;
             while($row=mysqli_fetch_assoc($result)){
-                $product_list[$i]=$row;
-                $i++;
+                $product_list[$row['ProductId']]=$row;
             }
-
         }
         return $product_list;
     }
@@ -601,6 +581,46 @@ class Database extends mysqli {
         }
         return $product_list;
     }
+
+    /*  ###################################################################################################
+        Currency
+    */  ###################################################################################################
+
+    public function dbGetCurrencies(){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
+        // Functions has dynamic amount of arguments.
+        // If the first and only argument == "ALL",
+        // gets all currencies.
+        // Otherwise the function will get from
+        // the ID of currency (CurrencyId) that are entered as arguments.
+        // Example: dbGetCurrencies(CurrencyId1,CurrencyId2,CurrencyId3...);
+
+
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $currency_list=NULL;
+        if($numargs==1 && $arg_list[0]=="ALL"){
+            $result=mysqli_query($this->database,"SELECT * FROM currencies");
+            while($row=mysqli_fetch_assoc($result)){
+                $currency_list[$row['CurrencyId']]=$row;
+            }
+        }else{
+            $param="";
+            for($i=0;$i<$numargs;$i++){
+                if($i==$numargs-1){
+                    $param.=$arg_list[$i];
+                }else{
+                    $param.=$arg_list[$i].",";
+                }
+            }
+            $result=mysqli_query($this->database, "SELECT * FROM currencies WHERE CurrencyId in ($param)");
+            while($row=mysqli_fetch_assoc($result)){
+                $currency_list[$row['CurrencyId']]=$row;
+            }
+        }
+        var_dump($currency_list);
+        return $currency_list;
+    }
+
 
     /*  ###################################################################################################
         Misc functions

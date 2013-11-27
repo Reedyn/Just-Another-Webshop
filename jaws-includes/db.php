@@ -617,7 +617,6 @@ class Database extends mysqli {
                 $currency_list[$row['CurrencyId']]=$row;
             }
         }
-        var_dump($currency_list);
         return $currency_list;
     }
 

@@ -1,87 +1,103 @@
-<?php 
-include '../jaws-includes/db.php';
+<?php
+    //Includes
+    include 'db.php';
+    include 'config.php';
 
-function getProducts(){
-    return dbGetProducts();
-}
+    //Initialize the class Database
+    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
 
-function getProduct($productId) { // Returns a user from the database as a User class.
-    $data = dbGetProduct();
-    $product = new Product($data['productId'], $data['name'], $data['price'], $data['stock'], $data['imageUrl'], $data['category']);
-    return $product;
-}
+    //Functions
 
-class Product{
-    protected $productId;
-    protected $name;
-    protected $price;
-    protected $stock;
-    protected $imageUrl;
-    protected $category;
+    function getProducts() { // Returns a product from the product as a Product class.
+        $arg_list=func_get_args();
+        $data=call_user_func_array(array($this->db,"dbGetProducts()"),$arg_list);
+        $product=NULL;
+        for($i=0;$i<count($arg_list)-1;$i++){
+            $product[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
+        }
+        return $product;
+    }
 
-    public function __construct($productId, $name, $price, $stock, $imageUrl, $category) {
-        $this->productId    = $productId;
-        $this->name         = $name;
-        $this->price        = $price;
-        $this->stock        = $stock;
-        $this->imageUrl     = $imageUrl;
-        $this->category     = $category;
-    }
-    public function getProductId(){
-        return $this->productId;
-    }
-    
-    public function setProductId($productId){
-        $this->productId = $productId;
-    }
-    
-    public function getName(){
-        return $this->name;
-    }
-    
-    public function setName($name){
-        $this->name = $name;
-    }
-    
-    public function getPrice(){
-        return $this->name;
-    }
-    
-    public function setPrice($price){
-        $this->price = $price;
-    }
-    
-    public function inStock(){
-        if ($this->stock > 0){
-            return true;
-        } else {
-            false;
+    class Product{
+        protected $ProductId;
+        protected $Name;
+        protected $Description;
+        protected $ImgUrl;
+        protected $Taxanomy;
+        protected $Price;
+        protected $Stock;
+
+        public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price, $Stock) {
+            $this->ProductId    = $ProductId;
+            $this->Name         = $Name;
+            $this->Description  = $Description;
+            $this->ImgUrl       = $ImgUrl;
+            $this->Taxanomy     = $Taxanomy;
+            $this->Price        = $Price;
+            $this->Stock        = $Stock;
+        }
+        public function getProductId(){
+            return $this->ProductId;
+        }
+
+        public function setProductId($ProductId){
+            $this->ProductId = $ProductId;
+        }
+
+        public function getName(){
+            return $this->Name;
+        }
+
+        public function setName($Name){
+            $this->Name = $Name;
+        }
+
+        public function getDescription(){
+            return $this->Description;
+        }
+
+        public function setDescription($Description){
+            $this->Description=$Description;
+        }
+
+        public function getImage(){
+            return $this->ImgUrl;
+        }
+
+        public function setImage($ImgUrl){
+            $this->$ImgUrl = $ImgUrl;
+        }
+
+        public function getTaxanomy(){
+            return $this->Taxanomy;
+        }
+
+        public function setTaxanomy($Taxanomy){
+            $this->Taxanomy=$Taxanomy;
+        }
+        public function getPrice(){
+            return $this->Price;
+        }
+
+        public function setPrice($Price){
+            $this->Price = $Price;
+        }
+
+        public function inStock(){
+            if ($this->Stock > 0){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function getStock(){
+            return $this->Stock;
+        }
+
+        public function setStock($Stock){
+            $this->Stock = $Stock;
         }
     }
-    
-    public function getStock(){
-        return $this->name;
-    }
-    
-    public function setStock($stock){
-        $this->stock = $stock;
-    }
-    
-    public function getImage(){
-        return $this->imageUrl;
-    }
-    
-    public function setImage($imageUrl){
-        $this->$imageUrl = $imageUrl;
-    }
-    
-    public function getCategory(){
-        // TO BE DONE
-    }
-    
-    public function setCategory(){
-        // TO BE DONE
-    }
-}
 
 ?>

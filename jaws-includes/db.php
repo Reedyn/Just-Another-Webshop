@@ -161,7 +161,7 @@ class Database extends mysqli {
         Login
     */  ###################################################################################################
     
-<<<<<<< HEAD
+
     public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
         $result = mysqli_query($this->database, "SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
         $row = mysqli_fetch_assoc($result);
@@ -179,14 +179,6 @@ class Database extends mysqli {
             //No mail exists
             return false;
         }
-=======
-    public function
-    
-    // Purchase
-    
-    public function getUsersPurchases() {
-        
->>>>>>> develop
     }
 
     /*  ###################################################################################################
@@ -204,7 +196,6 @@ class Database extends mysqli {
         }
     }
     
-<<<<<<< HEAD
     public function dbDeleteCards() { // Attempts to remove a card, returns a boolean.
         // Functions has dynamic amount of arguments.
         // If the first and only argument == "ALL",
@@ -235,21 +226,14 @@ class Database extends mysqli {
                 return false;
             }
         }
-=======
+    }
+
     public function login($email,$password){
         
         // SAVE SESSIONKEY TO USER IN TABLE
-        return $sessionKey and $//if successful
     }
     
     // Card
-    
-    public function addCard($CardId,$CardNr,$CardName,$ExpiryMonth,$ExpiryYear) { // Adds a card
-         if (mysqli_query($database, "INSERT INTO cards SET CardId='"$CardId"',CardNr='"$CardNr"',CardName='"$CardName"',ExpiryMonth='"$ExpiryMonth"', ExpiryYear='"$ExpiryYear"'") === TRUE) {
-             printf("Card successfully added.\n");
-         }
->>>>>>> develop
-    }
 
     public function dbGetCards(){ //Attempts to get cards, returns an array with card arrays. If failure returns NULL.
         // Function uses dynamic arguments.

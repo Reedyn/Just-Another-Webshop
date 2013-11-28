@@ -111,6 +111,10 @@ class User {
     public function getOrders(){
         // Return an array of all orders
     }
+    
+    public function deleteUser(){
+        
+    }
 }
 
 class Admin extends User {

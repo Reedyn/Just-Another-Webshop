@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
     //Includes
     include 'db.php';
     include 'config.php';
@@ -29,6 +30,18 @@ public function listProducts($category,$listType){ // List products in the fashi
             echo '  <li>'.'<span class="name">'.$products[$i]->Name.'</span>'.'<span class="price">'.$products[$i]->price.'</span>'.'<span class="stock">'.$products[$i]->stock.'</span>'.'</li>'
         }
         echo '</ul><!-- .product-list -->';
+=======
+public function listProducts($category,$listType){ // List products in the fashion specified.
+    // Get a list of products from database and save the array in $products[]
+    var $products[];
+    
+    if ($listType == 'list') {
+        echo '<ul class="product-list">';
+        for ($i = 0; i < $products.length(); i++){
+            echo '  <li>' . '<span class="name">' . $products[i]->Name . '</span>' . '<span class="price">' . $products[i]->price . '</span>' . '<span class="stock">' . $products[i]->stock . '</span>' . '</li>'
+        }
+        echo '</ul><!-- .product-list -->'
+>>>>>>> develop
     } elseif ($listType == 'thumbnail') {
         for ($i = 0; i < $products.length(); i++)
             echo '<article class="product">';
@@ -41,6 +54,7 @@ public function listProducts($category,$listType){ // List products in the fashi
             echo '</article>';
     } else {
         echo '<span class="error">No products found.</span>'
+<<<<<<< HEAD
     } 
 }
 
@@ -54,4 +68,8 @@ public function listOrders();
         }
         echo '</ul><!-- .product-list -->'
     }
+=======
+    }    
+}
+>>>>>>> develop
 ?>

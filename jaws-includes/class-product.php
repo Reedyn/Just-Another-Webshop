@@ -41,7 +41,11 @@
         }
 
         public function setProductId($ProductId){
-            $this->ProductId = $ProductId;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"ProductId",$ProductId)==TRUE){
+                $this->ProductId=$ProductId;
+            }
+            return $this->getProductId();
         }
 
         public function getName(){
@@ -49,7 +53,11 @@
         }
 
         public function setName($Name){
-            $this->Name = $Name;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"Name",$Name)==TRUE){
+                $this->Name=$Name;
+            }
+            return $this->getName();
         }
 
         public function getDescription(){
@@ -57,15 +65,23 @@
         }
 
         public function setDescription($Description){
-            $this->Description=$Description;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"Description",$Description)==TRUE){
+                $this->Description=$Description;
+            }
+            return $this->getDescription();
         }
 
-        public function getImage(){
+        public function getImgUrl(){
             return $this->ImgUrl;
         }
 
-        public function setImage($ImgUrl){
-            $this->$ImgUrl = $ImgUrl;
+        public function setImgUrl($ImgUrl){
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"ImgUrl",$ImgUrl)==TRUE){
+                $this->ImgUrl=$ImgUrl;
+            }
+            return $this->getImgUrl();
         }
 
         public function getTaxanomy(){
@@ -73,14 +89,22 @@
         }
 
         public function setTaxanomy($Taxanomy){
-            $this->Taxanomy=$Taxanomy;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"Taxanomy",$Taxanomy)==TRUE){
+                $this->Taxanomy=$Taxanomy;
+            }
+            return $this->getTaxanomy();
         }
         public function getPrice(){
             return $this->Price;
         }
 
         public function setPrice($Price){
-            $this->Price = $Price;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"Price",$Price)==TRUE){
+                $this->Price=$Price;
+            }
+            return $this->getPrice();
         }
 
         public function inStock(){
@@ -96,7 +120,11 @@
         }
 
         public function setStock($Stock){
-            $this->Stock = $Stock;
+            global $db;
+            if($db->dbEditProduct($this->ProductId,"Stock",$Stock)==TRUE){
+                $this->Stock=$Stock;
+            }
+            return $this->getStock();
         }
     }
 

@@ -3,7 +3,7 @@
 class Database extends mysqli {
     protected $database;
     public function __construct($dbHost,$dbUser,$dbPassword,$dbName) {
-        $this->database = mysqli_connect($dbHost,$dbUser,$dbPassword,$dbName) or die("Error " . mysqli_error($this->database));
+        parent::__construct($dbHost,$dbUser,$dbPassword,$dbName);
     }
 
     /*  ###################################################################################################
@@ -16,7 +16,7 @@ class Database extends mysqli {
         // put in.
 
         $hashedPassword=$this->PasswordHash($Password);
-        if (mysqli_query($this->database, "INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone')") === TRUE) {
+        if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone')") === TRUE) {
             return true;
         }else{
             return false;
@@ -50,7 +50,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i]."',";
             }
         }
-        if(mysqli_query($this->database, "UPDATE users SET $param WHERE SSNr='$SSNr'")===TRUE){
+        if($this->query("UPDATE users SET $param WHERE SSNr='$SSNr'")===TRUE){
             return true;
         }else{
             return false;
@@ -83,7 +83,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            if(mysqli_query($this->database, "DELETE FROM users WHERE SSNr in ($param)")===TRUE){
+            if($this->query("DELETE FROM users WHERE SSNr in ($param)")===TRUE){
                 return true;
             }else{
                 return false;
@@ -105,7 +105,7 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $user_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $result=mysqli_query($this->database, "SELECT * FROM users");
+            $result=$this->query("SELECT * FROM users");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $user_list[$i]=$row;
@@ -120,7 +120,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM users WHERE SSNr in($param)");
+            $result=$this->query("SELECT * FROM users WHERE SSNr in($param)");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $user_list[$i]=$row;
@@ -148,7 +148,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i].",";
             }
         }
-        $result=mysqli_query($this->database, "SELECT * FROM orders WHERE SSNr in ($param)");
+        $result=$this->query("SELECT * FROM orders WHERE SSNr in ($param)");
         $i=0;
         while($row=mysqli_fetch_assoc($result)){
             $order_list[$i]=$row;
@@ -163,7 +163,7 @@ class Database extends mysqli {
     
 
     public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
-        $result = mysqli_query($this->database, "SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
+        $result = $this->query("SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
         $row = mysqli_fetch_assoc($result);
         $hashedPassword=$this->PasswordHash($LoginPassword);
         if ($row != NULL) {
@@ -189,7 +189,7 @@ class Database extends mysqli {
         // Adds one card to the cards table.
         // Arguments states what needs to be
         // put in.
-         if (mysqli_query($this->database, "INSERT INTO cards SET CardId='$CardId',CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'") === TRUE) {
+         if ($this->query("INSERT INTO cards SET CardId='$CardId',CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'") === TRUE) {
              return true;
          }else{
             return false;
@@ -206,7 +206,7 @@ class Database extends mysqli {
         $numargs=func_num_args();
         $arg_list=func_get_args();
         if($numargs==1 && $arg_list[0]=="ALL"){
-            if(mysqli_query($this->database, "DELETE FROM cards")===TRUE){
+            if($this->query("DELETE FROM cards")===TRUE){
                 return true;
             }else{
                 return false;
@@ -220,7 +220,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].",";
                 }
             }
-            if(mysqli_query($this->database, "DELETE FROM cards WHERE CardNr in ($param)")===TRUE){
+            if($this->query("DELETE FROM cards WHERE CardNr in ($param)")===TRUE){
                 return true;
             }else{
                 return false;
@@ -248,7 +248,7 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $card_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $result=mysqli_query($this->database, "SELECT * FROM cards");
+            $result=$this->query("SELECT * FROM cards");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $card_list[$i]=$row;
@@ -263,7 +263,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM cards WHERE CardId in($param)");
+            $result=$this->query("SELECT * FROM cards WHERE CardId in($param)");
             while($row=mysqli_fetch_assoc($result)){
                 $card_list[$i]=$row;
                 $i++;
@@ -293,9 +293,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $param=NULL;
         $time = $this->dbGetUnixTime(); // Get unixtime
-        if(mysqli_query($this->database, "INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){
+        if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){
             $j=0;
-            $param[$j]=mysqli_insert_id($this->database);
+            $param[$j]=$this->insert_id;
             $j++;
             for($i=3;$i<$numargs;$i++){
                 $param[$j]=$arg_list[$i];
@@ -321,11 +321,11 @@ class Database extends mysqli {
                 $param.="($OrderId,$arg_list[$i],$arg_list[$k]),";
             }
         }
-        if(mysqli_query($this->database, "INSERT INTO order_list (OrderId,ProductId,Amount) VALUES $param")===TRUE){
+        if($this->query("INSERT INTO order_list (OrderId,ProductId,Amount) VALUES $param")===TRUE){
             return true;
         }else{
-            $failed_id=mysqli_insert_id($this->database);
-            if(mysqli_query($this->database, "DELETE FROM orders WHERE OrderId='$failed_id'")===TRUE){
+            $failed_id=$this->insert_id;
+            if($this->query("DELETE FROM orders WHERE OrderId='$failed_id'")===TRUE){
                 return false;
             }else{
                 $error_msg="Order was added, order_list failed to add. Tried to delete order but failed";
@@ -358,7 +358,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i]."',";
             }
         }
-        if(mysqli_query($this->database, "UPDATE orders SET $param WHERE OrderId='$OrderId'")===TRUE){
+        if($this->query("UPDATE orders SET $param WHERE OrderId='$OrderId'")===TRUE){
             return true;
         }else{
             return false;
@@ -377,9 +377,9 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $param="";
         if($numargs==1 && $arg_list[0]="ALL"){
-            if(mysqli_query($this->database, "DELETE FROM order_list")===TRUE){
-                if(mysqli_query($this->database, "DELETE FROM orders")===TRUE){
-                    mysqli_query($this->database,"ALTER TABLE orders AUTO_INCREMENT=1");
+            if($this->query("DELETE FROM order_list")===TRUE){
+                if($this->query("DELETE FROM orders")===TRUE){
+                    $this->query("ALTER TABLE orders AUTO_INCREMENT=1");
                     return true;
                 }else{
                     return false;
@@ -397,8 +397,8 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            if(mysqli_query($this->database, "DELETE FROM order_list WHERE OrderId in ($param)")===TRUE){
-                if(mysqli_query($this->database, "DELETE FROM orders WHERE OrderId in ($param)")===TRUE){
+            if($this->query("DELETE FROM order_list WHERE OrderId in ($param)")===TRUE){
+                if($this->query("DELETE FROM orders WHERE OrderId in ($param)")===TRUE){
                     return true;
                 }else{
                     return false;
@@ -423,7 +423,7 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $order_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $result=mysqli_query($this->database, "SELECT * FROM orders");
+            $result=$this->query("SELECT * FROM orders");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $order_list[$i]=$row;
@@ -438,7 +438,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM orders WHERE OrderId in($param)");
+            $result=$this->query("SELECT * FROM orders WHERE OrderId in($param)");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $order_list[$i]=$row;
@@ -454,7 +454,7 @@ class Database extends mysqli {
      */  ###################################################################################################
     
     public function dbSearchProducts($SearchQuery){ //Return an array of products arrays matching argument
-        $result=mysqli_query($this->database, "SELECT * FROM products WHERE Name,Description,Taxanomy LIKE '%$SearchQuery%'");
+        $result=$this->query("SELECT * FROM products WHERE Name,Description,Taxanomy LIKE '%$SearchQuery%'");
         $search_list=NULL;
         $i=0;
         while($row = mysqli_fetch_assoc($result)){
@@ -468,7 +468,7 @@ class Database extends mysqli {
         // Adds one product to the products table.
         // Arguments states what needs to be
         // put in.
-        if(mysqli_query($this->database, "INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock'")===TRUE){
+        if($this->query("INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock'")===TRUE){
             return true;
         }else{
             return false;
@@ -499,7 +499,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i]."',";
             }
         }
-        if(mysqli_query($this->database, "UPDATE products SET $param WHERE ProductId='$ProductId'")===TRUE){
+        if($this->query("UPDATE products SET $param WHERE ProductId='$ProductId'")===TRUE){
             return true;
         }else{
             return false;
@@ -517,8 +517,8 @@ class Database extends mysqli {
         $numargs=func_num_args();
         $arg_list=func_get_args();
         if($numargs==1 && $arg_list[0]="ALL"){
-            if(mysqli_query($this->database,"DELETE FROM products")===TRUE){
-                mysqli_query($this->database, "ALTER TABLE products AUTO_INCREMENT=1");
+            if($this->query("DELETE FROM products")===TRUE){
+                $this->query("ALTER TABLE products AUTO_INCREMENT=1");
                 return true;
             }else{
                 return false;
@@ -532,7 +532,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].",";
                 }
             }
-            if(mysqli_query($this->database, "DELETE FROM products WHERE ProductId in ($param)")===TRUE){
+            if($this->query("DELETE FROM products WHERE ProductId in ($param)")===TRUE){
                 return true;
             }else{
                 return false;
@@ -552,7 +552,7 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $product_list=NULL;
         if($numargs==1 && $arg_list[0]="ALL"){
-            $result=mysqli_query($this->database, "SELECT * FROM products");
+            $result=$this->query("SELECT * FROM products");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $product_list[$i]=$row;
@@ -567,7 +567,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].',';
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM products WHERE ProductId in ($param)");
+            $result=$this->query("SELECT * FROM products WHERE ProductId in ($param)");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $product_list[$i]=$row;
@@ -597,7 +597,7 @@ class Database extends mysqli {
                 $param.=$arg_list[$i].",";
             }
         }
-        $result= mysqli_query($this->database, "SELECT * FROM products WHERE Taxanomy in ($param)");
+        $result= $this->query("SELECT * FROM products WHERE Taxanomy in ($param)");
         $product_list=NULL;
         $i=0;
         while($row=mysqli_fetch_assoc($result)){
@@ -624,7 +624,7 @@ class Database extends mysqli {
         $arg_list=func_get_args();
         $currency_list=NULL;
         if($numargs==1 && $arg_list[0]=="ALL"){
-            $result=mysqli_query($this->database,"SELECT * FROM currencies");
+            $result=$this->query("SELECT * FROM currencies");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $currency_list[$i]=$row;
@@ -639,7 +639,7 @@ class Database extends mysqli {
                     $param.=$arg_list[$i].",";
                 }
             }
-            $result=mysqli_query($this->database, "SELECT * FROM currencies WHERE CurrencyId in ($param)");
+            $result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($param)");
             $i=0;
             while($row=mysqli_fetch_assoc($result)){
                 $currency_list[$i]=$row;

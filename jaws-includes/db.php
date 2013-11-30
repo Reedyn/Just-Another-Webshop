@@ -68,8 +68,8 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             if($numargs==1 && $arg_list[0]="ALL"){
-                if(mysqli_query($this->database, "DELETE FROM users")===TRUE){
-                    mysqli_query($this->database,"ALTER TABLE users AUTO_INCREMENT=1");
+                if($this->query("DELETE FROM users")===TRUE){
+                    $this->query("ALTER TABLE users AUTO_INCREMENT=1");
                     return true;
                 }else{
                     return false;
@@ -107,7 +107,7 @@
             if($numargs==1 && $arg_list[0]="ALL"){
                 $result=$this->query("SELECT * FROM users");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $user_list[$i]=$row;
                     $i++;
                 }
@@ -122,7 +122,7 @@
                 }
                 $result=$this->query("SELECT * FROM users WHERE SSNr in($param)");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $user_list[$i]=$row;
                     $i++;
                 }
@@ -141,6 +141,7 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $param="";
+            $order_list=NULL;
             for($i=0;$i<$numargs;$i++){
                 if($i==$numargs-1){
                     $param.=$arg_list[$i];
@@ -150,7 +151,7 @@
             }
             $result=$this->query("SELECT * FROM orders WHERE SSNr in ($param)");
             $i=0;
-            while($row=mysqli_fetch_assoc($result)){
+            while($row=$result->fetch_assoc()){
                 $order_list[$i]=$row;
                 $i++;
             }
@@ -164,7 +165,7 @@
 
         public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
             $result = $this->query("SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
-            $row = mysqli_fetch_assoc($result);
+            $row=$result->fetch_assoc();
             $hashedPassword=$this->PasswordHash($LoginPassword);
             if ($row != NULL) {
                 if ($LoginEmail==$row['Mail'] && $hashedPassword==$row['Password']) {
@@ -250,7 +251,7 @@
             if($numargs==1 && $arg_list[0]="ALL"){
                 $result=$this->query("SELECT * FROM cards");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $card_list[$i]=$row;
                     $i++;
                 }
@@ -264,7 +265,7 @@
                     }
                 }
                 $result=$this->query("SELECT * FROM cards WHERE CardId in($param)");
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $card_list[$i]=$row;
                     $i++;
                 }
@@ -425,7 +426,7 @@
             if($numargs==1 && $arg_list[0]="ALL"){
                 $result=$this->query("SELECT * FROM orders");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;
                     $i++;
                 }
@@ -440,7 +441,7 @@
                 }
                 $result=$this->query("SELECT * FROM orders WHERE OrderId in($param)");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;
                     $i++;
                 }
@@ -457,7 +458,7 @@
             $result=$this->query("SELECT * FROM products WHERE Name,Description,Taxanomy LIKE '%$SearchQuery%'");
             $search_list=NULL;
             $i=0;
-            while($row = mysqli_fetch_assoc($result)){
+            while($row=$result->fetch_assoc()){
                 $search_list[$i]=$row;
                 $i++;
             }
@@ -604,7 +605,7 @@
             $result= $this->query("SELECT * FROM products WHERE Taxanomy in ($param)");
             $product_list=NULL;
             $i=0;
-            while($row=mysqli_fetch_assoc($result)){
+            while($row=$result->fetch_assoc()){
                 $product_list[$i]=$row;
                 $i++;
             }
@@ -630,7 +631,7 @@
             if($numargs==1 && $arg_list[0]=="ALL"){
                 $result=$this->query("SELECT * FROM currencies");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $currency_list[$i]=$row;
                     $i++;
                 }
@@ -645,7 +646,7 @@
                 }
                 $result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($param)");
                 $i=0;
-                while($row=mysqli_fetch_assoc($result)){
+                while($row=$result->fetch_assoc()){
                     $currency_list[$i]=$row;
                     $i++;
                 }

@@ -1,8 +1,11 @@
 <?php
 
     include 'class-product.php';
-    include 'class-order.php';
+    //include 'class-order.php';
     include 'class-user.php';
+
+
+
 
     function listProducts($listType){ // List products in the fashion specified.
         // Get a list of products from database and save the array in $products
@@ -13,8 +16,7 @@
         for($i=1,$j=0;$i<$numargs;$i++,$j++){
             $pass_arg_list[$j]=$arg_list[$i];
         }
-
-        $products=call_user_func_array(array($this,"getProducts()"),$pass_arg_list);
+        $products=call_user_func_array("getProducts",$pass_arg_list);
 
         if ($listType == 'list') {
             echo '<ul class="product-list">';

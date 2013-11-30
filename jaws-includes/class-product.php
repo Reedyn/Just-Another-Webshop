@@ -1,6 +1,6 @@
 <?php
     //Includes
-    include 'db.php';
+    include_once 'db.php';
     include 'config.php';
 
     //Initialize the class Database
@@ -9,23 +9,24 @@
     //Functions
 
     function getProducts() { // Returns a product from the product as a Product class.
+        global $db;
         $arg_list=func_get_args();
-        $data=call_user_func_array(array($this->db,"dbGetProducts()"),$arg_list);
+        $data=call_user_func_array(array($db,"dbGetProducts"),$arg_list);
         $product=NULL;
-        for($i=0;$i<count($arg_list)-1;$i++){
+        for($i=0;$i<count($data);$i++){
             $product[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
         }
         return $product;
     }
 
     class Product{
-        protected $ProductId;
-        protected $Name;
-        protected $Description;
-        protected $ImgUrl;
-        protected $Taxanomy;
-        protected $Price;
-        protected $Stock;
+        public $ProductId;
+        public $Name;
+        public $Description;
+        public $ImgUrl;
+        public $Taxanomy;
+        public $Price;
+        public $Stock;
 
         public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price, $Stock) {
             $this->ProductId    = $ProductId;

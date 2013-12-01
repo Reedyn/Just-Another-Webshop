@@ -1,7 +1,7 @@
 <?php
 
     include 'class-product.php';
-    //include 'class-order.php';
+    include 'class-order.php';
     include 'class-user.php';
 
 

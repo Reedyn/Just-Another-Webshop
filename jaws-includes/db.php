@@ -322,7 +322,7 @@
                     $param.="($OrderId,$arg_list[$i],$arg_list[$k]),";
                 }
             }
-            if($this->query("INSERT INTO order_list (OrderId,ProductId,Amount) VALUES $param")===TRUE){
+            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
                 return true;
             }else{
                 $failed_id=$this->insert_id;
@@ -378,7 +378,7 @@
             $arg_list=func_get_args();
             $param="";
             if($numargs==1 && $arg_list[0]="ALL"){
-                if($this->query("DELETE FROM order_list")===TRUE){
+                if($this->query("DELETE FROM order_lists")===TRUE){
                     if($this->query("DELETE FROM orders")===TRUE){
                         $this->query("ALTER TABLE orders AUTO_INCREMENT=1");
                         return true;
@@ -398,7 +398,7 @@
                         $param.=$arg_list[$i].',';
                     }
                 }
-                if($this->query("DELETE FROM order_list WHERE OrderId in ($param)")===TRUE){
+                if($this->query("DELETE FROM order_lists WHERE OrderId in ($param)")===TRUE){
                     if($this->query("DELETE FROM orders WHERE OrderId in ($param)")===TRUE){
                         return true;
                     }else{
@@ -423,10 +423,24 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $order_list=NULL;
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=='ALL'){
                 $result=$this->query("SELECT * FROM orders");
+                $result_order_list=$this->query("SELECT * FROM order_lists");
                 $i=0;
+                $k=0;
+                $order_list_internal=NULL;
+                while($row_order_list=$result_order_list->fetch_assoc()){
+                    $order_list_internal[$k]=$row_order_list;
+                    $k++;
+                }
                 while($row=$result->fetch_assoc()){
+                    $ProductListArray=NULL;
+                    for($j=0;$j<count($order_list_internal);$j++){
+                        if($order_list_internal[$j]['OrderId']==$row['OrderId']){
+                            $ProductListArray[count($ProductListArray)]=array($order_list_internal[$j]['ProductId'],$order_list_internal[$j]['Amount']);
+                        }
+                    }
+                    $row['ProductList']=$ProductListArray;
                     $order_list[$i]=$row;
                     $i++;
                 }
@@ -439,16 +453,29 @@
                         $param.=$arg_list[$i].',';
                     }
                 }
-                $result=$this->query("SELECT * FROM orders WHERE OrderId in($param)");
+                $result=$this->query("SELECT * FROM orders WHERE OrderId in ($param)");
+                $result_order_list=$this->query("SELECT * FROM order_lists WHERE OrderId in ($param)");
                 $i=0;
+                $k=0;
+                $order_list_internal=NULL;
+                while($row_order_list=$result_order_list->fetch_assoc()){
+                    $order_list_internal[$k]=$row_order_list;
+                    $k++;
+                }
                 while($row=$result->fetch_assoc()){
+                    $ProductListArray=NULL;
+                    for($j=0;$j<count($order_list_internal);$j++){
+                        if($order_list_internal[$j]['OrderId']==$row['OrderId']){
+                            $ProductListArray[count($ProductListArray)]=array($order_list_internal[$j]['ProductId'],$order_list_internal[$j]['Amount']);
+                        }
+                    }
+                    $row['ProductList']=$ProductListArray;
                     $order_list[$i]=$row;
                     $i++;
                 }
             }
             return $order_list;
         }
-
 
          /*  ###################################################################################################
              Products

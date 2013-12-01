@@ -1,11 +1,11 @@
 <?php
 
-    include 'functions.php';
-    //include 'db.php';
-    //include 'config.php';
-    //$db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
+    //include 'functions.php';
+    include 'db.php';
+    include 'config.php';
+    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
 
-    //$db->dbGetProducts('ALL');
+    $db->dbGetOrders('ALL');
 
-    listProducts('list','ALL');
+    //listProducts('list','ALL');
 ?>

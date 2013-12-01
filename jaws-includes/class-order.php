@@ -1,104 +1,116 @@
 <?php
-include '../jaws-includes/db.php';
+    //Includes
+    include_once 'db.php';
+    include 'config.php';
 
-function getOrder($orderId) {
-    // Return a order with a specific Id.
-}
+    //Initialize the class Database
+    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
+    //Functions
 
-function getOrders() {
-    // Return an array of all orders with relevant data.
-}
 
-class Order {
-    protected $orderId;
-    protected $personalNr;
-    protected $time;
-    protected $discount;
-    protected $card;
-    protected $productList[];
+    function getOrders() { // Returns an order from the order as an Order class.
+        $arg_list=func_get_args();
 
-    public function __construct($orderId, $personalNr, $discount, $card, $productList) {
-        $this->orderId      = $orderId;
-        $this->personalNr   = $personalNr;
-        $this->price        = $price;
-        $this->discount     = $discount;
-        $this->card         = $card;
-        $this->productList  = $productList;
-    }
-    
-    public function getorderId() {
-        return $this->orderId;
-    }
-    
-    public function getPersonalNr() {
-        return $this->personalNr;
-    }
-    
-    public function getTime() {
-        return $this->time;
-    }
-    
-    public function getDiscount() {
-        return $this->discount;
-    }
-    
-    public function getCard() {
-        return $this->card;
-    }
-    
-    public function setCard($card) {
-        $this->card = $card;
-    }
-    
-    public function getProductList() {
-        return $this->productList;
-    }
-    
-    public function addProduct($productId, $amount) {
-        $this->productList[] = new ListedProduct($productId, $amount);
-    }
-    
-    public function removeProduct($productId){
-        for ($i = 0; $i < sizeof($arr); $i++;){
-            if ($this->productList[$i]->getProductId() == $productId) {
-                unset($this->productList[$i])
-                return true;
-            }
-        }        
-        return false;
-    }
-    
-    public function setProductAmount($productId, $amount){
-        for ($i = 0; $i < sizeof($arr); $i++;){
-            if ($this->productList[$i]->getProductId() == $productId) {
-                $this->productList[$i]->setAmount($amount);
-                return true;
-            }
+        //Call function in db.php to get the array of users
+        $data=call_user_func_array(array($this->db,"dbGetOrders()"),$arg_list);
+
+        $order=NULL;
+        for($i=0;$i<count($data);$i++){
+            $order[$i]=new User($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['ProductList']);
         }
-        return false;
+        return $order;
     }
-}
 
-class ListedProduct {
-    protected $productId;
-    protected $amount;
-    
-    public function __construct($productId, $amount) {
-        $this->productId    = $productId;
-        $this->amount       = $amount;
+    class Order {
+        public $OrderId;
+        public $SSNr;
+        public $OrderDate;
+        public $Discount;
+        public $ChargedCard;
+        public $ProductList;
+
+        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$ProductList) {
+            $this->OrderId      = $OrderId;
+            $this->SSNr         = $SSNr;
+            $this->OrderDate    = $OrderDate;
+            $this->Discount     = $Discount;
+            $this->ChargedCard  = $ChargedCard;
+            $this->ProductList  = $ProductList;
+        }
+
+        public function getOrderId() {
+            return $this->OrderId;
+        }
+
+        public function getSSNr() {
+            return $this->SSNr;
+        }
+
+        public function getOrderDate() {
+            return $this->OrderDate;
+        }
+
+        public function getDiscount() {
+            return $this->Discount;
+        }
+
+        public function getChargedCard() {
+            return $this->ChargedCard;
+        }
+
+        public function setChargedCard($NewCard) {
+            $this->card = $NewCard;
+        }
+
+        public function getProductList() {
+            return $this->ProductList;
+        }
+
+        public function addProduct($ProductId, $Amount) {
+            $this->ProductList= new ListedProduct($ProductId,$Amount);
+        }
+
+        public function removeProduct($ProductId){
+            for ($i = 0; $i < sizeof($arr); $i++;){
+                if ($this->ProductList[$i]->getProductId() == $ProductId) {
+                    unset($this->productList[$i]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public function setProductAmount($productId, $amount){
+            for ($i = 0; $i < count($this->ProductList); $i++;){
+                if ($this->ProductList[$i]->getProductId() == $productId) {
+                    $this->ProductList[$i]->setAmount($amount);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
-    
-    public function getProductId(){
-        return this->$productId;
+
+    class ListedProduct {
+        protected $productId;
+        protected $amount;
+
+        public function __construct($productId, $amount) {
+            $this->productId    = $productId;
+            $this->amount       = $amount;
+        }
+
+        public function getProductId(){
+            return $this->$productId;
+        }
+
+        public function getAmount(){
+            return $this->$amount;
+        }
+
+        public function setAmount($amount){
+            $this->amount = $amount;
+        }
     }
-    
-    public function getAmount(){
-        return this->$amount;
-    }
-    
-    public function setAmount($amount){
-        $this->amount = $amount;
-    }
-}
 
 ?>

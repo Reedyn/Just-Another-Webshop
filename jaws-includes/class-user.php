@@ -21,17 +21,17 @@
     }
 
     class User{
-        protected $SSNr;
-        protected $Mail;
-        protected $Password;
-        protected $FirstName;
-        protected $LastName;
-        protected $StreetAddress;
-        protected $PostAddress;
-        protected $City;
-        protected $Telephone;
-        protected $SessionKey;
-        protected $IsAdmin;
+        public $SSNr;
+        public $Mail;
+        public $Password;
+        public $FirstName;
+        public $LastName;
+        public $StreetAddress;
+        public $PostAddress;
+        public $City;
+        public $Telephone;
+        public $SessionKey;
+        public $IsAdmin;
 
         public function __construct($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$SessionKey,$IsAdmin) {
             $this->SSNr         = $SSNr;

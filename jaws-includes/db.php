@@ -277,7 +277,7 @@
             Orders
         */  ###################################################################################################
 
-        public function dbAddOrder($SSNr,$Discount,$ChargedCard) { // Attempts to add an order to the database, returns a boolean.
+        public function dbAddOrder($SSNr,$Discount,$ChargedCard,$OrderIP) { // Attempts to add an order to the database, returns a boolean.
             // Function arguments have dynamic amount, meaning
             // the first argument is the ID for User (SSNr),
             // the second is discount (Discount) and third is
@@ -294,7 +294,7 @@
             $arg_list=func_get_args();
             $param=NULL;
             $time = $this->dbGetUnixTime(); // Get unixtime
-            if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard'")===TRUE){
+            if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard',OrderIP='$OrderIP'")===TRUE){
                 $j=0;
                 $param[$j]=$this->insert_id;
                 $j++;

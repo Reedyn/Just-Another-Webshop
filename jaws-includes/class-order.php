@@ -16,7 +16,7 @@
 
         $order=NULL;
         for($i=0;$i<count($data);$i++){
-            $order[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['ProductList']);
+            $order[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],$data[$i]['ProductList']);
         }
         return $order;
     }
@@ -27,14 +27,16 @@
         public $OrderDate;
         public $Discount;
         public $ChargedCard;
+        public $OrderIP;
         public $ProductList;
 
-        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$ProductList) {
+        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$ProductList) {
             $this->OrderId      = $OrderId;
             $this->SSNr         = $SSNr;
             $this->OrderDate    = $OrderDate;
             $this->Discount     = $Discount;
             $this->ChargedCard  = $ChargedCard;
+            $this->OrderIP      = $OrderIP;
             $this->ProductList  = NULL;
 
             for($i=0;$i<count($ProductList);$i++){

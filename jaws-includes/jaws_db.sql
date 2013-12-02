@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2013 at 03:02 PM
+-- Generation Time: Dec 02, 2013 at 06:49 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -79,24 +79,51 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `OrderDate` text NOT NULL,
   `Discount` float NOT NULL,
   `ChargedCard` int(11) NOT NULL,
+  `OrderIP` text NOT NULL,
   PRIMARY KEY (`OrderId`),
   KEY `SSNr` (`SSNr`),
   KEY `ChargedCard` (`ChargedCard`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`OrderId`, `SSNr`, `OrderDate`, `Discount`, `ChargedCard`, `OrderIP`) VALUES
+(1, 199205075931, 'date', 0, 1, ''),
+(2, 199205075931, 'date', 0, 1, ''),
+(3, 199205075931, 'date', 0, 1, ''),
+(4, 199205075931, 'date', 0, 1, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_list`
+-- Table structure for table `order_lists`
 --
 
-CREATE TABLE IF NOT EXISTS `order_list` (
+CREATE TABLE IF NOT EXISTS `order_lists` (
   `OrderId` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   KEY `PurchaseId` (`OrderId`),
   KEY `ProductId` (`ProductId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_lists`
+--
+
+INSERT INTO `order_lists` (`OrderId`, `ProductId`, `Amount`) VALUES
+(1, 1, 1),
+(1, 2, 1),
+(1, 3, 1),
+(1, 4, 1),
+(1, 5, 1),
+(2, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 1),
+(4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`) VALUES
-(199205075931, 'marcusandreas@hotmail.com', '621955', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
+(199205075931, 'marcusandreas@hotmail.com', '8e53ce27b5606aff61f0f1450a763344', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
 
 --
 -- Constraints for dumped tables
@@ -189,11 +216,11 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`);
 
 --
--- Constraints for table `order_list`
+-- Constraints for table `order_lists`
 --
-ALTER TABLE `order_list`
-  ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
-  ADD CONSTRAINT `order_list_ibfk_2` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`);
+ALTER TABLE `order_lists`
+  ADD CONSTRAINT `order_lists_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
+  ADD CONSTRAINT `order_lists_ibfk_2` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`);
 
 --
 -- Constraints for table `products`

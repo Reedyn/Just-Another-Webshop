@@ -16,7 +16,7 @@
 
         $order=NULL;
         for($i=0;$i<count($data);$i++){
-            $order[$i]=new User($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['ProductList']);
+            $order[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['ProductList']);
         }
         return $order;
     }
@@ -35,7 +35,13 @@
             $this->OrderDate    = $OrderDate;
             $this->Discount     = $Discount;
             $this->ChargedCard  = $ChargedCard;
-            $this->ProductList  = $ProductList;
+            $this->ProductList  = NULL;
+
+            for($i=0;$i<count($ProductList);$i++){
+                $this->ProductList[$i]=new ListedProduct($ProductList[$i]['OrderId'],$ProductList[$i]['ProductId'],$ProductList[$i]['Amount']);
+            }
+
+
         }
 
         public function getOrderId() {
@@ -67,13 +73,13 @@
         }
 
         public function addProduct($ProductId, $Amount) {
-            $this->ProductList= new ListedProduct($ProductId,$Amount);
+            $this->ProductList[count($this->ProductList)]= new ListedProduct($this->OrderId,$ProductId,$Amount);
         }
 
         public function removeProduct($ProductId){
-            for ($i = 0; $i < sizeof($arr); $i++;){
-                if ($this->ProductList[$i]->getProductId() == $ProductId) {
-                    unset($this->productList[$i]);
+            for ($i = 0; $i < count($this->ProductList); $i++){
+                if ($this->ProductList[$i]->ProductId == $ProductId) {
+                    unset($this->ProductList[$i]);
                     return true;
                 }
             }
@@ -81,8 +87,8 @@
         }
 
         public function setProductAmount($productId, $amount){
-            for ($i = 0; $i < count($this->ProductList); $i++;){
-                if ($this->ProductList[$i]->getProductId() == $productId) {
+            for ($i = 0; $i < count($this->ProductList); $i++){
+                if ($this->ProductList[$i]->ProductId == $productId) {
                     $this->ProductList[$i]->setAmount($amount);
                     return true;
                 }
@@ -92,24 +98,30 @@
     }
 
     class ListedProduct {
-        protected $productId;
-        protected $amount;
+        public $OrderId;
+        public $ProductId;
+        public $Amount;
 
-        public function __construct($productId, $amount) {
-            $this->productId    = $productId;
-            $this->amount       = $amount;
+        public function __construct($OrderId,$ProductId,$Amount) {
+            $this->OrderId      = $OrderId;
+            $this->ProductId    = $ProductId;
+            $this->Amount       = $Amount;
+        }
+
+        public function getOrderId(){
+            return $this->OrderId;
         }
 
         public function getProductId(){
-            return $this->$productId;
+            return $this->ProductId;
         }
 
         public function getAmount(){
-            return $this->$amount;
+            return $this->Amount;
         }
 
-        public function setAmount($amount){
-            $this->amount = $amount;
+        public function setAmount($Amount){
+            $this->Amount = $Amount;
         }
     }
 

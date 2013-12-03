@@ -5,7 +5,7 @@
     include 'config.php';
     $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
 
-    $db->dbGetOrders('ALL');
+    $db->dbGetUsersOrders(199205075931);
 
     //listProducts('list','ALL');
 ?>

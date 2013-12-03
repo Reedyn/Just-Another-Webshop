@@ -130,32 +130,10 @@
             return $user_list;
         }
 
-        public function dbGetUsersOrders() {//Returns an array with order arrays, NULL/FALSE if none found.
-            // Function uses dynamic arguments.
-            // The arguments for getting a users
-            // orders is the users ID (SSNr) for
-            // the user.
-            // Works with endless of arguments.
-            // Ex: dbGetUsersOrders(user1ssnr,user2ssnr,user3ssnr...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            $param="";
-            $order_list=NULL;
-            for($i=0;$i<$numargs;$i++){
-                if($i==$numargs-1){
-                    $param.=$arg_list[$i];
-                }else{
-                    $param.=$arg_list[$i].",";
-                }
-            }
-            $result=$this->query("SELECT * FROM orders WHERE SSNr in ($param)");
-            $i=0;
-            while($row=$result->fetch_assoc()){
-                $order_list[$i]=$row;
-                $i++;
-            }
-            return $order_list;
+        public function dbGetUsersOrders() {
+            //This function is not needed
+            // If thats not the case I will
+            // make it call the other getOrder function
         }
 
         /*  ###################################################################################################
@@ -429,16 +407,19 @@
                 $i=0;
                 $k=0;
                 $order_list_internal=NULL;
+                $temp=NULL;
                 while($row_order_list=$result_order_list->fetch_assoc()){
-                    $order_list_internal[$k]=$row_order_list;
+                    if($row_order_list['OrderId']!=$temp){
+                        $k=0;
+                    }
+                    $order_list_internal[$row_order_list['OrderId']][$k]=$row_order_list;
+                    $temp=$row_order_list['OrderId'];
                     $k++;
                 }
                 while($row=$result->fetch_assoc()){
                     $ProductListArray=NULL;
-                    for($j=0;$j<count($order_list_internal);$j++){
-                        if($order_list_internal[$j]['OrderId']==$row['OrderId']){
-                            $ProductListArray[count($ProductListArray)]=array($order_list_internal[$j]['ProductId'],$order_list_internal[$j]['Amount']);
-                        }
+                    for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
+                        $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
                     }
                     $row['ProductList']=$ProductListArray;
                     $order_list[$i]=$row;
@@ -458,22 +439,26 @@
                 $i=0;
                 $k=0;
                 $order_list_internal=NULL;
+                $temp=NULL;
                 while($row_order_list=$result_order_list->fetch_assoc()){
-                    $order_list_internal[$k]=$row_order_list;
+                    if($row_order_list['OrderId']!=$temp){
+                        $k=0;
+                    }
+                    $order_list_internal[$row_order_list['OrderId']][$k]=$row_order_list;
+                    $temp=$row_order_list['OrderId'];
                     $k++;
                 }
                 while($row=$result->fetch_assoc()){
                     $ProductListArray=NULL;
-                    for($j=0;$j<count($order_list_internal);$j++){
-                        if($order_list_internal[$j]['OrderId']==$row['OrderId']){
-                            $ProductListArray[count($ProductListArray)]=array($order_list_internal[$j]['ProductId'],$order_list_internal[$j]['Amount']);
-                        }
+                    for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
+                        $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
                     }
                     $row['ProductList']=$ProductListArray;
                     $order_list[$i]=$row;
                     $i++;
                 }
             }
+            var_dump($order_list);
             return $order_list;
         }
 

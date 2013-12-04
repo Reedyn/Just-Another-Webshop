@@ -186,6 +186,11 @@
             }
         }
 
+        public function login($email,$password){
+
+            // SAVE SESSIONKEY TO USER IN TABLE
+        }
+
         /*  ###################################################################################################
             Cards
         */  ###################################################################################################
@@ -233,10 +238,7 @@
             }
         }
 
-        public function login($email,$password){
 
-            // SAVE SESSIONKEY TO USER IN TABLE
-        }
 
         // Card
 
@@ -428,12 +430,12 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $order_list=NULL;
+            $order_list_internal=NULL;
             if($numargs==1 && $arg_list[0]=='ALL'){
                 $result=$this->query("SELECT * FROM orders");
                 $result_order_list=$this->query("SELECT * FROM order_lists");
                 $i=0;
                 $k=0;
-                $order_list_internal=NULL;
                 $temp=NULL;
                 while($row_order_list=$result_order_list->fetch_assoc()){
                     if($row_order_list['OrderId']!=$temp){
@@ -442,15 +444,6 @@
                     $order_list_internal[$row_order_list['OrderId']][$k]=$row_order_list;
                     $temp=$row_order_list['OrderId'];
                     $k++;
-                }
-                while($row=$result->fetch_assoc()){
-                    $ProductListArray=NULL;
-                    for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
-                        $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
-                    }
-                    $row['ProductList']=$ProductListArray;
-                    $order_list[$i]=$row;
-                    $i++;
                 }
             }else{
                 $param="";
@@ -465,7 +458,7 @@
                 $result_order_list=$this->query("SELECT * FROM order_lists WHERE OrderId in ($param)");
                 $i=0;
                 $k=0;
-                $order_list_internal=NULL;
+
                 $temp=NULL;
                 while($row_order_list=$result_order_list->fetch_assoc()){
                     if($row_order_list['OrderId']!=$temp){
@@ -475,17 +468,16 @@
                     $temp=$row_order_list['OrderId'];
                     $k++;
                 }
-                while($row=$result->fetch_assoc()){
-                    $ProductListArray=NULL;
-                    for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
-                        $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
-                    }
-                    $row['ProductList']=$ProductListArray;
-                    $order_list[$i]=$row;
-                    $i++;
-                }
             }
-            var_dump($order_list);
+            while($row=$result->fetch_assoc()){
+                $ProductListArray=NULL;
+                for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
+                    $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
+                }
+                $row['ProductList']=$ProductListArray;
+                $order_list[$i]=$row;
+                $i++;
+            }
             return $order_list;
         }
 

@@ -26,16 +26,17 @@
             echo '</ul><!-- .product-list -->';
 
         } else if ($listType == 'thumbnail') {
-            for ($i=0;$i<count($products); $i++)
+            for ($i=0;$i<count($products); $i++){
                 echo '<article class="product">';
-            echo '  <img src="'.$products[$i]->ImgUrl.'" class="product-image"/>';
-            echo '  <div class="product-meta">';
-            echo '  <h2 class="product-title">'. $products[$i]->Name .'</h2>';
-            echo '  <span class="product-price">'. $products[$i]->Price .'</span>';
-            echo '  <div class="product-add-to-cart-button"></div>';
-            echo '</div><!-- .product-meta -->';
-            echo '</article>';
-        } else {
+                echo '  <img src="'.$products[$i]->ImgUrl.'" class="product-image"/>';
+                echo '  <div class="product-meta">';
+                echo '  <h2 class="product-title">'. $products[$i]->Name .'</h2>';
+                echo '  <span class="product-price">'. $products[$i]->Price .'</span>';
+                echo '  <div class="product-add-to-cart-button"></div>';
+                echo '</div><!-- .product-meta -->';
+                echo '</article>';
+            }
+        }else {
             echo '<span class="error">No products found.</span>';
         }
     }

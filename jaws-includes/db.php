@@ -134,6 +134,32 @@
             //This function is not needed
             // If thats not the case I will
             // make it call the other getOrder function
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $order_list=NULL;
+            if($numargs==1 && $arg_list[0]=="ALL"){
+                $result=$this->query("SELECT * FROM orders");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $order_list[$i]=$row;
+                    $i++;
+                }
+            }else{
+                $param="";
+                for($i=0;$i<count($numargs);$i++){
+                    if($i==$numargs-1){
+                        $param.=$arg_list[$i];
+                    }else{
+                        $param.=$arg_list[$i].",";
+                    }
+                }
+                $result=$this->query("SELECT * FROM orders WHERE OrderId in ($param)");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $order_list[$i]=$row;
+                    $i++;
+                }
+            }
         }
 
         /*  ###################################################################################################
@@ -300,6 +326,7 @@
                     $param.="($OrderId,$arg_list[$i],$arg_list[$k]),";
                 }
             }
+            $this->autocommit(false);
             if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
                 return true;
             }else{

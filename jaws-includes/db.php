@@ -300,6 +300,8 @@
             $arg_list=func_get_args();
             $param=NULL;
             $time = $this->dbGetUnixTime(); // Get unixtime
+
+            $this->autocommit(false);
             if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard',OrderIP='$OrderIP'")===TRUE){
                 $j=0;
                 $param[$j]=$this->insert_id;
@@ -308,10 +310,18 @@
                     $param[$j]=$arg_list[$i];
                     $j++;
                 }
-                return call_user_func_array(array($this,"dbAddOrderList"),$param); // Call function for adding a OrderList into the appropriate table.
+                if(call_user_func_array(array($this,"dbAddOrderList"),$param)){ // Call function for adding a OrderList into the appropriate table.
+                    $this->autocommit(true);
+                    return true;
+                }else{
+                    $this->rollback();
+                    return false;
+                }
             }else{
+                $this->rollback();
                 return false;
             }
+
         }
 
         private function dbAddOrderList($OrderId) { // Attempts to add order_list for orders, returns a boolean or a string.
@@ -328,17 +338,10 @@
                     $param.="($OrderId,$arg_list[$i],$arg_list[$k]),";
                 }
             }
-            $this->autocommit(false);
             if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
                 return true;
             }else{
-                $failed_id=$this->insert_id;
-                if($this->query("DELETE FROM orders WHERE OrderId='$failed_id'")===TRUE){
-                    return false;
-                }else{
-                    $error_msg="Order was added, order_list failed to add. Tried to delete order but failed";
-                    return $error_msg;
-                }
+               return false;
             }
         }
 
@@ -625,20 +628,34 @@
 
             $numargs=func_num_args();
             $arg_list=func_get_args();
-            $param="";
-            for($i=0;$i<$numargs;$i++){
-                if($i==$numargs-1){
-                    $param.=$arg_list[$i];
-                }else{
-                    $param.=$arg_list[$i].",";
-                }
-            }
-            $result= $this->query("SELECT * FROM products WHERE Taxanomy in ($param)");
             $product_list=NULL;
-            $i=0;
-            while($row=$result->fetch_assoc()){
-                $product_list[$i]=$row;
-                $i++;
+            $product_list_temp=NULL;
+            if($numargs==1 && $arg_list[0]=="ALL"){
+                $result=$this->query("SELECT * FROM products");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $product_list_temp[$i]=$row;
+                    $i++;
+                }
+                for($i=0;$i<count($product_list_temp);$i++){
+                    $product_list[$product_list_temp[$i]['TaxanomyId']][]=$product_list_temp[$i];
+                }
+
+            }else{
+                $param="";
+                for($i=0;$i<$numargs;$i++){
+                    if($i==$numargs-1){
+                        $param.=$arg_list[$i];
+                    }else{
+                        $param.=$arg_list[$i].",";
+                    }
+                }
+                $result= $this->query("SELECT * FROM products WHERE Taxanomy in ($param)");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $product_list[$i]=$row;
+                    $i++;
+                }
             }
             return $product_list;
         }

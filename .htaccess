@@ -1,3 +1,7 @@
-RewriteEngine on
-RewriteRule ^$ ?home
-RewriteRule ^page$ ?page
+# Enable Rewriting  
+RewriteEngine on  
+
+# Products
+RewriteRule ^(products)/*$ /index.php?products [QSA]
+# Category
+RewriteRule ^(products)/([a-ö]+)/*$ /index.php?category=$2 [QSA]

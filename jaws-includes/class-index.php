@@ -8,10 +8,10 @@ class Index {
 	}
 	
 	public function initialize() { 		// Primary function
-		if(isset($_GET['home'])){ 	// If no variable is set.
-			echo "Home";
-		} elseif (isset($_GET['page'])) {
-			echo "Page";
+		if(isset($_GET['products'])){ 	// If no variable is set.
+			echo "Products";
+		} elseif (isset($_GET['category'])) {
+			echo "Category: ".$_GET['category'];
 		} else {
 			echo "404";
 		}

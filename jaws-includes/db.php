@@ -629,16 +629,20 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $product_list=NULL;
-            $product_list_temp=NULL;
+            $taxanomy_list=NULL;
+            $complete_list=NULL;
             if($numargs==1 && $arg_list[0]=="ALL"){
                 $result=$this->query("SELECT * FROM products");
+                $tax_result=$this->query("SELECT * FROM taxanomies");
                 $i=0;
                 while($row=$result->fetch_assoc()){
-                    $product_list_temp[$i]=$row;
+                    $product_list[$i]=$row;
                     $i++;
                 }
-                for($i=0;$i<count($product_list_temp);$i++){
-                    $product_list[$product_list_temp[$i]['TaxanomyId']][]=$product_list_temp[$i];
+                $i=0;
+                while($row=$tax_result->fetch_assoc()){
+                    $taxanomy_list[$row['TaxanomyId']]=$row;
+                    $i++;
                 }
 
             }else{

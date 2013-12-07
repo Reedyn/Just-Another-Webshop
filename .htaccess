@@ -1,20 +1,22 @@
-RewriteEngine on  
+RewriteEngine on 
 
+RewriteRule ^/{0,1}$ /index.php?home [QSA]
 # Page
-RewriteRule ^([a-ö]{1,})/*$ /index.php?$1 [QSA]
+RewriteRule ^([a-ö]{1,})/*$ 								/index.php?$1 [QSA]
 # Category
-RewriteRule ^(products)/([a-ö]{1,})/*$ /index.php?$1&category=$2 [QSA]
+RewriteRule ^(products)/([a-ö\-_]{1,})/*$ 					/index.php?$1&category=$2 [QSA]
 # Product
-RewriteRule ^(products)/([a-ö]{1,})/([0-9]{1,})+.*/*$ /index.php?$1&category=$2&productid=$3 [QSA]
+RewriteRule ^(products)/([a-ö\-_]{1,})/([0-9]{1,})+.*/*$ /index.php?$1&category=$2&productid=$3 [QSA]
 
 # Cart
-RewriteRule ^cart/([a-ö]{1,})*/*$ /index.php?cart=$1 [QSA]
+RewriteRule ^cart/([a-ö]{1,})*/*$ 				/index.php?cart=$1 [QSA]
 
 #### Settings
-RewriteRule ^settings/([a-ö]{1,})*/*$ /index.php?settings=$1 [QSA]
+RewriteRule ^settings/([a-ö]{1,})*/*$ 			/index.php?settings=$1 [QSA]
 
 #### Admin
-RewriteRule ^admin/([a-ö]{1,})*/*$ /index.php?admin=$1 [QSA]
-RewriteRule ^admin/(products)/([0-9]{1,})*/*$ /index.php?admin=$1&product=$2 [QSA]
-RewriteRule ^admin/(orders)/([0-9]{1,})*/*$ /index.php?admin=$1&order=$2 [QSA]
-RewriteRule ^admin/(users)/([0-9]{1,})*/*$ /index.php?admin=$1&user=$2 [QSA]
+RewriteRule ^admin/([a-ö]{1,})*/*$ 				/index.php?admin=$1 [QSA]
+RewriteRule ^admin/(products)/([0-9]{1,})*/*$ 	/index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(orders)/([0-9]{1,})*/*$ 	/index.php?admin=$1&order=$2 [QSA]
+RewriteRule ^admin/(users)/([0-9]{1,})*/*$ 		/index.php?admin=$1&user=$2 [QSA]
+RewriteRule ^([a-ö0-9])*$ /index.php?404=$1 [QSA]

@@ -1,6 +1,1 @@
-<?php
-include 'jaws-includes/class-index.php';
-
-$index = new Index();
-$index->initialize();
-?>
+<?php session_start(); include 'jaws-includes/class-index.php'; var_dump($_GET); initalize(); ?>

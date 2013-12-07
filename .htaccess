@@ -1,7 +1,20 @@
-# Enable Rewriting  
 RewriteEngine on  
 
-# Products
-RewriteRule ^(products)/*$ /index.php?products [QSA]
+# Page
+RewriteRule ^([a-ö]{1,})/*$ /index.php?$1 [QSA]
 # Category
-RewriteRule ^(products)/([a-ö]+)/*$ /index.php?category=$2 [QSA]
+RewriteRule ^(products)/([a-ö]{1,})/*$ /index.php?$1&category=$2 [QSA]
+# Product
+RewriteRule ^(products)/([a-ö]{1,})/([0-9]{1,})+.*/*$ /index.php?$1&category=$2&productid=$3 [QSA]
+
+# Cart
+RewriteRule ^cart/([a-ö]{1,})*/*$ /index.php?cart=$1 [QSA]
+
+#### Settings
+RewriteRule ^settings/([a-ö]{1,})*/*$ /index.php?settings=$1 [QSA]
+
+#### Admin
+RewriteRule ^admin/([a-ö]{1,})*/*$ /index.php?admin=$1 [QSA]
+RewriteRule ^admin/(products)/([0-9]{1,})*/*$ /index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(orders)/([0-9]{1,})*/*$ /index.php?admin=$1&order=$2 [QSA]
+RewriteRule ^admin/(users)/([0-9]{1,})*/*$ /index.php?admin=$1&user=$2 [QSA]

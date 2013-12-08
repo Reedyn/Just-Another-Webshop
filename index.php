@@ -1,2 +1,2 @@
-<?php session_start(); include 'jaws-includes/indexer.php'; indexer(); ?>
+<?php session_start(); include $_SERVER['DOCUMENT_ROOT'].'/jaws-includes/indexer.php'; indexer(); ?>
 

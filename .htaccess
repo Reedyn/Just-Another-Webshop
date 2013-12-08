@@ -17,7 +17,7 @@ RewriteRule ^(products)/([a-ö\-_]{1,})/*$ 					/index.php?$1&category=$2 [QSA]
 RewriteRule ^(products)/([a-ö\-_]{1,})/([0-9]{1,})+.*/*$ 	/index.php?$1&category=$2&product=$3 [QSA]
 
 # Login/Register
-RewriteRule ^(login|register|sign-up|sign-in)/*$ 			/index.php?login [QSA]
+RewriteRule ^(login|register|sign-up|signup|sign-in|signin)/*$ 			/index.php?login [QSA]
 
 # Cart
 RewriteRule ^cart/([a-ö]{1,})*/*$ 							/index.php?cart=$1 [QSA]

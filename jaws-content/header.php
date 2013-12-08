@@ -6,8 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Just Another Webshop</title>
-        <meta name="description" content="">
+		<title>Just Another Webshop</title>        <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
         <link rel="stylesheet" href="/jaws-content/themes/default/css/normalize.min.css">

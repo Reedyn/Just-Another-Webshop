@@ -24,6 +24,7 @@ RewriteRule ^cart/([a-ö]{1,})*/*$ 							/index.php?cart=$1 [QSA]
 
 # Settings
 RewriteRule ^settings/([a-ö]{1,})*/*$ 						/index.php?settings=$1 [QSA]
+RewriteRule ^settings/(orders)*/([0-9]*)/*$ 					/index.php?settings=$1&order=$2 [QSA]
 
 # Search
 RewriteRule ^search/([a-ö0-9]{1,})*/*$ 						/index.php?search=$1 [QSA]

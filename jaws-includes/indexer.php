@@ -1,12 +1,16 @@
 <?php
-function initialize() {
-	/*if(isset($_GET['products'])){ 	// If no variable is set.
-			echo "Products";
-		} elseif (isset($_GET['category'])) {
-			echo "Category: ".$_GET['category'];
+	function indexer() {
+	include "/jaws-content/header.php";
+	
+	if(isset($_GET['products'])){ 	// Checks if products is a set variable.
+		if(isset($_GET['product'])){
+			include "/jaws-content/page-product.php";
 		} else {
-			echo "404";
+			include "/jaws-content/page-products.php";
 		}
-	}*/
+	} else {
+		include "/jaws-content/404.php";
+	}
+	include "/jaws-content/footer.php";
 }
 ?>

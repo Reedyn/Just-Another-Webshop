@@ -12,11 +12,11 @@
         global $db;
         $arg_list=func_get_args();
         $data=call_user_func_array(array($db,"dbGetProducts"),$arg_list);
-        $product=NULL;
+        $products=NULL;
         for($i=0;$i<count($data);$i++){
-            $product[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
+            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
         }
-        return $product;
+        return $products;
     }
 
     class Product{

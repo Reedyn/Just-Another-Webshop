@@ -5,8 +5,9 @@
 
     //Initialize the class Database
     $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
-    //Functions
 
+
+    //Functions
 
     function getOrders() { // Returns an order from the order as an Order class.
         $arg_list=func_get_args();

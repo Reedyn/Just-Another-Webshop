@@ -489,7 +489,7 @@
          */  ###################################################################################################
 
         public function dbSearchProducts($SearchQuery){ //Return an array of products arrays matching argument
-            $result=$this->query("SELECT * FROM products WHERE Name,Description,Taxanomy LIKE '%$SearchQuery%'");
+            $result=$this->query("SELECT * FROM products WHERE Name,Description LIKE '%$SearchQuery%'");
             $search_list=NULL;
             $i=0;
             while($row=$result->fetch_assoc()){
@@ -618,6 +618,82 @@
         /*  ###################################################################################################
             Category/Taxanomies
         */  ###################################################################################################
+        public function dbAddTaxanomy($TaxanomyName,$TaxanomyParent) { //Attempts to add a product, returns a boolean.
+            // Adds one product to the products table.
+            // Arguments states what needs to be
+            // put in.
+            if($this->query("INSERT INTO taxanomies SET TaxanomyName='$TaxanomyName',TaxanomyParent='$TaxanomyParent'")===TRUE){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function dbEditTaxanomy($TaxanomyId) { //Attempts to edit a taxanomy and returns a boolean.
+            // Function arguments are dynamic meaning
+            // the first argument is the ID for taxanomy (TaxanomyId).
+            // The following arguments follow this pattern
+            // (...,RowToChange,ValueToChangeTo...)
+            // This works endlessly so as long as the
+            // row to change is argument number X
+            // where X%2=0 and value to change to
+            // is argument number Y=X+1.
+
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $param="";
+            for($i=1;$i<$numargs;$i++){
+                if($i==$numargs-2){
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."'";
+                }else{
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."',";
+                }
+            }
+            if($this->query("UPDATE taxanomies SET $param WHERE TaxanomyId='$TaxanomyId'")===TRUE){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function dbDeleteTaxanomies() { // Attempts to delete taxanomies, returns a boolean.
+            // Functions has dynamic amount of arguments.
+            // If the first and only argument == "ALL",
+            // all the taxanomies will be deleted and primary key
+            // will be reset. Otherwise the function will delete
+            // the ID of taxanomies (TaxanomyId) that are entered as arguments.
+            // Example: dbDeleteTaxanomies(TaxanomyId1,TaxanomyId2,TaxanomyId3...);
+
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            if($numargs==1 && $arg_list[0]="ALL"){
+                if($this->query("DELETE FROM taxanomies")===TRUE){
+                    $this->query("ALTER TABLE taxanomies AUTO_INCREMENT=1");
+                    $this->query("INSERT INTO taxanomies SET TaxanomyName='MasterParent'");
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                $param="";
+                for($i=0;$i<$numargs;$i++){
+                    if($i==$numargs-1){
+                        $param.=$arg_list[$i];
+                    }else{
+                        $param.=$arg_list[$i].",";
+                    }
+                }
+                if($this->query("DELETE FROM taxanomies WHERE TaxanomyId in ($param)")===TRUE){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
         public function dbGetTaxanomies(){//Returns an array with taxanomies
             //flexible arguments
             $numargs=func_num_args();

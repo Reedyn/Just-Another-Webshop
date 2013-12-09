@@ -611,7 +611,6 @@
                         $i++;
                     }
                 }
-
             }
             return $product_list;
         }
@@ -619,7 +618,36 @@
         /*  ###################################################################################################
             Category/Taxanomies
         */  ###################################################################################################
-
+        public function dbGetTaxanomies(){//Returns an array with taxanomies
+            //flexible arguments
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $taxanomy_list=NULL;
+            if($numargs==1 && $arg_list[0]=="ALL"){
+                $result=$this->query("SELECT * FROM taxanomies");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $taxanomy_list[$i]=$row;
+                    $i++;
+                }
+            }else{
+                $param="";
+                for($i=0;$i<$numargs;$i++){
+                    if($i==$numargs-1){
+                        $param.=$arg_list[$i];
+                    }else{
+                        $param.=$arg_list[$i].",";
+                    }
+                }
+                $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyId in ($param)");
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $taxanomy_list[$i]=$row;
+                    $i++;
+                }
+            }
+            return $taxanomy_list;
+        }
         public function dbGetProductsFromTaxanomy(){ //Returns an array of product arrays. Failure returns NULL.
             // Function uses dynamic amount of arguments.
             // Gets products with Taxanomy matching arguments,

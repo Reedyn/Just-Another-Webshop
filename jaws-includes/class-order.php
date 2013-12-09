@@ -15,7 +15,7 @@ class Order {
     protected $time;
     protected $discount;
     protected $card;
-    protected $productList;
+    protected $productList[];
 
     public function __construct($orderId, $personalNr, $discount, $card, $productList) {
         $this->orderId      = $orderId;
@@ -54,8 +54,50 @@ class Order {
         return $this->productList;
     }
     
-    public function setProductList() {
-        
+    public function addProduct($productId, $amount) {
+        $this->productList[] = new ListedProduct($productId, $amount);
+    }
+    
+    public function removeProduct($productId){
+        for ($i = 0; $i < sizeof($arr); $i++;){
+            if ($this->productList[$i]->getProductId() == $productId) {
+                unset($this->productList[$i])
+                return true;
+            }
+        }        
+        return false;
+    }
+    
+    public function setProductAmount($productId, $amount){
+        for ($i = 0; $i < sizeof($arr); $i++;){
+            if ($this->productList[$i]->getProductId() == $productId) {
+                $this->productList[$i]->setAmount($amount);
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+class ListedProduct {
+    protected $productId;
+    protected $amount;
+    
+    public function __construct($productId, $amount) {
+        $this->productId    = $productId;
+        $this->amount       = $amount;
+    }
+    
+    public function getProductId(){
+        return this->$productId;
+    }
+    
+    public function getAmount(){
+        return this->$amount;
+    }
+    
+    public function setAmount($amount){
+        $this->amount = $amount;
     }
 }
 

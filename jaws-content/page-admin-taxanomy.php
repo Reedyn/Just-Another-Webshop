@@ -2,10 +2,10 @@
 		<section class="wrapper">
 			<article class="main-content">
 				<?php /*include "/jaws-includes/functions.php";*/
-				if ($_GET['product'] == "new"){
-					echo "<p>Admin page for creating a new product.</p>";
+				if ($_GET['taxanomy'] == "new"){
+					echo "<p>Admin page for creating a new taxanomy.</p>";
 				} else {
-					echo "<p>Admin page for product with id ".$_GET['product'].".</p>"; 
+					echo "<p>Admin page for taxanomy with id ".$_GET['taxanomy'].".</p>"; 
 				}	
 				var_dump($_GET);?>
 			</article>

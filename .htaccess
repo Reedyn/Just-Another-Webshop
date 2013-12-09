@@ -4,17 +4,18 @@ RewriteEngine on
 RewriteRule ^/{0,1}$ 										/index.php?home [QSA]
 
 # Admin
-RewriteRule ^admin/([a-ö]{1,})*/*$ 							/index.php?admin=$1 [QSA]
+RewriteRule ^admin/(search|products|taxanomies|orders|users)?/*$ 							/index.php?admin=$1 [QSA]
 RewriteRule ^admin/(search)/([a-ö0-9]{1,})*/*$ 				/index.php?admin=$1&search=$2 [QSA]
-RewriteRule ^admin/(products)/([0-9]{1,})*/*$ 				/index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(products)/(new|[0-9]{1,})*/*$ 			/index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(taxanomies)/(new|[0-9]{1,})*/*$ 		/index.php?admin=$1&taxanomy=$2 [QSA]
 RewriteRule ^admin/(orders)/([0-9]{1,})*/*$ 				/index.php?admin=$1&order=$2 [QSA]
-RewriteRule ^admin/(users)/([0-9]{1,})*/*$ 					/index.php?admin=$1&user=$2 [QSA]
+RewriteRule ^admin/(users)/(new|[0-9]{1,})*/*$ 				/index.php?admin=$1&user=$2 [QSA]
 
 # Category
-RewriteRule ^(products)/([a-ö\-_]{1,})/*$ 					/index.php?$1&category=$2 [QSA]
+RewriteRule ^(products)/([0-9]+)(-[a-ö\-_]{1,})*/*$ 					/index.php?$1&category=$2 [QSA]
 
 # Product
-RewriteRule ^(products)/([a-ö\-_]{1,})/([0-9]{1,})+.*/*$ 	/index.php?$1&category=$2&product=$3 [QSA]
+RewriteRule ^(products)/([0-9]+)(-[a-ö\-_]{1,})*/([0-9]{1,})+.*/*$ 	/index.php?$1&category=$2&product=$4 [QSA]
 
 # Login/Register
 RewriteRule ^(login|register|sign-up|signup|sign-in|signin)/*$ 			/index.php?login [QSA]

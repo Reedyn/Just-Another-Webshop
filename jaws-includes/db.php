@@ -1,7 +1,8 @@
 <?php
+    include_once 'config.php';
+    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
 
     class Database extends mysqli {
-        protected $database;
         public function __construct($dbHost,$dbUser,$dbPassword,$dbName) {
             parent::__construct($dbHost,$dbUser,$dbPassword,$dbName);
         }

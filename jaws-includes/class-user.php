@@ -1,12 +1,8 @@
 <?php
     //Includes
     include_once 'db.php';
-    include 'config.php';
 
-    //Initialize the class Database
-    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
     //Functions
-
     function getUsers() { // Returns a product from the product as a Product class.
         $arg_list=func_get_args();
 

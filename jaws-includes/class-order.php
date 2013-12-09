@@ -1,14 +1,8 @@
 <?php
     //Includes
     include_once 'db.php';
-    include 'config.php';
-
-    //Initialize the class Database
-    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
-
 
     //Functions
-
     function getOrders() { // Returns an order from the order as an Order class.
         $arg_list=func_get_args();
 

@@ -13,11 +13,11 @@
         //Call function in db.php to get the array of users
         $data=call_user_func_array(array($this->db,"dbGetUsers()"),$arg_list);
 
-        $user=NULL;
+        $users=NULL;
         for($i=0;$i<count($data);$i++){
-            $user[$i]=new User($data[$i]['SSNr'],$data[$i]['Mail'],$data[$i]['Password'],$data[$i]['FirstName'],$data[$i]['LastName'],$data[$i]['StreetAddress'],$data[$i]['PostAddress'],$data[$i]['City'],$data[$i]['Telephone'],$data[$i]['SessionKey'],$data[$i]['IsAdmin']);
+            $users[$i]=new User($data[$i]['SSNr'],$data[$i]['Mail'],$data[$i]['Password'],$data[$i]['FirstName'],$data[$i]['LastName'],$data[$i]['StreetAddress'],$data[$i]['PostAddress'],$data[$i]['City'],$data[$i]['Telephone'],$data[$i]['SessionKey'],$data[$i]['IsAdmin']);
         }
-        return $user;
+        return $users;
     }
 
     class User{

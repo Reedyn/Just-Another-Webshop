@@ -59,4 +59,18 @@
             echo '</ul><!-- .product-list -->';
         }
     }
+    function listUsers($listType){
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        for($i=1,$j=0;$i<$numargs;$i++,$j++){
+            $pass_arg_list[$j]=$arg_list[$i];
+        }
+        $users=call_user_func_array(array($this,"getUsers()"),$pass_arg_list);
+        if($listType=="list"){
+            echo '<ul class="user-list">';
+            for($i=0;$i<count($users);$i++){
+
+            }
+        }
+    }
 ?>

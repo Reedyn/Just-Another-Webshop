@@ -75,7 +75,7 @@
         }
 
         public function addProduct($ProductId, $Amount) {
-            $this->ProductList[count($this->ProductList)]= new ListedProduct($this->OrderId,$ProductId,$Amount);
+            $this->ProductList[]= new ListedProduct($this->OrderId,$ProductId,$Amount);
         }
 
         public function removeProduct($ProductId){
@@ -89,9 +89,9 @@
         }
 
         public function setProductAmount($productId, $amount){
-            for ($i = 0; $i < count($this->ProductList); $i++){
+            for ($i=0;$i<count($this->ProductList);$i++){
                 if ($this->ProductList[$i]->ProductId == $productId) {
-                    $this->ProductList[$i]->setAmount($amount);
+                    $this->ProductList[$i]->$this->setAmount($amount);
                     return true;
                 }
             }

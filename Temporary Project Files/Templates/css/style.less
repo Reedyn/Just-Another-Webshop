@@ -6,6 +6,7 @@
 @background: #000;
 @secondary-background:url('../img/header.png');
 @main-text-color: #000;
+@redColor: #c0392b;
 
 html {
 	font-size: 62.5%;
@@ -56,7 +57,7 @@ body {
                     color: #000;
                 }
                 &:nth-child(4) {
-                    color: red;
+                    color: @redColor;
                     font-size: 14px; font-size: 1.4rem;
                     float: right;
                     padding-right: 50px;
@@ -79,7 +80,7 @@ body {
                 }
          ul {
                     position: absolute;
-                    background: #c0392b;
+                    background: @redColor;
                     width: 96%;
                     top: 40px;
                     height: 25px;
@@ -217,6 +218,8 @@ body {
 
 h1   {
 	font-size: 24px; font-size: 2.4rem;
+    margin-top: 30px;
+    padding-top: 10px;
 }
 
 .wrapper {
@@ -375,19 +378,25 @@ h1   {
     }
 }
 .signForm  {
-    ul {
-        padding: 0 0 20px 0;
-        margin: 0;   
-    }
     li {
-        list-style: none;
         display: inline;
     }
     
 }
 
+.settings, .order, .signForm  {
+    ul {
+        padding: 0 0 20px 0;
+        margin: 0;  
+    }
+    li {
+        list-style: none;
+    }
+    
+}
+
 .tabs {
-  background: #c0392b;
+  background: @redColor;
   height: 31px;
   margin: 0;
   padding: 0;
@@ -403,7 +412,7 @@ h1   {
   padding: 0;
 }
 .tabs a {
-  background: #c0392b;
+  background: @redColor;
   display: block;
   float: left;
   text-decoration: none;
@@ -436,9 +445,6 @@ h1   {
   position: relative;
 }
 
-.form-action h1 {
-  font-size: 42px;
-}
 .form-action p {
   font-size: 12px;
   padding-bottom: 10px;
@@ -491,6 +497,10 @@ form input[type=password] {
       -moz-transition: all 0.15s linear;
       transition: all 0.15s linear;
 }
+.settings .button {
+    height: 30px;
+    margin: 10px 0;
+}
 
 .button:hover {
   background: #1e75aa;
@@ -501,3 +511,29 @@ form input[type=password] {
   background: #136899;
   /*box-shadow: 0 3px 1px #0f608c;*/
 }
+
+.changeProfile {
+    padding: 30px;
+    .button {
+        width: 150px;
+    }
+}
+
+#orders {
+    padding: 0 20px 20px 20px;
+}
+#order {
+    margin: 30px;
+    border: 1px solid #eee;
+    .row {
+        td {
+        width: 200px;
+        }
+    }
+    .row:nth-child(1), .row:nth-child(5),.row:nth-child(8),  {
+    background: #eee;
+    font-weight: bold;
+}
+}
+
+

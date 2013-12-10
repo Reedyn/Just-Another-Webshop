@@ -58,7 +58,7 @@ body nav.site-nav ul a :hover {
   color: #000;
 }
 body nav.site-nav ul a:nth-child(4) {
-  color: red;
+  color: #c0392b;
   font-size: 14px;
   font-size: 1.4rem;
   float: right;
@@ -185,6 +185,8 @@ body footer {
 h1 {
   font-size: 24px;
   font-size: 2.4rem;
+  margin-top: 30px;
+  padding-top: 10px;
 }
 .wrapper {
   max-width: 764px;
@@ -314,13 +316,19 @@ h1 {
     page-break-after: avoid;
   }
 }
+.signForm li {
+  display: inline;
+}
+.settings ul,
+.order ul,
 .signForm ul {
   padding: 0 0 20px 0;
   margin: 0;
 }
+.settings li,
+.order li,
 .signForm li {
   list-style: none;
-  display: inline;
 }
 .tabs {
   background: #c0392b;
@@ -369,9 +377,6 @@ h1 {
 .form-action {
   padding: 0 20px;
   position: relative;
-}
-.form-action h1 {
-  font-size: 42px;
 }
 .form-action p {
   font-size: 12px;
@@ -425,6 +430,10 @@ form input[type=password] {
   -moz-transition: all 0.15s linear;
   transition: all 0.15s linear;
 }
+.settings .button {
+  height: 30px;
+  margin: 10px 0;
+}
 .button:hover {
   background: #1e75aa;
   /*box-shadow: 0 3px 1px #237bb2;*/
@@ -434,4 +443,26 @@ form input[type=password] {
   background: #136899;
   /*box-shadow: 0 3px 1px #0f608c;*/
 
+}
+.changeProfile {
+  padding: 30px;
+}
+.changeProfile .button {
+  width: 150px;
+}
+#orders {
+  padding: 0 20px 20px 20px;
+}
+#order {
+  margin: 30px;
+  border: 1px solid #eee;
+}
+#order .row td {
+  width: 200px;
+}
+#order .row:nth-child(1),
+#order .row:nth-child(5),
+#order .row:nth-child(8) {
+  background: #eee;
+  font-weight: bold;
 }

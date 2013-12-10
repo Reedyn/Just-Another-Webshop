@@ -1,11 +1,12 @@
 		
 		<section class="wrapper">
 			<article class="main-content">
-				<?php /*include "/jaws-includes/functions.php";*/
+				<?php require($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/db.php');
 				if ($_GET['product'] == "new"){
-					var_dump($_POST);
-					var_dump($_FILES);
 					if (isset($_POST['addProduct'])){
+						if (false){
+						
+						} else {
 							require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/image-resizer.php');
 							// array of valid extensions
 							$validExtensions = array('.jpg');
@@ -13,28 +14,37 @@
 							$fileExtension = strrchr($_FILES['product-image']['name'], ".");
 							// check if file Extension is on the list of allowed ones
 							if (in_array($fileExtension, $validExtensions)) {
-								$newNamePrefix = $_POST['product-id'];
 								$manipulator = new ImageManipulator($_FILES['product-image']['tmp_name']);
-								$newImage = $manipulator->resample(200, 100);
+								$newImage = $manipulator->resample(400, 200);
 								// saving file to uploads folder
-								$manipulator->save($_SERVER['DOCUMENT_ROOT'].'/img/' . $newNamePrefix . '.jpg');
-								echo '<img src="/img/'.$_POST['product-id'].'.jpg">';
+								$manipulator->save($_SERVER['DOCUMENT_ROOT'].'/img/' . $_FILES['product-image']['name']);
 							} else {
 								echo 'You must upload an image...';
 							}
-						}
+							if($db->dbAddProduct($_POST['name'],$_POST['description'],'/img/'.$_FILES['product-image']['name'],$_POST['taxanomy'],$_POST['price'],$_POST['stock'])){
+								echo "Success";
+							} else {
+								echo "Couldn't add product.";
+							}
+						}	
+					}
 				?>
 				<form enctype="multipart/form-data" action="/admin/products/new" method="post">
-					<input type="text" name="product-id" pattern="^.+$" required placeholder="Product ID"></br>
-					<input type="text" name="product-name" pattern="^.+$" required placeholder="Product Name"></br>
-					<input type="text" name="product-description" pattern="^.+$" required placeholder="Description"></br>
+					<input type="text" name="name" pattern="^.+$" required placeholder="Product Name"></br>
+					<input type="text" name="description" pattern="^.+$" required placeholder="Description"></br>
+					<input type="text" name="price" pattern="^.+$" required placeholder="0"></br>
+					<input type="text" name="stock" pattern="^.+$" required placeholder="0"></br>
 					<input type="file" name="product-image" required></br>
+					<select name="taxanomy" placeholder="Taxanomy">
+						<option value="1">Consoles</option>
+						<option value="2">Accessories</option>
+						<option value="3">Games</option>
+					</select></br>
 					<input type="submit" name="addProduct" value="Add Product">	
 				</form>
 				<?php 
 				} else {
 					echo "<p>Admin page for product with id ".$_GET['product'].".</p>"; 
-				}	
-				var_dump($_GET);?>
+				}
 			</article>
 		</section><!-- .wrapper -->

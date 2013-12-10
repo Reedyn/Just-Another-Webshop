@@ -87,7 +87,7 @@ function indexer() { // Function for delivering pages based on GET variables.
 					Register
 	*/ ######################################	
 	} else if(isset($_GET['login'])) {
-		include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-register.php");
+		include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-login.php");
 		
 	/* ######################################
 					  404

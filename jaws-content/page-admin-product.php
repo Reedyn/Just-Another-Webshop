@@ -45,6 +45,6 @@
 				<?php 
 				} else {
 					echo "<p>Admin page for product with id ".$_GET['product'].".</p>"; 
-				}
+				} ?>
 			</article>
 		</section><!-- .wrapper -->

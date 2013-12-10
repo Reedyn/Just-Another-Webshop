@@ -21,7 +21,7 @@
             }
             echo '</ul><!-- .product-list -->';
 
-        } else if ($listType == 'thumbnail') {
+        } else if ($listType == 'thumbnail' && $products!=NULL) {
             for ($i=0;$i<count($products); $i++){
                 echo '<article class="product">';
                 echo '  <img src="'.$products[$i]->ImgUrl.'" class="product-image"/>';
@@ -32,9 +32,39 @@
                 echo '</div><!-- .product-meta -->';
                 echo '</article>';
             }
-        }else {
+        }else if($listType=="table" && $products!=NULL){
+            echo '<table id="table" class="tablesorter">';
+            echo	'<thead>';
+            echo	'	<tr class="row">';
+            echo	'		<th class="col">Product Id</th>';
+            echo	'		<th class="col">Product Name</th>';
+            //echo	'		<th class="col">Description</th>';
+            //echo	'		<th class="col">Image</th>';
+            echo	'		<th class="col">Taxanomy</th>';
+            echo	'		<th class="col">Price</th>';
+            echo	'		<th class="col">Stock</th>';
+            echo	'		<th class="col"></th>';
+            echo	'	</tr>';
+            echo	'</thead>';
+            echo	'<tbody>';
+            for ($i=0;$i<count($products);$i++) {
+                echo	'<tr class="row">';
+                echo	'	<td class="col">'.$products[$i]->ProductId.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Name.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Description.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Image.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Taxanomy.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Price.'</td>';
+                echo	'	<td class="col">'.$products[$i]->Stock.'</td>';
+                echo	'	<td class="col"><a href="/admin/orders/'.$products[$i]->ProductId.'"/>Edit</a></td>';
+                echo	'</tr>';
+            }
+            echo	'</tbody>';
+            echo	'</table>';
+        }else{
             echo '<span class="error">No products found.</span>';
         }
+
     }
 
     function listOrders($listType){
@@ -77,7 +107,7 @@
             echo	'</tbody>';
             echo	'</table>';
         }else{
-            echo 'Nothing found';
+            echo '<span class="error">No orders found.</span>';
         }
     }
     function listUsers($listType){
@@ -108,7 +138,7 @@
             echo	'</tbody>';
             echo	'</table>';
         }else{
-            echo 'Nothing found';
+            echo '<span class="error">No users found.</span>';
         }
     }
 ?>

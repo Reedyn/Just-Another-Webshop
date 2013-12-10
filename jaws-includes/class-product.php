@@ -13,6 +13,18 @@
         }
         return $products;
     }
+    function getProductsFromTaxanomy(){
+        global $db;
+        $arg_list=func_get_args();
+        $data=call_user_func_array(array($db,"dbGetProductsFromTaxanomy"),$arg_list);
+        $products=NULL;
+        for($i=0;$i<count($data);$i++){
+            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
+        }
+        return $products;
+
+    }
+
 
     class Product{
         public $ProductId;

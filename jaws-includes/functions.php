@@ -142,4 +142,45 @@
             echo '<span class="error">No users found.</span>';
         }
     }
+    function listProductsFromTaxanomy($listType){
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $pass_arg_list=NULL;
+        for($i=1,$j=0;$i<$numargs;$i++,$j++){
+            $pass_arg_list[$j]=$arg_list[$i];
+        }
+        $taxanomies=call_user_func_array(array($this,"getProductsFromTaxanomy()"),$pass_arg_list);
+        if($listType=="table" && $taxanomies!=NULL){
+            echo '<table id="table" class="tablesorter">';
+            echo	'<thead>';
+            echo	'	<tr class="row">';
+            echo	'		<th class="col">Product Id</th>';
+            echo	'		<th class="col">Product Name</th>';
+            //echo	'		<th class="col">Description</th>';
+            //echo	'		<th class="col">Image</th>';
+            echo	'		<th class="col">Taxanomy</th>';
+            echo	'		<th class="col">Price</th>';
+            echo	'		<th class="col">Stock</th>';
+            echo	'		<th class="col"></th>';
+            echo	'	</tr>';
+            echo	'</thead>';
+            echo	'<tbody>';
+            for ($i=0;$i<count($taxanomies);$i++) {
+                echo	'<tr class="row">';
+                echo	'	<td class="col">'.$taxanomies[$i]->ProductId.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Name.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Description.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Image.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Taxanomy.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Price.'</td>';
+                echo	'	<td class="col">'.$taxanomies[$i]->Stock.'</td>';
+                echo	'	<td class="col"><a href="/admin/orders/'.$taxanomies[$i]->ProductId.'"/>Edit</a></td>';
+                echo	'</tr>';
+            }
+            echo	'</tbody>';
+            echo	'</table>';
+        }else{
+            echo '<span class="error">No taxanomies found.</span>';
+        }
+    }
 ?>

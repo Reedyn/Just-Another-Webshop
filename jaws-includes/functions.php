@@ -47,26 +47,68 @@
         // Get a list of orders from database and save the array in $orders
         // Loop through array and add all Orders to $orders as a Order Class
         $orders=call_user_func_array(array($this,"getOrders()"),$pass_arg_list);
-        if ($listType == 'list') {
-            echo '<ul class="order-list">';
-            for ($i=0;$i<count($orders);$i++){
-                echo '  <li>'.'<span class="name">'.$orders[$i]->Name.'</span>'.'<span class="price">'.$orders[$i]->Price.'</span>'.'<span class="stock">'.$orders[$i]->Stock.'</span>'.'</li>';
+        if($listType=="table" && $orders!=NULL){
+            echo '<table id="table" class="tablesorter">';
+            echo	'<thead>';
+            echo	'	<tr class="row">';
+            echo	'		<th class="col">Order Id</th>';
+            echo	'		<th class="col">SSNr</th>';
+            echo	'		<th class="col">Order Date</th>';
+            echo	'		<th class="col">Discount</th>';
+            echo	'		<th class="col">Charged Card</th>';
+            echo	'		<th class="col">Order IP</th>';
+            echo	'		<th class="col">Product List</th>';
+            echo	'		<th class="col"></th>';
+            echo	'	</tr>';
+            echo	'</thead>';
+            echo	'<tbody>';
+            for ($i=0;$i<count($orders);$i++) {
+                echo	'<tr class="row">';
+                echo	'	<td class="col">'.$orders[$i]->OrderId.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->SSNr.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->OrderDate.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->Discount.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->ChargedCard.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->OrderIP.'</td>';
+                echo	'	<td class="col">button for product lists</td>';
+                echo	'	<td class="col"><a href="/admin/orders/'.$orders[$i]->OrderId.'"/>Edit</a></td>';
+                echo	'</tr>';
             }
-            echo '</ul><!-- .product-list -->';
+            echo	'</tbody>';
+            echo	'</table>';
+        }else{
+            echo 'Nothing found';
         }
     }
     function listUsers($listType){
         $numargs=func_num_args();
         $arg_list=func_get_args();
+        $pass_arg_list=NULL;
         for($i=1,$j=0;$i<$numargs;$i++,$j++){
             $pass_arg_list[$j]=$arg_list[$i];
         }
         $users=call_user_func_array(array($this,"getUsers()"),$pass_arg_list);
-        if($listType=="list"){
-            echo '<ul class="user-list">';
-            for($i=0;$i<count($users);$i++){
-
+        if($listType=="table" && $users!=NULL){
+            echo '<table id="table" class="tablesorter">';
+            echo	'<thead>';
+            echo	'	<tr class="row">';
+            echo	'		<th class="col">Social Security Number</th>';
+            echo	'		<th class="col">Full Name</th>';
+            echo	'		<th class="col"></th>';
+            echo	'	</tr>';
+            echo	'</thead>';
+            echo	'<tbody>';
+            for ($i=0;$i<count($users);$i++) {
+                echo	'<tr class="row">';
+                echo	'	<td class="col">'.$users[$i]->SSNr.'</td>';
+                echo	'	<td class="col">'.$users[$i]->FirstName." ".$users[$i]->LastName.'</td>';
+                echo	'	<td class="col"><a href="/admin/users/'.$users[$i]->SSNr.'"/>Edit</a></td>';
+	            echo	'</tr>';
             }
+            echo	'</tbody>';
+            echo	'</table>';
+        }else{
+            echo 'Nothing found';
         }
     }
 ?>

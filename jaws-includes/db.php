@@ -15,9 +15,10 @@
             // Adds one user to the users table.
             // Arguments states what needs to be
             // put in.
+            $salt=$this->AddPasswordSalt();
 
-            $hashedPassword=$this->PasswordHash($Password);
-            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone')") === TRUE) {
+            $hashedPassword=$this->PasswordHash($salt,$Password);
+            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$salt')") === TRUE) {
                 return true;
             }else{
                 return false;
@@ -39,7 +40,9 @@
             for($i=1;$i<$numargs;$i++){
                 if($arg_list[$i]=="Password"){
                     $j=$i+1;
-                    $arg_list[$j]=$this->PasswordHash($arg_list[$j]);
+                    $result=$this->query("SELECT PwSalt FROM users WHERE SSNr='$SSNr'");
+                    $row=$result->fetch_assoc();
+                    $arg_list[$j]=$this->PasswordHash($row['PwSalt'],$arg_list[$j]);
                 }
                 if($i==$numargs-2){
                     $param.=$arg_list[$i]."='";
@@ -169,9 +172,9 @@
 
 
         public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
-            $result = $this->query("SELECT SSNr,Mail,Password FROM users WHERE Mail='$LoginEmail'");
+            $result = $this->query("SELECT SSNr,Mail,Password,PwSalt FROM users WHERE Mail='$LoginEmail'");
             $row=$result->fetch_assoc();
-            $hashedPassword=$this->PasswordHash($LoginPassword);
+            $hashedPassword=$this->PasswordHash($row['PwSalt'],$LoginPassword);
             if ($row != NULL) {
                 if ($LoginEmail==$row['Mail'] && $hashedPassword==$row['Password']) {
                     //Return the SSNr may be necessary
@@ -816,12 +819,19 @@
             Misc functions
         */  ###################################################################################################
 
-        private function PasswordHash($password){ //Returns a string
+        private function PasswordHash($salt,$password){ //Returns a string
             // Used for securing password in database
-
-            $salt="3af36986c682ac4";
             $hash = $salt.$password;
             return hash("md5",$hash);
+        }
+
+        private function AddPasswordSalt(){
+            $takefrom=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
+            $salt="";
+            for($i=0;$i<21;$i++){
+                $salt.=$takefrom[rand(0,count($takefrom)-1)];
+            }
+            return $salt;
         }
 
         private function dbGetUnixTime(){ // Returns current time and date

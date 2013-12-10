@@ -31,6 +31,7 @@ body header.site-head .wrapper img {
   bottom: 0;
   left: 0;
   margin: auto;
+  width: 98%;
 }
 body header.site-head span.site-title {
   font-size: 20px;
@@ -46,10 +47,12 @@ body nav.site-nav {
 }
 body nav.site-nav ul {
   margin: 0;
-  padding-top: 7px;
+  padding: 7px 0px 0px 30px;
+  position: relative;
 }
 body nav.site-nav ul a {
   color: #333;
+  text-decoration: none;
 }
 body nav.site-nav ul a :hover {
   color: #000;
@@ -59,21 +62,46 @@ body nav.site-nav ul a:nth-child(4) {
   font-size: 14px;
   font-size: 1.4rem;
   float: right;
-  padding-right: 10px;
+  padding-right: 50px;
 }
-body nav.site-nav li {
+body nav.site-nav ul a:nth-child(1) li {
+  padding-left: 0;
+}
+body nav.site-nav ul li {
   display: inline-block;
-  width: 13.5%;
-  text-align: center;
+  padding: 0 20px;
+  height: 33px;
 }
-body nav.site-nav li :nth-child(3) {
-  background: red;
-  text-decoration: underline;
+body nav.site-nav ul li:hover ul {
+  left: 0;
+}
+body nav.site-nav ul ul {
+  position: absolute;
+  background: #c0392b;
+  width: 96%;
+  top: 40px;
+  height: 25px;
+  border-right: 1px solid #c6c6c6;
+  left: -9999px;
+}
+body nav.site-nav ul ul:hover {
+  left: 0;
+}
+body nav.site-nav ul ul a:nth-child(4) {
+  float: inherit;
+  padding: 0;
+}
+body nav.site-nav ul ul li {
+  color: #fff;
+  font-size: 14px;
 }
 body article.main-content {
   overflow: hidden;
   background: #fff;
   border-left: 1px solid #c6c6c6;
+}
+body article.main-content section.products {
+  padding: 45px 0 ;
 }
 body article.main-content section.products article.product {
   float: left;
@@ -114,6 +142,39 @@ body article.main-content section.products article.product div.product-meta img 
   bottom: 15px;
   right: 15px;
   opacity: 0.7;
+}
+body article.main-content section.product {
+  padding: 45px ;
+}
+body article.main-content section.product article.product {
+  float: left;
+  width: 40%;
+  margin-bottom: 10px;
+  border: 1px solid #c6c6c6;
+  border-radius: 5px;
+  padding: 3px 3px 0px 3px;
+}
+body article.main-content section.product article.product img.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px 5px 5px 5px;
+}
+body article.main-content section.product div.product-meta {
+  display: inline-block;
+  padding: 0 10px;
+  width: 300px;
+}
+body article.main-content section.product div.product-meta h2.product-title {
+  margin: 0;
+  padding: 10px 0;
+}
+body article.main-content section.product div.product-meta span.product-price {
+  float: left;
+  margin-top: 45px;
+}
+body article.main-content section.product div.product-meta .product-add-to-cart-button {
+  margin: 20px;
+  float: left;
 }
 body footer {
   border-top: 1px solid #c6c6c6;
@@ -206,7 +267,7 @@ h1 {
   }
   a,
   a:visited {
-    text-decoration: underline;
+    text-decoration: none;
   }
   a[href]:after {
     content: " (" attr(href) ")";

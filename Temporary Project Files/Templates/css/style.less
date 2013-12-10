@@ -32,6 +32,7 @@ body {
                 bottom:0;
                 left: 0;
                 margin:auto;
+                width: 98%;
             }
         }
 		span.site-title {
@@ -46,36 +47,71 @@ body {
         font-size: 17px; font-size: 1.7rem;
         ul {
             margin: 0;
-            padding-top: 7px;
+            padding: 7px 0px 0px 30px;
+            position: relative;
             a {
                 color: #333;
+                text-decoration: none;
                 :hover {
                     color: #000;
                 }
-            }
-            a:nth-child(4) {
+                &:nth-child(4) {
                     color: red;
                     font-size: 14px; font-size: 1.4rem;
                     float: right;
-                    padding-right: 10px;
+                    padding-right: 50px;
                 }
+                &:nth-child(1) li {
+                    padding-left: 0;
+
+                }
+               
+            } 
+            li {
+                display: inline-block;
+                padding: 0 20px;
+                height: 33px;
+                &:hover ul {
+                    left: 0;
+                }
+
+
+                }
+         ul {
+                    position: absolute;
+                    background: #c0392b;
+                    width: 96%;
+                    top: 40px;
+                    height: 25px;
+                    border-right: 1px solid #c6c6c6;
+                    left: -9999px;
+                    &:hover {
+                        left: 0;
+                    }
+                    a {
+                        &:nth-child(4) {
+                            float: inherit;
+                            padding: 0;
+
+                        }
+                    }
+                    
+                    li {
+                        color: #fff;
+                        font-size: 14px;
+                        
+                    }
+                }    
         }
-        li {
-            display: inline-block;
-            width: 13.5%;
-            text-align: center;
-            :nth-child(3) {
-                background: red;
-                text-decoration: underline;
-            }
-        }
+
+        
     }
 	article.main-content {
 			overflow: hidden;
             background: #fff;
             border-left: 1px solid #c6c6c6;
 			section.products{
-			
+			     padding: 45px 0 ;
 				article.product {				
 					float: left;
 					width: 24.2%;
@@ -123,6 +159,52 @@ body {
 					
 				}
 			}
+
+
+
+            section.product{
+                 padding: 45px ;
+                article.product {               
+                    float: left;
+                    width: 40%;
+                    margin-bottom: 10px;
+                    border: 1px solid #c6c6c6;
+                    border-radius: 5px;
+                    padding: 3px 3px 0px 3px;
+                  
+                    img.product-image {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 5px 5px 5px 5px;
+                    }
+                    
+                   
+                    
+                }
+                 div.product-meta {             
+                            display: inline-block;
+                            padding: 0 10px;
+                            width: 300px;
+
+                        
+                        h2.product-title {
+                            margin: 0;
+                            padding: 10px 0;        
+
+                        }
+                        
+                        span.product-price {
+                            float: left;
+                            margin-top: 45px;
+
+                        }
+                        .product-add-to-cart-button {
+                            margin: 20px;
+                            float: left;
+                        }
+                    }
+            }
+
 	}
 	
 	footer {
@@ -236,7 +318,7 @@ h1   {
 
     a,
     a:visited {
-        text-decoration: underline;
+        text-decoration: none;
     }
 
     a[href]:after {

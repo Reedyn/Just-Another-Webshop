@@ -17,9 +17,6 @@
 		<script defer src="js/main.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
 		<section class="wrapper">
 		<header class="site-head">
 			<section class="wrapper">
@@ -28,31 +25,42 @@
 		</header>
 		<nav class="site-nav">
 			<ul>
-				<li>NINTENDO</li>
-				<li>SEGA</li>
-				<li>PLAYSTATION</li>
-				<li>ATARI</li>
-				<li>XBOX</li>
-				<li>OTHER</li>
+					<li>
+						<a href="#">CONSOLES</a>
+						<ul>
+							<a href=""><li>XBOX</li></a>
+							<a href=""><li>ATARI</li></a>
+							<a href=""><li>PLAYSTATION</li></a>
+							<a href=""><li>NINTENDO</li></a>
+							<a href=""><li>OTHER</li></a>
+						</ul>
+					</li>
+				
+				<a href=""><li>GAMES</li></a>
+				<a href=""><li>ACCESSORIES</li></a>
+				<a href="login.php"><li>Login/Register</li></a>
 			</ul>
 		</nav>
 			<article class="main-content">
-				<section class="products">
+				<section class="product">
 					<article class="product">
-						<img src="img/T-Shirt.jpg" class="product-image"/>
-						<div class="product-meta">
+						<a href="">
+							<img src="img/T-Shirt.jpg" class="product-image"/>
+						</a>
+						
+					</article>
+					<div class="product-meta">
 							<h2 class="product-title">Product</h2>
+							<div class="product-description">The Atari 2600 was inducted into the National Toy Hall of Fame at The Strong in Rochester, New York in 2007. In 2009, the Atari 2600 was named the second greatest video game console of all time by IGN, who cited its remarkable role as the console behind both the first video game boom and the video game crash of 1983, and called it "the console that our entire industry is built upon</div>
 							<span class="product-price">99 kr</span>
 							<div class="product-add-to-cart-button">
-								<img src="img/cart.png">
+								<a href=""><img src="img/cart.png"></a>
 							</div>
 						</div><!-- .product-meta -->
-					</article>
-					
 				</section>
 			</article>
 			<footer>
-				<span class="footer">Detta är en sidfot</span>
+				<span class="footer">Copyright blabal</span>
 			</section><!-- .wrapper -->
 		</footer>
 		</section><!-- .wrapper -->

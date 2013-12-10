@@ -17,9 +17,6 @@
 		<script defer src="js/main.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
 		<section class="wrapper">
 		<header class="site-head">
 			<section class="wrapper">
@@ -28,7 +25,17 @@
 		</header>
 		<nav class="site-nav">
 			<ul>
-				<a href=""><li>CONSOLES</li></a>
+					<li>
+						<a href="#">CONSOLES</a>
+						<ul>
+							<a href=""><li>XBOX</li></a>
+							<a href=""><li>ATARI</li></a>
+							<a href=""><li>PLAYSTATION</li></a>
+							<a href=""><li>NINTENDO</li></a>
+							<a href=""><li>OTHER</li></a>
+						</ul>
+					</li>
+				
 				<a href=""><li>GAMES</li></a>
 				<a href=""><li>ACCESSORIES</li></a>
 				<a href="login.php"><li>Login/Register</li></a>

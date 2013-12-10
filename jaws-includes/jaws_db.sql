@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2013 at 03:02 PM
+-- Generation Time: Dec 10, 2013 at 06:01 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -79,24 +79,53 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `OrderDate` text NOT NULL,
   `Discount` float NOT NULL,
   `ChargedCard` int(11) NOT NULL,
+  `OrderIP` text NOT NULL,
   PRIMARY KEY (`OrderId`),
   KEY `SSNr` (`SSNr`),
   KEY `ChargedCard` (`ChargedCard`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`OrderId`, `SSNr`, `OrderDate`, `Discount`, `ChargedCard`, `OrderIP`) VALUES
+(1, 199205075931, 'date', 0, 1, ''),
+(2, 199205075931, 'date', 0, 1, ''),
+(3, 199205075931, 'date', 0, 1, ''),
+(4, 199205075931, 'date', 0, 1, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_list`
+-- Table structure for table `order_lists`
 --
 
-CREATE TABLE IF NOT EXISTS `order_list` (
+CREATE TABLE IF NOT EXISTS `order_lists` (
+  `OrderListId` double unsigned NOT NULL AUTO_INCREMENT,
   `OrderId` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
-  `Amount` int(11) NOT NULL,
+  `Amount` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`OrderListId`),
   KEY `PurchaseId` (`OrderId`),
   KEY `ProductId` (`ProductId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `order_lists`
+--
+
+INSERT INTO `order_lists` (`OrderListId`, `OrderId`, `ProductId`, `Amount`) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 1, 3, 1),
+(4, 1, 4, 1),
+(5, 1, 5, 1),
+(6, 2, 1, 1),
+(7, 2, 2, 1),
+(8, 3, 3, 1),
+(9, 4, 4, 1),
+(10, 4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -110,8 +139,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `Description` text NOT NULL,
   `ImgUrl` text NOT NULL,
   `Taxanomy` int(11) NOT NULL,
-  `Price` int(11) NOT NULL,
-  `Stock` int(11) NOT NULL,
+  `Price` int(11) unsigned NOT NULL,
+  `Stock` int(11) unsigned NOT NULL,
   PRIMARY KEY (`ProductId`),
   KEY `Taxanomy` (`Taxanomy`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
@@ -146,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `taxanomies` (
 --
 
 INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
-(1, 'KING', NULL);
+(1, 'MasterParent', NULL);
 
 -- --------------------------------------------------------
 
@@ -166,6 +195,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Telephone` text NOT NULL,
   `SessionKey` int(11) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT NULL,
+  `PwSalt` text NOT NULL,
   PRIMARY KEY (`SSNr`),
   FULLTEXT KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -174,8 +204,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`) VALUES
-(199205075931, 'marcusandreas@hotmail.com', '621955', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
+INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`, `PwSalt`) VALUES
+(12345, 'asd@asd.asd', 'bae1b48ff65eb92d430860f86f89135b', 'sven', 'svensson', 'add', 'ress', 'city', 'pwn', 0, NULL, '1547b51512680101b1c01'),
+(199205075931, 'marcusandreas@hotmail.com', '8e53ce27b5606aff61f0f1450a763344', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL, '');
 
 --
 -- Constraints for dumped tables
@@ -189,11 +220,11 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`);
 
 --
--- Constraints for table `order_list`
+-- Constraints for table `order_lists`
 --
-ALTER TABLE `order_list`
-  ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
-  ADD CONSTRAINT `order_list_ibfk_2` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`);
+ALTER TABLE `order_lists`
+  ADD CONSTRAINT `order_lists_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
+  ADD CONSTRAINT `order_lists_ibfk_2` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`);
 
 --
 -- Constraints for table `products`

@@ -52,8 +52,8 @@
                 echo	'<tr class="row">';
                 echo	'	<td class="col">'.$products[$i]->ProductId.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Name.'</td>';
-                echo	'	<td class="col">'.$products[$i]->Description.'</td>';
-                echo	'	<td class="col">'.$products[$i]->Image.'</td>';
+                //echo	'	<td class="col">'.$products[$i]->Description.'</td>';
+                //echo	'	<td class="col">'.$products[$i]->Image.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Taxanomy.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Price.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Stock.'</td>';
@@ -169,8 +169,8 @@
                 echo	'<tr class="row">';
                 echo	'	<td class="col">'.$taxanomies[$i]->ProductId.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Name.'</td>';
-                echo	'	<td class="col">'.$taxanomies[$i]->Description.'</td>';
-                echo	'	<td class="col">'.$taxanomies[$i]->Image.'</td>';
+                //echo	'	<td class="col">'.$taxanomies[$i]->Description.'</td>';
+                //echo	'	<td class="col">'.$taxanomies[$i]->Image.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Taxanomy.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Price.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Stock.'</td>';

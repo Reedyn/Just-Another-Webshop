@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 11 dec 2013 kl 18:13
+-- Skapad: 11 dec 2013 kl 18:25
 -- Serverversion: 5.6.12-log
 -- PHP-version: 5.4.12
 
@@ -169,14 +169,17 @@ CREATE TABLE IF NOT EXISTS `taxanomies` (
   `TaxanomyParent` int(11) DEFAULT NULL,
   PRIMARY KEY (`TaxanomyId`),
   KEY `TaxanomyParent` (`TaxanomyParent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumpning av Data i tabell `taxanomies`
 --
 
 INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
-(1, 'MasterParent', NULL);
+(1, 'MasterParent', NULL),
+(2, 'Consoles', NULL),
+(3, 'Games', NULL),
+(4, 'Accessories', NULL);
 
 -- --------------------------------------------------------
 

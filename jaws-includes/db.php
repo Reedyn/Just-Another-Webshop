@@ -71,7 +71,7 @@
 
             $numargs=func_num_args();
             $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 if($this->query("DELETE FROM users")===TRUE){
                     $this->query("ALTER TABLE users AUTO_INCREMENT=1");
                     return true;
@@ -258,7 +258,7 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $card_list=NULL;
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 $result=$this->query("SELECT * FROM cards");
                 $i=0;
                 while($row=$result->fetch_assoc()){
@@ -391,7 +391,7 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $param="";
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 if($this->query("DELETE FROM order_lists")===TRUE){
                     if($this->query("DELETE FROM orders")===TRUE){
                         $this->query("ALTER TABLE orders AUTO_INCREMENT=1");
@@ -555,7 +555,7 @@
 
             $numargs=func_num_args();
             $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 if($this->query("DELETE FROM products")===TRUE){
                     $this->query("ALTER TABLE products AUTO_INCREMENT=1");
                     return true;
@@ -590,7 +590,7 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $product_list=NULL;
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 if($result=$this->query("SELECT * FROM products")){
                     $i=0;
                     while($row=$result->fetch_assoc()){
@@ -674,7 +674,7 @@
 
             $numargs=func_num_args();
             $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 if($this->query("DELETE FROM taxanomies")===TRUE){
                     $this->query("ALTER TABLE taxanomies AUTO_INCREMENT=1");
                     $this->query("INSERT INTO taxanomies SET TaxanomyName='MasterParent'");

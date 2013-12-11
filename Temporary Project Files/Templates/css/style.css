@@ -445,17 +445,8 @@ form input[type=password] {
   height: 30px;
   padding: 5px;
 }
-.table td .amount {
-  width: 20px;
-}
 .table td input {
-  margin: 2px 0;
-}
-.row {
-  border-top: 1px solid #eee;
-}
-.col {
-  border-left: 1px solid #eee;
+  width: 20px;
 }
 .rowBold {
   background: #eee;
@@ -470,13 +461,6 @@ form input[type=password] {
 .colDescr span {
   width: 300px;
   display: block;
-}
-ul {
-  padding: 0 0 20px 0;
-  margin: 0;
-}
-li {
-  list-style: none;
 }
 .arrowleft,
 .arrowright {

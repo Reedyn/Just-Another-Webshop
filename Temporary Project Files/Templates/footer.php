@@ -1,3 +1,3 @@
 <footer>
-	<span class="footer">Copyright blabal</span>
+        <span class="footer">Copyright blabal</span>
 </footer>

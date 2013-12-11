@@ -32,7 +32,7 @@
                 <td class="col">Wacom INto</td>
                 <td class="col">10 kg</td>
                 <td class="col">645 kr</td>
-                <td class="col"><input type="text" class="amount" value="1" /></td>
+                <td class="col"><input type="text" value="1" /></td>
                 <td class="col">645</td>
                 <td class="col"><a href="#" class="button icon remove">Remove</a></td>
             </tr>

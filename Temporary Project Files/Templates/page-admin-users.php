@@ -22,9 +22,9 @@
 		<table class="table">
 			<thead>
 				<tr class="rowBold">
-					<td class="col">Personal Number</td>
-					<td class="col">Full Name</td>
-					<td class="col"></td>
+					<th class="col">Personal Number</th>
+					<th class="col">Full Name</th>
+					<th class="col"></th>
 				</tr>
 				</thead>
 				<tbody>

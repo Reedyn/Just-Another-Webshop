@@ -46,9 +46,9 @@
             <!--/#login.form-action-->
             <div id="orders" class="form-action hide">
                 <h1>Orders</h1>
-                <table class="table">
+                <table id="table" class="tablesorter">
                         <thead>
-                        <tr class="rowBold">
+                        <tr class="row">
                             <th class="col">Order ID</th>
                             <th class="col">Date</th>
                             <th class="col">Total value</th>

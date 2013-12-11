@@ -69,8 +69,8 @@
             </tr>
         </table>
 
-        <table class="table">
-            <tr class="rowBold">
+        <table id="checkout" class="checkout">
+            <tr class="row">
                 <td class="col">Credit Card</td>
                 <td class="col"></td>
                 <td class="col"></td>

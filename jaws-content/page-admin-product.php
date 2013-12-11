@@ -1,4 +1,4 @@
-		
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	?>		
 		<section class="wrapper">
 			<article class="main-content">
 				<?php require($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/db.php');
@@ -48,3 +48,4 @@
 				} ?>
 			</article>
 		</section><!-- .wrapper -->
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>

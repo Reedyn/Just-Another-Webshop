@@ -1,7 +1,7 @@
-		
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	?>
 		<section class="wrapper">
 			<article class="main-content">
-				<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php"; 
+				<?php include_once $_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php"; 
 				
 				if($_GET['cart'] == "review"){
 					echo "<p>Review - Shopping Cart.</p>";
@@ -15,10 +15,11 @@
 					array_push($_SESSION['cart'], array(
 						"id" => "534564543",
 					));
-					var_dump($_SESSION);
-					 //listUsers("table", "9102011914");
 					
+					listUsers("table","12345");
+					var_dump(get_included_files());
 				} ?>
 			
 			</article>
 		</section><!-- .wrapper -->
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>

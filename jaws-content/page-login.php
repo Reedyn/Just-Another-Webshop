@@ -1,4 +1,4 @@
-		
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	?>	
 		<section class="wrapper">
 			<article class="main-content">
 				<?php var_dump($_POST);
@@ -43,3 +43,4 @@
 				
 			</article>
 		</section><!-- .wrapper -->
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>

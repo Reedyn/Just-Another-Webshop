@@ -8,7 +8,7 @@
         $data=call_user_func_array(array($db,"dbGetProducts"),$arg_list);
         $products=NULL;
         for($i=0;$i<count($data);$i++){
-            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
+            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock'],$data[$i]['ProductWeight']);
         }
         return $products;
     }
@@ -18,7 +18,7 @@
         $data=call_user_func_array(array($db,"dbGetProductsFromTaxanomy"),$arg_list);
         $products=NULL;
         for($i=0;$i<count($data);$i++){
-            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock']);
+            $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock'],$data[$i]['ProductWeight']);
         }
         return $products;
 
@@ -33,8 +33,9 @@
         public $Taxanomy;
         public $Price;
         public $Stock;
+        public $ProductWeight;
 
-        public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price, $Stock) {
+        public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price, $Stock,$ProductWeight) {
             $this->ProductId    = $ProductId;
             $this->Name         = $Name;
             $this->Description  = $Description;
@@ -42,6 +43,7 @@
             $this->Taxanomy     = $Taxanomy;
             $this->Price        = $Price;
             $this->Stock        = $Stock;
+            $this->ProductWeight= $ProductWeight;
         }
         public function getProductId(){
             return $this->ProductId;
@@ -132,6 +134,17 @@
                 $this->Stock=$Stock;
             }
             return $this->getStock();
+        }
+        public function getProductWeight(){
+            return $this->ProductWeight;
+        }
+
+        public function setProductWeight($ProductWeight){
+            global $db;
+            if($db->dbEditProduct($this->ProductWeight,"ProductWeight",$ProductWeight)==TRUE){
+                $this->ProductWeight=$ProductWeight;
+            }
+            return $this->getProductWeight();
         }
     }
 

@@ -503,11 +503,11 @@
             return $search_list;
         }
 
-        public function dbAddProduct($Name,$Description,$ImgUrl,$Taxanomy,$Price,$Stock) { //Attempts to add a product, returns a boolean.
+        public function dbAddProduct($Name,$Description,$ImgUrl,$Taxanomy,$Price,$Stock,$ProductWeight) { //Attempts to add a product, returns a boolean.
             // Adds one product to the products table.
             // Arguments states what needs to be
             // put in.
-            if($this->query("INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock'")===TRUE){
+            if($this->query("INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock',ProductWeight='$ProductWeight'")===TRUE){
                 return true;
             }else{
                 return false;

@@ -108,7 +108,7 @@
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $user_list=NULL;
-            if($numargs==1 && $arg_list[0]="ALL"){
+            if($numargs==1 && $arg_list[0]=="ALL"){
                 $result=$this->query("SELECT * FROM users");
                 $i=0;
                 while($row=$result->fetch_assoc()){

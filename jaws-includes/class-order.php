@@ -5,9 +5,9 @@
     //Functions
     function getOrders() { // Returns an order from the order as an Order class.
         $arg_list=func_get_args();
-
+        global $db;
         //Call function in db.php to get the array of users
-        $data=call_user_func_array(array($this->db,"dbGetOrders()"),$arg_list);
+        $data=call_user_func_array($db,"dbGetOrders",$arg_list);
 
         $order=NULL;
         for($i=0;$i<count($data);$i++){

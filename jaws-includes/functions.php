@@ -77,7 +77,7 @@
         }
         // Get a list of orders from database and save the array in $orders
         // Loop through array and add all Orders to $orders as a Order Class
-        $orders=call_user_func_array(array($this,"getOrders()"),$pass_arg_list);
+        $orders=call_user_func_array("getOrders",$pass_arg_list);
         if($listType=="table" && $orders!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
@@ -118,7 +118,7 @@
         for($i=1,$j=0;$i<$numargs;$i++,$j++){
             $pass_arg_list[$j]=$arg_list[$i];
         }
-        $users=call_user_func_array(array($this,"getUsers()"),$pass_arg_list);
+        $users=call_user_func_array("getUsers",$pass_arg_list);
         if($listType=="table" && $users!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
@@ -149,7 +149,7 @@
         for($i=1,$j=0;$i<$numargs;$i++,$j++){
             $pass_arg_list[$j]=$arg_list[$i];
         }
-        $taxanomies=call_user_func_array(array($this,"getProductsFromTaxanomy()"),$pass_arg_list);
+        $taxanomies=call_user_func_array("getProductsFromTaxanomy",$pass_arg_list);
         if($listType=="table" && $taxanomies!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';

@@ -5,9 +5,10 @@
     //Functions
     function getUsers() { // Returns a product from the product as a Product class.
         $arg_list=func_get_args();
+        global $db;
 
         //Call function in db.php to get the array of users
-        $data=call_user_func_array(array($this->db,"dbGetUsers()"),$arg_list);
+        $data=call_user_func_array(array($db,"dbGetUsers"),$arg_list);
 
         $users=NULL;
         for($i=0;$i<count($data);$i++){

@@ -174,7 +174,7 @@
 
 
         public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
-            if($result=$this->query("SELECT SSNr,Mail,Password,PwSalt FROM users WHERE Mail='$LoginEmail'")){
+            if($result=$this->query("SELECT SSNr,Mail,Password,PwSalt,IsAdmin FROM users WHERE Mail='$LoginEmail'")){
                 $row=$result->fetch_assoc();
             }else{
                 return false;
@@ -183,7 +183,9 @@
             if ($row != NULL) {
                 if ($LoginEmail==$row['Mail'] && $hashedPassword==$row['Password']) {
                     //Return the SSNr may be necessary
-                    return true;
+                    $retarr=array($row['SSNr'],$row['IsAdmin']);
+					return $retarr;
+
                 }else{
                     //We know only the password is wrong
                     //But we wont mention it

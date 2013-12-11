@@ -2,7 +2,7 @@
 		<section class="wrapper">
 			<article class="main-content">
 				<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php"; 
-				listOrders("user", $_SESSION['SSNr']);
+				listOrders("usersorders", $_SESSION['SSNr']);
 				?>
 			</article>
 		</section><!-- .wrapper -->

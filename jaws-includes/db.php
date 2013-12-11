@@ -159,7 +159,7 @@
                         $param.=$arg_list[$i].",";
                     }
                 }
-                $result=$this->query("SELECT * FROM orders WHERE OrderId in ($param)");
+                $result=$this->query("SELECT * FROM orders WHERE SSNr in ($param)");
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;

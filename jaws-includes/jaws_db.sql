@@ -3,7 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
+<<<<<<< HEAD
+-- Skapad: 19 nov 2013 kl 09:19
+=======
 -- Skapad: 11 dec 2013 kl 18:25
+>>>>>>> develop
 -- Serverversion: 5.6.12-log
 -- PHP-version: 5.4.12
 
@@ -48,6 +52,24 @@ INSERT INTO `cards` (`CardId`, `CardNr`, `CardName`, `ExpiryMonth`, `ExpiryYear`
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
+-- Tabellstruktur `categories`
+--
+
+CREATE TABLE IF NOT EXISTS `categories` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` text NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id` (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumpning av Data i tabell `categories`
+--
+
+INSERT INTO `categories` (`Id`, `Name`) VALUES
+(1, 'Monitor');
+=======
 -- Tabellstruktur `currencies`
 --
 
@@ -66,10 +88,32 @@ CREATE TABLE IF NOT EXISTS `currencies` (
 INSERT INTO `currencies` (`CurrencyId`, `CurrencyName`, `CurrencyMultiplier`, `CurrencySign`) VALUES
 (1, 'Euro', 8.9, '€'),
 (2, 'USDollar', 6.58, '$');
+>>>>>>> develop
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
+-- Tabellstruktur `products`
+--
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `ProductId` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` text NOT NULL,
+  `Category` int(11) NOT NULL,
+  `Price` int(11) NOT NULL,
+  `Stock` int(11) NOT NULL,
+  PRIMARY KEY (`ProductId`),
+  KEY `Category` (`Category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumpning av Data i tabell `products`
+--
+
+INSERT INTO `products` (`ProductId`, `Name`, `Category`, `Price`, `Stock`) VALUES
+(1, 'BenQ 1234', 1, 2000, 100);
+=======
 -- Tabellstruktur `orders`
 --
 
@@ -94,10 +138,33 @@ INSERT INTO `orders` (`OrderId`, `SSNr`, `OrderDate`, `Discount`, `ChargedCard`,
 (2, 199205075931, 'date', 0, 1, ''),
 (3, 199205075931, 'date', 0, 1, ''),
 (4, 199205075931, 'date', 0, 1, '');
+>>>>>>> develop
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
+-- Tabellstruktur `purchases`
+--
+
+CREATE TABLE IF NOT EXISTS `purchases` (
+  `PurchaseId` int(11) NOT NULL AUTO_INCREMENT,
+  `SSNr` double NOT NULL,
+  `PurchaseDate` date NOT NULL,
+  `Discount` float NOT NULL,
+  `ChargedCard` int(11) NOT NULL,
+  PRIMARY KEY (`PurchaseId`),
+  KEY `SSNr` (`SSNr`),
+  KEY `ChargedCard` (`ChargedCard`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumpning av Data i tabell `purchases`
+--
+
+INSERT INTO `purchases` (`PurchaseId`, `SSNr`, `PurchaseDate`, `Discount`, `ChargedCard`) VALUES
+(1, 199205075931, '2013-11-19', 0, 1);
+=======
 -- Tabellstruktur `order_lists`
 --
 
@@ -126,10 +193,29 @@ INSERT INTO `order_lists` (`OrderListId`, `OrderId`, `ProductId`, `Amount`) VALU
 (8, 3, 3, 1),
 (9, 4, 4, 1),
 (10, 4, 3, 1);
+>>>>>>> develop
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
+-- Tabellstruktur `purchase_list`
+--
+
+CREATE TABLE IF NOT EXISTS `purchase_list` (
+  `PurchaseId` int(11) NOT NULL,
+  `ProductId` int(11) NOT NULL,
+  UNIQUE KEY `ProductId` (`ProductId`),
+  KEY `PurchaseId` (`PurchaseId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumpning av Data i tabell `purchase_list`
+--
+
+INSERT INTO `purchase_list` (`PurchaseId`, `ProductId`) VALUES
+(1, 1);
+=======
 -- Tabellstruktur `products`
 --
 
@@ -180,6 +266,7 @@ INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
 (2, 'Consoles', NULL),
 (3, 'Games', NULL),
 (4, 'Accessories', NULL);
+>>>>>>> develop
 
 -- --------------------------------------------------------
 
@@ -190,33 +277,67 @@ INSERT INTO `taxanomies` (`TaxanomyId`, `TaxanomyName`, `TaxanomyParent`) VALUES
 CREATE TABLE IF NOT EXISTS `users` (
   `SSNr` double NOT NULL,
   `Mail` text NOT NULL,
+<<<<<<< HEAD
+=======
   `Password` text NOT NULL,
+>>>>>>> develop
   `FirstName` text NOT NULL,
   `LastName` text NOT NULL,
   `StreetAddress` text NOT NULL,
   `PostAddress` text NOT NULL,
   `City` text NOT NULL,
   `Telephone` text NOT NULL,
+<<<<<<< HEAD
+  PRIMARY KEY (`SSNr`),
+  UNIQUE KEY `SSNr` (`SSNr`),
+  KEY `SSNr_2` (`SSNr`)
+=======
   `SessionKey` int(11) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT NULL,
   `PwSalt` text NOT NULL,
   PRIMARY KEY (`SSNr`),
   FULLTEXT KEY `Mail` (`Mail`)
+>>>>>>> develop
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumpning av Data i tabell `users`
 --
 
+<<<<<<< HEAD
+INSERT INTO `users` (`SSNr`, `Mail`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`) VALUES
+(199205075931, 'marcusandreas@hotmail.com', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290');
+=======
 INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`, `PwSalt`) VALUES
 (12345, 'asd@asd.asd', 'adcebf74e3e24ef7953eee75349cfba5', 'asd', 'asd', 'asd', 'asd', 'asd', 'asd', 0, NULL, '7120'),
 (199205075931, 'marcus', 'd5b1ee4b463dc7db3b0eaaa0ea2cb5b4', 'Sven', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL, '1234');
+>>>>>>> develop
 
 --
 -- Restriktioner för dumpade tabeller
 --
 
 --
+<<<<<<< HEAD
+-- Restriktioner för tabell `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Category`) REFERENCES `categories` (`Id`);
+
+--
+-- Restriktioner för tabell `purchases`
+--
+ALTER TABLE `purchases`
+  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ChargedCard`) REFERENCES `cards` (`CardId`),
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`SSNr`) REFERENCES `users` (`SSNr`);
+
+--
+-- Restriktioner för tabell `purchase_list`
+--
+ALTER TABLE `purchase_list`
+  ADD CONSTRAINT `purchase_list_ibfk_2` FOREIGN KEY (`PurchaseId`) REFERENCES `purchases` (`PurchaseId`),
+  ADD CONSTRAINT `purchase_list_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`);
+=======
 -- Restriktioner för tabell `orders`
 --
 ALTER TABLE `orders`
@@ -241,6 +362,7 @@ ALTER TABLE `products`
 --
 ALTER TABLE `taxanomies`
   ADD CONSTRAINT `taxanomies_ibfk_1` FOREIGN KEY (`TaxanomyParent`) REFERENCES `taxanomies` (`TaxanomyId`);
+>>>>>>> develop
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

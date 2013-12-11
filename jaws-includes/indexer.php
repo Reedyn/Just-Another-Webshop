@@ -69,13 +69,7 @@ function indexer() { // Function for delivering pages based on GET variables.
 					Cart
 	*/ ######################################	
 	} else if(isset($_GET['cart'])){
-		if($_GET['cart'] == "review"){
-			include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart-review.php"); // If user is trying to access a specific product load product.
-		} elseif($_GET['cart'] == "checkout") {
-			include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart-checkout.php"); // Otherwise load list of products.
-		} else {
-			include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php"); // If user is trying to access a specific product load product.
-		}
+			include($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php");
 
 	/* ######################################
 					Home

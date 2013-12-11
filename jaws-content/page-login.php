@@ -12,6 +12,16 @@
 					}
 				}
 				
+				if (isset($_POST['login'])){
+					if (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
+						echo "Name invalid!";
+					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
+						echo "LastName invalid!";
+					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
+						echo "E-Mail invalid!";
+					}
+				}
+				
 				?>
 				<form action="/login/" method="post">
 					<input type="text" name="firstName" pattern="^.+$" required placeholder="first name..."></br>

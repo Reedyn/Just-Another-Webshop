@@ -212,7 +212,7 @@
     }
     function UserLogin(){
         global $db;
-        if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])){
+        if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
         //if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
             $sessionkey="";
@@ -221,7 +221,7 @@
             }
             if($db->dbEditUser($CurrentSSNr,"SessionKey",$sessionkey)==TRUE){
                 echo '<span class="login_success">Login successful</span>';
-                $SESSION['SessionKey']=$sessionkey;
+                $_SESSION['SessionKey']=$sessionkey;
             }
 
         }else{

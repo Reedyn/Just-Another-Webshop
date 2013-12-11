@@ -20,10 +20,10 @@
        <table class="table">
 			<thead>
 			<tr class="rowBold">
-				<th class="col">Order ID</th>
-				<th class="col">Date</th>
-				<th class="col">Personal Number of User</th>
-				<th class="col">Total value of order including VAT</th>
+				<td class="col">Order ID</td>
+				<td class="col">Date</td>
+				<td class="col">Personal Number of User</td>
+				<td class="col">Total value of order including VAT</td>
 			</tr>
 			</thead>
 			<tbody>

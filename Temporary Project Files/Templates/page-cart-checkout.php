@@ -7,11 +7,11 @@
     <title>Product Page</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="gh-buttons.css">
     <link rel="stylesheet" href="css/normalize.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script defer src="js/main.js"></script>
-
 </head>
 <body>
 
@@ -19,87 +19,95 @@
     <?php include 'header.php'; ?>
     <?php include 'navUser.php'; ?>
     <article class="main-content">
-        <table class="table">
+         <table class="table">
             <tr class="rowBold">
-                <td class="col">Invoice 382932</td>
+                <td class="col">Name</td>
                 <td class="col"></td>
                 <td class="col"></td>
-                <td class="col"></td>
-                <td class="col">Credit Card:</td>
-                <td class="col">************3728</td>
-            </tr>
-            <tr class="row">
-                <td class="colBold">Costumer:</td>
-                <td class="col"></td>
-                <td class="col">Gustav Lindqvist</td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
             </tr>
             <tr class="row">
-                <td class="colBold">Shipping Address:</td>
-                <td class="col">jaja 11</td>
-                <td class="col">553 20</td>
-                <td class="col">Uganda</td>
+                <td class="col">David Klar</td>
                 <td class="col"></td>
                 <td class="col"></td>
-            </tr>
-            <tr class="row">
-                <td class="colBold">Billing Address:</td>
-                <td class="col">jaja 11</td>
-                <td class="col">553 20</td>
-                <td class="col">Uganda</td>
-                <td class="col"></td>
-            </tr>
-            <tr class="row">
-                <td class="colBold">Order number:</td>
-                <td class="col"></td>
-                <td class="col">42984</td>
-                <td class="col"></td>
-                <td class="col"></td>
-                <td class="col"></td>
-            </tr>
-            <tr class="row">
-                <td class="colBold">Order date:</td>
-                <td class="col"></td>
-                <td class="col">2013-01-01</td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
             </tr>
             <tr class="rowBold">
-                <td class="col">Product</td>
-                <td class="col">Weight</td>
-                <td class="col">Price</td>
-                <td class="col">Amount</td>
-                <td class="col">Sent</td>
-                <td class="col">Total</td>
+                <td class="col">Shipping Address</td>
+                <td class="col"></td>
+                <td class="col">Billing Address</td>
+                <td class="col"></td>
+                <td class="col"></td>
+                <td class="col"></td>
             </tr>
             <tr class="row">
-                <td class="col">Wacom INto</td>
-                <td class="col">10 kg</td>
-                <td class="col">645 kr</td>
-                <td class="col">1</td>
-                <td class="col">1</td>
-                <td class="col">645</td>
+                <td class="col">Sodra Strandgatan 25A</td>
+                <td class="col"></td>
+                <td class="col">Parken</td>
+                <td class="col"></td>
+                <td class="col"></td>
             </tr>
             <tr class="row">
+                <td class="col">553 20</td>
+                <td class="col"></td>
+                <td class="col">572 29</td>
                 <td class="col"></td>
                 <td class="col"></td>
-                <td class="col">Shipping costs</td>
                 <td class="col"></td>
-                <td class="col"></td>
-                <td class="col">49</td>
             </tr>
             <tr class="row">
+                <td class="col">Jonkoping</td>
+                <td class="col"></td>
+                <td class="col">Bandadad</td>
                 <td class="col"></td>
                 <td class="col"></td>
-                <td class="col">Total, incl. Shipping</td>
                 <td class="col"></td>
-                <td class="col"></td>
-                <td class="col">749</td>
             </tr>
         </table>
+
+        <table id="checkout" class="checkout">
+            <tr class="row">
+                <td class="col">Credit Card</td>
+                <td class="col"></td>
+                <td class="col"></td>
+                <td class="col"></td>
+                <td class="col"></td>
+                <td class="col"></td>
+            </tr>
+            <tr class="row">
+                <td class="col">
+                    <input type="text" placeholder="Card number" /> 
+                    <input type="text" placeholder="cvc" /> 
+                    <input type="text" placeholder="Full name" /> 
+                    <p class="expiration">month:</p>
+                    <select>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                    </select>
+                    <p class="expiration">year:</p>
+                    <select>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                    </select>          
+                </td>
+              
+            </tr>
+        </table>
+        <div id="acceptDenyButtons">
+            <button class="button icon arrowleft">back</button>
+            <button class="button icon arrowright">forward</button>
+        </div>    
         <script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script src="reg.js"></script>
     </article>

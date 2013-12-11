@@ -11,58 +11,57 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script defer src="js/main.js"></script>
-
 </head>
 <body>
 
 <section class="wrapper">
     <?php include 'header.php'; ?>
-    <?php include 'navUser.php'; ?>
-    <article class="main-content">
-        <table class="table">
-            <tr class="rowBold">
-                <td class="col">Invoice 382932</td>
-                <td class="col"></td>
+    <?php include 'navAdmin.php'; ?>
+    <article class="main-content">       
+       <table class="table">
+            <tr class="row">
+                <td class="col">Order ID</td>
+                <td class="col">3829322332</td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col">Credit Card:</td>
                 <td class="col">************3728</td>
             </tr>
             <tr class="row">
-                <td class="colBold">Costumer:</td>
+                <td class="col">Date</td>
+                <td class="col">2010/10/10</td>
                 <td class="col"></td>
-                <td class="col">Gustav Lindqvist</td>
+                <td class="col"></td>
+                <td class="col"></td>
+                <td class="col"></td>
+            </tr>
+            <tr class="rowBold">
+                <td class="col">Shipping Address</td>
+                <td class="col"></td>
+                <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
             </tr>
             <tr class="row">
-                <td class="colBold">Shipping Address:</td>
                 <td class="col">jaja 11</td>
                 <td class="col">553 20</td>
                 <td class="col">Uganda</td>
                 <td class="col"></td>
                 <td class="col"></td>
             </tr>
-            <tr class="row">
-                <td class="colBold">Billing Address:</td>
-                <td class="col">jaja 11</td>
-                <td class="col">553 20</td>
-                <td class="col">Uganda</td>
+            <tr class="rowBold">
+                <td class="col">Billing Address</td>
                 <td class="col"></td>
-            </tr>
-            <tr class="row">
-                <td class="colBold">Order number:</td>
                 <td class="col"></td>
-                <td class="col">42984</td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
             </tr>
             <tr class="row">
-                <td class="colBold">Order date:</td>
-                <td class="col"></td>
-                <td class="col">2013-01-01</td>
+                <td class="col">hehehihi 12</td>
+                <td class="col">582 29</td>
+                <td class="col">bahamas</td>
                 <td class="col"></td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -99,12 +98,13 @@
                 <td class="col"></td>
                 <td class="col">749</td>
             </tr>
-        </table>
+        </table>    
         <script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script src="reg.js"></script>
     </article>
     <?php include 'footer.php'; ?>
 </section>
+
 </body>
 </html>
 

@@ -7,10 +7,8 @@
     <title>Product Page</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-
     <link rel="stylesheet" href="css/normalize.min.css">
     <link rel="stylesheet" href="css/style.css">
-
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script defer src="js/main.js"></script>
 
@@ -18,29 +16,8 @@
 <body>
 
 <section class="wrapper">
-    <header class="site-head">
-        <section class="wrapper">
-            <img src="img/logotype.png">
-        </section><!-- .wrapper -->
-    </header>
-    <nav class="site-nav">
-            <ul>
-                    <li>
-                        <a href="#">CONSOLES</a>
-                        <ul>
-                            <a href=""><li>XBOX</li></a>
-                            <a href=""><li>ATARI</li></a>
-                            <a href=""><li>PLAYSTATION</li></a>
-                            <a href=""><li>NINTENDO</li></a>
-                            <a href=""><li>OTHER</li></a>
-                        </ul>
-                    </li>
-                
-                <a href=""><li>GAMES</li></a>
-                <a href=""><li>ACCESSORIES</li></a>
-                <a href="login.php"><li>Login/Register</li></a>
-            </ul>
-        </nav>
+    <?php include 'header.php'; ?>
+    <?php include 'navUser.php'; ?>
     <article class="main-content">
         <div class="flat-form">
             <ul class="tabs">
@@ -66,7 +43,7 @@
                             <input name="password" type="password" placeholder="Password" />
                         </li>
                         <li>
-                            <input type="submit" value="Login" class="button" />
+                            <input type="submit" value="Login" class="standardButton" />
                         </li>
                     </ul>
                 </form>
@@ -105,21 +82,18 @@
                             <input type="password" placeholder="Password" />
                         </li>
                         <li>
-                            <input type="submit" value="Sign Up" class="button" />
+                            <input type="submit" value="Sign Up" class="standardButton" />
                         </li>
                     </ul>
                 </form>
             </div>
-            <!--/#register.form-action-->
-            
+            <!--/#register.form-action-->    
         </div>
-    <script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <script src="reg.js"></script>
-
+        <script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="reg.js"></script>
     </article>
-    <footer>
-        <span class="footer">Copyright blabal</span>
-</footer>
+    <?php include 'footer.php'; ?>
+</section>
 </body>
 </html>
 

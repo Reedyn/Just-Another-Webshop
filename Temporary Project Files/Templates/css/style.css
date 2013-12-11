@@ -316,20 +316,6 @@ h1 {
     page-break-after: avoid;
   }
 }
-.signForm li {
-  display: inline;
-}
-.settings ul,
-.order ul,
-.signForm ul {
-  padding: 0 0 20px 0;
-  margin: 0;
-}
-.settings li,
-.order li,
-.signForm li {
-  list-style: none;
-}
 .tabs {
   background: #c0392b;
   height: 31px;
@@ -415,7 +401,7 @@ form input[type=password] {
 .hide {
   display: none;
 }
-.button {
+.standardButton {
   border: none;
   display: block;
   background: #136899;
@@ -430,16 +416,16 @@ form input[type=password] {
   -moz-transition: all 0.15s linear;
   transition: all 0.15s linear;
 }
-.settings .button {
+.settings .standardButton {
   height: 30px;
   margin: 10px 0;
 }
-.button:hover {
+.standardButton:hover {
   background: #1e75aa;
   /*box-shadow: 0 3px 1px #237bb2;*/
 
 }
-.button:active {
+.standardButton:active {
   background: #136899;
   /*box-shadow: 0 3px 1px #0f608c;*/
 
@@ -447,22 +433,41 @@ form input[type=password] {
 .changeProfile {
   padding: 30px;
 }
-.changeProfile .button {
+.changeProfile .standardButton {
   width: 150px;
 }
-#orders {
-  padding: 0 20px 20px 20px;
-}
-#order {
+.table {
   margin: 30px;
   border: 1px solid #eee;
 }
-#order .row td {
+.table td {
   width: 200px;
+  height: 30px;
+  padding: 5px;
 }
-#order .row:nth-child(1),
-#order .row:nth-child(5),
-#order .row:nth-child(8) {
+.table td input {
+  width: 20px;
+}
+.rowBold {
   background: #eee;
   font-weight: bold;
+}
+.colBold {
+  font-weight: bold;
+}
+.colDescr {
+  width: 50%;
+}
+.colDescr span {
+  width: 300px;
+  display: block;
+}
+.arrowleft,
+.arrowright {
+  width: 90px;
+  margin-bottom: 30px;
+}
+#acceptDenyButtons {
+  width: 200px;
+  margin: 0 auto;
 }

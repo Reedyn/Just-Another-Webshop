@@ -377,23 +377,6 @@ h1   {
         page-break-after: avoid;
     }
 }
-.signForm  {
-    li {
-        display: inline;
-    }
-    
-}
-
-.settings, .order, .signForm  {
-    ul {
-        padding: 0 0 20px 0;
-        margin: 0;  
-    }
-    li {
-        list-style: none;
-    }
-    
-}
 
 .tabs {
   background: @redColor;
@@ -403,7 +386,6 @@ h1   {
   list-style-type: none;
   width: 100%;
   display: block;
-
 }
 .tabs li {
   display: block;
@@ -483,7 +465,7 @@ form input[type=password] {
   display: none;
 }
 
-.button {
+.standardButton {
     border: none;
     display: block;
     background: #136899;
@@ -497,43 +479,63 @@ form input[type=password] {
       -moz-transition: all 0.15s linear;
       transition: all 0.15s linear;
 }
-.settings .button {
+.settings .standardButton {
     height: 30px;
     margin: 10px 0;
 }
 
-.button:hover {
+.standardButton:hover {
   background: #1e75aa;
   /*box-shadow: 0 3px 1px #237bb2;*/
 }
 
-.button:active {
+.standardButton:active {
   background: #136899;
   /*box-shadow: 0 3px 1px #0f608c;*/
 }
 
 .changeProfile {
     padding: 30px;
-    .button {
+    .standardButton {
         width: 150px;
     }
 }
 
-#orders {
-    padding: 0 20px 20px 20px;
-}
-#order {
+.table {
     margin: 30px;
     border: 1px solid #eee;
-    .row {
-        td {
+    td {
         width: 200px;
+        height: 30px;
+        padding: 5px;
+        input {
+                width: 20px;
+            }
         }
-    }
-    .row:nth-child(1), .row:nth-child(5),.row:nth-child(8),  {
-    background: #eee;
+}
+.rowBold {
+     background: #eee;
+            font-weight: bold;
+
+}
+.colBold {
     font-weight: bold;
 }
+.colDescr {
+    width: 50%;
+     span {
+        width: 300px;
+        display: block;
+    }
+}
+        
+
+.arrowleft, .arrowright {
+    width: 90px;
+    margin-bottom: 30px;
 }
 
-
+#acceptDenyButtons {
+    width: 200px;
+    margin: 0 auto;
+}

@@ -6,5 +6,6 @@
         <a href="page-admin-products.php"><li>PRODUCTS</li></a>
         <a href="page-admin-users.php"><li>USERS</li></a>
         <a href="login.php"><li>Login/Register</li></a>
+        <a href="page-admin-taxonomies.php"><li>TAXONOMIES</li></a>
     </ul>
 </nav>

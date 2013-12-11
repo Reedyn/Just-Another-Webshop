@@ -104,8 +104,8 @@
             </tr>
         </table>
 
-        <table id="checkout" class="checkout">
-            <tr class="row">
+        <table class="table">
+            <tr class="rowBold">
                 <td class="col">Credit Card</td>
                 <td class="col"></td>
                 <td class="col"></td>

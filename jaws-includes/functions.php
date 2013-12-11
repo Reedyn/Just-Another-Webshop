@@ -111,6 +111,37 @@
             echo	'	</tr>';
             echo	'</thead>';
             echo	'<tbody>';
+            for ($i=0;$i<count($orders);$i++){
+                global $db;
+                $orders=call_user_func_array(array($db,"dbGetUsersOrders"),$pass_arg_list);
+                echo	'<tr class="row">';
+                echo	'	<td class="col">'.$orders[$i]->OrderId.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->SSNr.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->OrderDate.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->Discount.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->ChargedCard.'</td>';
+                echo	'	<td class="col">'.$orders[$i]->OrderIP.'</td>';
+                echo	'	<td class="col">button for product lists</td>';
+                echo	'	<td class="col"><a href="/admin/orders/'.$orders[$i]->OrderId.'"/>Edit</a></td>';
+                echo	'</tr>';
+            }
+            echo	'</tbody>';
+            echo	'</table>';
+        }else if($listType=="users" && $orders!=NULL){
+            echo '<table id="table" class="tablesorter">';
+            echo	'<thead>';
+            echo	'	<tr class="row">';
+            echo	'		<th class="col">Order Id</th>';
+            echo	'		<th class="col">SSNr</th>';
+            echo	'		<th class="col">Order Date</th>';
+            echo	'		<th class="col">Discount</th>';
+            echo	'		<th class="col">Charged Card</th>';
+            echo	'		<th class="col">Order IP</th>';
+            echo	'		<th class="col">Product List</th>';
+            echo	'		<th class="col"></th>';
+            echo	'	</tr>';
+            echo	'</thead>';
+            echo	'<tbody>';
             for ($i=0;$i<count($orders);$i++) {
                 echo	'<tr class="row">';
                 echo	'	<td class="col">'.$orders[$i]->OrderId.'</td>';

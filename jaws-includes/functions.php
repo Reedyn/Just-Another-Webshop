@@ -243,16 +243,20 @@
     }
     function UserLogin(){
         global $db;
-        if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
+        if($CurrentUser=$db->dbMatchPassword($_POST['email'],$_POST['password'])){
         //if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
+
             $sessionkey="";
             for($i=0;$i<21;$i++){
                 $sessionkey.=$chars[rand(0,count($chars)-1)];
             }
-            if($db->dbEditUser($CurrentSSNr,"SessionKey",$sessionkey)==TRUE){
+            if($db->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
                 echo '<span class="login_success">Login successful</span>';
                 $_SESSION['SessionKey']=$sessionkey;
+                if($CurrentUser[1]==TRUE){
+                    $_SESSION['IsAdmin']=TRUE;
+                }
             }
 
         }else{

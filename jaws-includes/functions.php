@@ -166,7 +166,7 @@
                 echo	'	<td class="col">'.$orders[$i]->ChargedCard.'</td>';
                 echo	'	<td class="col">'.$orders[$i]->OrderIP.'</td>';
                 echo	'	<td class="col">button for product lists</td>';
-                echo	'	<td class="col"><a href="/admin/orders/'.$orders[$i]->OrderId.'"/>Edit</a></td>';
+                echo	'	<td class="col"><a href="/settings/orders/'.$orders[$i]->OrderId.'"/>Edit</a></td>';
                 echo	'</tr>';
             }
             echo	'</tbody>';

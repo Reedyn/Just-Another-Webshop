@@ -20,9 +20,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        Name
-                    </span>
+                    <textarea>Name</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -35,10 +33,8 @@
                 <td class="col"></td>
             </tr>
             <tr class="row">
-                <td class="colDescr">
-                    <span contenteditable="true">
-                        The Atari
-                        </span>
+                <td class="col">
+                    <textarea>Atari</textarea>
                 </td>    
                 <td class="col"></td>
                 <td class="col"></td>
@@ -52,9 +48,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        24214
-                    </span>
+                    <textarea>1234</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>

@@ -20,9 +20,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        Name
-                    </span>
+                    <textarea>Name</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -36,9 +34,7 @@
             </tr>
             <tr class="row">
                 <td class="colDescr">
-                    <span contenteditable="true">
-                        The Atari 2600 was inducted into the National Toy Hall of Fame at The Strong in Rochester, New York in 2007. In 2009, the Atari 2600 was named the second greatest video game console of all time by IGN, who cited its remarkable role as the console behind both the first video game boom and the video game crash of 1983, and called it "the console that our entire industry is built upon
-                        </span>
+                    <textarea>The Atari 2600 was inducted into the National Toy Hall of Fame at The Strong in Rochester, New York in 2007. In 2009, the Atari 2600 was named the second greatest video game console of all time by IGN, who cited its remarkable role as the console behind both the first video game boom and the video game crash of 1983, and called it "the console that our entire industry is built upon</textarea>
                 </td>    
                 <td class="col"></td>
                 <td class="col"></td>
@@ -52,9 +48,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        24214
-                    </span>
+                    <textarea>24214</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -68,9 +62,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        19kr
-                    </span>
+                    <textarea>19kr</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -84,9 +76,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        10st
-                    </span>
+                    <textarea>10st</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -100,9 +90,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                    <span contenteditable="true">
-                        doksed.jpg
-                    </span>
+                    <textarea>10st</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>
@@ -116,9 +104,7 @@
             </tr>
             <tr class="row">
                 <td class="col">
-                     <span contenteditable="true">
-                        10kg
-                    </span>
+                    <textarea>10st</textarea>
                 </td>
                 <td class="col"></td>
                 <td class="col"></td>

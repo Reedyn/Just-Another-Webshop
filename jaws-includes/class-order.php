@@ -108,12 +108,18 @@
     class ListedProduct {
         public $OrderId;
         public $ProductId;
+        public $ProductWeight;
+        public $ProductPrice;
         public $Amount;
 
         public function __construct($OrderId,$ProductId,$Amount) {
             $this->OrderId      = $OrderId;
             $this->ProductId    = $ProductId;
             $this->Amount       = $Amount;
+            global $db;
+            $ProductInfo=$db->dbGetProducts($this->ProductId);
+            $this->ProductWeight= $ProductInfo[0]['ProductWeight'];
+            $this->ProductPrice = $ProductInfo[0]['ProductPrice'];
         }
 
         public function getOrderId(){

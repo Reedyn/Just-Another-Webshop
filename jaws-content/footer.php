@@ -1,7 +1,7 @@
 		<footer>
-			<section class="wrapper">
-				<span class="footer">Detta är en sidfot</span>
-			</section><!-- .wrapper -->
+			<span class="footer">Copyright © Just Another Webshop</span>
 		</footer>
 	</body>
 </html>
+
+

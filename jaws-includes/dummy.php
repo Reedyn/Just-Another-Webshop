@@ -1,11 +1,7 @@
 <?php
 
-    //include 'functions.php';
-    //include 'db.php';
-    //include 'config.php';
-    //$db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
     include "functions.php";
 
-    listOrders("admin","ALL");
+    listProducts("admin","ALL");
     //listProducts('thumbnail','ALL');
 ?>

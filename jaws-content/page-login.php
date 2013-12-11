@@ -10,15 +10,15 @@
 						echo "LastName invalid!";
 					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "E-Mail invalid!";
+					}else{
                         UserRegister();
-					}
+                    }
 				}
 				
 				if (isset($_POST['login'])){
 					if (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "Form invalid";
-					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
-						echo "Form invalid!";
+					} else{
                         UserLogin();
 					}
 				}

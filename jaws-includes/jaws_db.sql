@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 11 dec 2013 kl 13:52
+-- Skapad: 11 dec 2013 kl 18:13
 -- Serverversion: 5.6.12-log
 -- PHP-version: 5.4.12
 
@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Telephone` text NOT NULL,
   `SessionKey` int(11) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT NULL,
+  `PwSalt` text NOT NULL,
   PRIMARY KEY (`SSNr`),
   FULLTEXT KEY `Mail` (`Mail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -204,8 +205,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumpning av Data i tabell `users`
 --
 
-INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`) VALUES
-(199205075931, 'marcusandreas@hotmail.com', '8e53ce27b5606aff61f0f1450a763344', 'Marcus', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL);
+INSERT INTO `users` (`SSNr`, `Mail`, `Password`, `FirstName`, `LastName`, `StreetAddress`, `PostAddress`, `City`, `Telephone`, `SessionKey`, `IsAdmin`, `PwSalt`) VALUES
+(12345, 'asd@asd.asd', 'adcebf74e3e24ef7953eee75349cfba5', 'asd', 'asd', 'asd', 'asd', 'asd', 'asd', 0, NULL, '7120'),
+(199205075931, 'marcus', 'd5b1ee4b463dc7db3b0eaaa0ea2cb5b4', 'Sven', 'Börjesson', 'Tändsticksgränd 11', '55315', 'Jönköping', '0708794290', 0, NULL, '1234');
 
 --
 -- Restriktioner för dumpade tabeller

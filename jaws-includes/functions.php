@@ -80,8 +80,24 @@
                 echo '</article>';
             }
             echo '</section>';
+        }else if($listType=="single" && $products!=NULL){
+            echo '<section class="product">';
+            echo    '<article class="product">';
+		    echo        '<a href="">';
+			echo			'<img src="'.$products[0]->ImgUrl.'" class="product-image"/>';
+			echo	    '</a>';
+			echo	'</article>';
+			echo	'<div class="product-meta">';
+			echo	    '<h2 class="product-title">'.$products[0]->Name.'</h2>';
+			echo		'<div class="product-description">'.$products[0]->Description.'</div>';
+			echo		'<span class="product-price">'.$products[0]->Price.'</span>';
+			echo		'<div class="product-add-to-cart-button">';
+			echo			'<a href=""><img src="img/cart.png"></a>';
+			echo		'</div>';
+			echo	'</div><!-- .product-meta -->';
+			echo '</section>';
         }else{
-            echo '<span class="error">No products found.</span>';
+            echo '<span class="error">No product found.</span>';
         }
 
     }
@@ -263,7 +279,6 @@
             echo '<span class="login_failed">Login failed</span>';
         }
     }
-
 
 
 ?>

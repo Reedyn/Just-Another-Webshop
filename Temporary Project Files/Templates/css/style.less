@@ -15,7 +15,7 @@ html {
 body {
 	background: @background;
 	font-size: 14px; font-size: 1.4rem;
-    font-family: Tw Cen MT;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 
 	header.site-head {
 		background: @secondary-background;
@@ -41,9 +41,15 @@ body {
 			color: @main-text-color;
 		}
 	}
+        
     nav.site-nav {
         background: url('../img/navigation.png');
-       
+        position: relative;
+        .shoppingCart {
+            position: absolute;
+            top: 0;
+            right: -45px;
+        }
         height: 40px;
         font-size: 17px; font-size: 1.7rem;
         ul {
@@ -83,7 +89,6 @@ body {
                     background: @redColor;
                     width: 96%;
                     top: 40px;
-                    height: 25px;
                     border-right: 1px solid #c6c6c6;
                     left: -9999px;
                     &:hover {
@@ -224,9 +229,9 @@ h1   {
 
 .wrapper {
 	max-width: 764px;
-	width: 100%;
 	margin: 0 auto;
     background: #fff;
+    width: 100%;
     padding: 0 18px;
 
 }

@@ -1,6 +1,5 @@
 <?php
     //Includes
-    include_once 'db.php';
 
     //Functions
     function getOrders() { // Returns an order from the order as an Order class.

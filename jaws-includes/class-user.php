@@ -1,11 +1,11 @@
 <?php
     //Includes
-    include_once 'db.php';
 
     //Functions
     function getUsers() { // Returns a product from the product as a Product class.
-        $arg_list=func_get_args();
         global $db;
+        
+        $arg_list=func_get_args();
 
         //Call function in db.php to get the array of users
         $data=call_user_func_array(array($db,"dbGetUsers"),$arg_list);

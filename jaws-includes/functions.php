@@ -1,8 +1,9 @@
 <?php
 
-    include 'class-product.php';
-    include 'class-order.php';
-    include 'class-user.php';
+    include_once 'class-product.php';
+    include_once 'class-order.php';
+    include_once 'class-user.php';
+    include_once 'db.php';
 
     function listProducts($listType){ // List products in the fashion specified.
         // Get a list of products from database and save the array in $products

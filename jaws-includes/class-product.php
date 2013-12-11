@@ -1,6 +1,5 @@
 <?php
     //Includes
-    include_once 'db.php';
 
     //Functions
     function getProducts() { // Returns a product from the product as a Product class.

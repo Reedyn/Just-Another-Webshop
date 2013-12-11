@@ -1,7 +1,7 @@
 <?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navAdmin.php";?>	
 		<section class="wrapper">
 			<article class="main-content">
-				<?php ?>
+				<?php if (isset($_SESSION['IsAdmin'])){ ?>
 				<table class="table">
 					<tr>
 						<td><strong>Order</strong></td>
@@ -96,6 +96,9 @@
 						<td><strong>5687.5 kr</strong></td>
 					</tr>
 				</table>
+				<?php } else {
+				echo "<p>You do not have authorization to see this page!</p>";
+				} ?>
 			</article>
 		</section><!-- .wrapper -->
 <?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>

@@ -201,4 +201,34 @@
             echo '<span class="error">No taxanomies found.</span>';
         }
     }
+
+    function UserRegister(){
+        global $db;
+        if($db->dbAddUser($_POST['SSNr'],$_POST['email'],$_POST['password'],$_POST['firstName'],$_POST['lastName'],$_POST['streetAddress'],$_POST['postAddress'],$_POST['city'],$_POST['phone'])==TRUE){
+            echo '<span class="reg_success">Registration successful</span>';
+        }else{
+            echo '<span class="reg_failed">Registration failed</span>';
+        }
+    }
+    function UserLogin($a,$b){
+        global $db;
+        //if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
+        if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
+            $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
+            $sessionkey="";
+            for($i=0;$i<21;$i++){
+                $sessionkey.=$chars[rand(0,count($chars)-1)];
+            }
+            if($db->dbEditUser($CurrentSSNr,"SessionKey",$sessionkey)==TRUE){
+                echo '<span class="login_success">Login successful</span>';
+                $SESSION['SessionKey']=$sessionkey;
+            }
+
+        }else{
+            echo '<span class="login_failed">Login failed</span>';
+        }
+    }
+
+
+
 ?>

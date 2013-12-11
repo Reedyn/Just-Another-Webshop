@@ -1,8 +1,8 @@
 /* ==========================================================================
    Just Another Webshop
    ========================================================================== */
-   
-@wrapper-width: 1000px;
+@wrapper-width680px: 680px;
+@wrapper-width810px: 810px;
 @background: #000;
 @secondary-background:url('../img/header.png');
 @main-text-color: #000;
@@ -20,20 +20,23 @@ body {
 	header.site-head {
 		background: @secondary-background;
         background-repeat: no-repeat;
-        height: 179px;
+        background-size: 100%;
+        height: 100%;
+        min-width: 764px;
         .wrapper {
+            border: none;
             width: 364px;
             height: 177px;
             position: relative;
             margin: 0 ;
-            background: inherit;
+            background: none;
             img {
                 position:absolute;
                 top:0;
                 bottom:0;
                 left: 0;
                 margin:auto;
-                width: 98%;
+                width: 100%;
             }
         }
 		span.site-title {
@@ -43,18 +46,18 @@ body {
 	}
         
     nav.site-nav {
-        background: url('../img/navigation.png');
+        background: url('../img/navigation2.png');
         position: relative;
         .shoppingCart {
             position: absolute;
             top: 0;
             right: -45px;
         }
-        height: 40px;
+        height:80px;
         font-size: 17px; font-size: 1.7rem;
         ul {
             margin: 0;
-            padding: 7px 0px 0px 30px;
+            padding: 7px 0px 0px 20px;
             position: relative;
             a {
                 color: #333;
@@ -77,7 +80,7 @@ body {
             li {
                 display: inline-block;
                 padding: 0 20px;
-                height: 33px;
+                height: 32px;
                 &:hover ul {
                     left: 0;
                 }
@@ -87,9 +90,10 @@ body {
          ul {
                     position: absolute;
                     background: @redColor;
-                    width: 96%;
-                    top: 40px;
-                    border-right: 1px solid #c6c6c6;
+                    width: 100%;
+                    top: 39px;
+                    height: 20px;
+                    border-right: none;
                     left: -9999px;
                     &:hover {
                         left: 0;
@@ -104,7 +108,7 @@ body {
                     
                     li {
                         color: #fff;
-                        font-size: 14px;
+                        font-size: 12px;
                         
                     }
                 }    
@@ -113,6 +117,7 @@ body {
         
     }
 	article.main-content {
+            min-height: 100px;
 			overflow: hidden;
             background: #fff;
             border-left: 1px solid #c6c6c6;
@@ -228,26 +233,42 @@ h1   {
 }
 
 .wrapper {
-	max-width: 764px;
-	margin: 0 auto;
+	width: 768px;
+	margin: 0px auto;
     background: #fff;
-    width: 100%;
-    padding: 0 18px;
-
+    border-left: 8px solid white;
+    border-right: 3px solid white;
 }
 
-@media screen and (max-width: @wrapper-width){
-	body {
-		header.site-head {
-		}
-		article.main-article {
-			padding: 20px;
-		}
-		
-		footer {
-			padding: 50px 20px;
-		}
-	}
+
+
+@media screen and (max-width: @wrapper-width810px) {
+    .wrapper {
+        width: 100%;
+        border:none;
+    }
+    .shoppingCart {
+            position: absolute;
+            bottom: -400px;
+            left: 92%;
+            width: 42px;
+        }
+    ul {
+    }
+}
+
+@media screen and (max-width: @wrapper-width680px) {
+    .wrapper {
+        width: 100%;
+        border:none;
+    }
+    .shoppingCart {
+            position: absolute;
+            bottom: -400px;
+            left: 92%;
+            width: 42px;
+        }
+    
 }
 
 /* ==========================================================================
@@ -506,11 +527,11 @@ form input[type=password] {
     }
 }
 
-.table {
+table {
     margin: 30px;
     border: 1px solid #eee;
+    width: 100%;
     td {
-        width: 200px;
         height: 30px;
         padding: 5px;
         .amount {
@@ -528,11 +549,10 @@ form input[type=password] {
 
     border-left: 1px solid #eee;
 }
-.rowBold {
-     background: #eee;
+.rowBold, th {
+    text-align: left;
+    background: #eee;
     font-weight: bold;
- 
-
 }
 .colBold {
     font-weight: bold;

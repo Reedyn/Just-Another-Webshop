@@ -16,14 +16,17 @@ body {
 body header.site-head {
   background: url('../img/header.png');
   background-repeat: no-repeat;
-  height: 179px;
+  background-size: 100%;
+  height: 100%;
+  min-width: 764px;
 }
 body header.site-head .wrapper {
+  border: none;
   width: 364px;
   height: 177px;
   position: relative;
   margin: 0 ;
-  background: inherit;
+  background: none;
 }
 body header.site-head .wrapper img {
   position: absolute;
@@ -31,7 +34,7 @@ body header.site-head .wrapper img {
   bottom: 0;
   left: 0;
   margin: auto;
-  width: 98%;
+  width: 100%;
 }
 body header.site-head span.site-title {
   font-size: 20px;
@@ -39,9 +42,9 @@ body header.site-head span.site-title {
   color: #000000;
 }
 body nav.site-nav {
-  background: url('../img/navigation.png');
+  background: url('../img/navigation2.png');
   position: relative;
-  height: 40px;
+  height: 80px;
   font-size: 17px;
   font-size: 1.7rem;
 }
@@ -52,7 +55,7 @@ body nav.site-nav .shoppingCart {
 }
 body nav.site-nav ul {
   margin: 0;
-  padding: 7px 0px 0px 30px;
+  padding: 7px 0px 0px 20px;
   position: relative;
 }
 body nav.site-nav ul a {
@@ -75,7 +78,7 @@ body nav.site-nav ul a:nth-child(1) li {
 body nav.site-nav ul li {
   display: inline-block;
   padding: 0 20px;
-  height: 33px;
+  height: 32px;
 }
 body nav.site-nav ul li:hover ul {
   left: 0;
@@ -83,9 +86,10 @@ body nav.site-nav ul li:hover ul {
 body nav.site-nav ul ul {
   position: absolute;
   background: #c0392b;
-  width: 96%;
-  top: 40px;
-  border-right: 1px solid #c6c6c6;
+  width: 100%;
+  top: 39px;
+  height: 20px;
+  border-right: none;
   left: -9999px;
 }
 body nav.site-nav ul ul:hover {
@@ -97,9 +101,10 @@ body nav.site-nav ul ul a:nth-child(4) {
 }
 body nav.site-nav ul ul li {
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
 }
 body article.main-content {
+  min-height: 100px;
   overflow: hidden;
   background: #fff;
   border-left: 1px solid #c6c6c6;
@@ -193,18 +198,34 @@ h1 {
   padding-top: 10px;
 }
 .wrapper {
-  max-width: 764px;
-  margin: 0 auto;
+  width: 768px;
+  margin: 0px auto;
   background: #fff;
-  width: 100%;
-  padding: 0 18px;
+  border-left: 8px solid white;
+  border-right: 3px solid white;
 }
-@media screen and (max-width: 1000px) {
-  body article.main-article {
-    padding: 20px;
+@media screen and (max-width: 810px) {
+  .wrapper {
+    width: 100%;
+    border: none;
   }
-  body footer {
-    padding: 50px 20px;
+  .shoppingCart {
+    position: absolute;
+    bottom: -400px;
+    left: 92%;
+    width: 42px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .wrapper {
+    width: 100%;
+    border: none;
+  }
+  .shoppingCart {
+    position: absolute;
+    bottom: -400px;
+    left: 92%;
+    width: 42px;
   }
 }
 /* ==========================================================================
@@ -440,19 +461,19 @@ form input[type=password] {
 .changeProfile .standardButton {
   width: 150px;
 }
-.table {
+table {
   margin: 30px;
   border: 1px solid #eee;
+  width: 100%;
 }
-.table td {
-  width: 200px;
+table td {
   height: 30px;
   padding: 5px;
 }
-.table td .amount {
+table td .amount {
   width: 20px;
 }
-.table td input {
+table td input {
   margin: 2px 0;
 }
 .row {
@@ -461,7 +482,9 @@ form input[type=password] {
 .col {
   border-left: 1px solid #eee;
 }
-.rowBold {
+.rowBold,
+th {
+  text-align: left;
   background: #eee;
   font-weight: bold;
 }

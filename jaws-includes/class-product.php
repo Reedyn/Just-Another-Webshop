@@ -35,7 +35,7 @@
         public $Stock;
         public $ProductWeight;
 
-        public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price, $Stock,$ProductWeight) {
+        public function __construct($ProductId,$Name,$Description,$ImgUrl,$Taxanomy,$Price,$Stock,$ProductWeight) {
             $this->ProductId    = $ProductId;
             $this->Name         = $Name;
             $this->Description  = $Description;

@@ -479,7 +479,7 @@
             while($row=$result->fetch_assoc()){
                 $ProductListArray=NULL;
                 for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
-                    $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
+                    $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['OrderId'],$order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
                 }
                 $row['ProductList']=$ProductListArray;
                 $order_list[$i]=$row;

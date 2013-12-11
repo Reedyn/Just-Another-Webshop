@@ -6,7 +6,7 @@
         $arg_list=func_get_args();
         global $db;
         //Call function in db.php to get the array of users
-        $data=call_user_func_array($db,"dbGetOrders",$arg_list);
+        $data=call_user_func_array(array($db,"dbGetOrders"),$arg_list);
 
         $order=NULL;
         for($i=0;$i<count($data);$i++){
@@ -32,12 +32,9 @@
             $this->ChargedCard  = $ChargedCard;
             $this->OrderIP      = $OrderIP;
             $this->ProductList  = NULL;
-
             for($i=0;$i<count($ProductList);$i++){
-                $this->ProductList[$i]=new ListedProduct($ProductList[$i]['OrderId'],$ProductList[$i]['ProductId'],$ProductList[$i]['Amount']);
+                $this->ProductList[$i]=new ListedProduct($ProductList[$i][0],$ProductList[$i][1],$ProductList[$i][2]);
             }
-
-
         }
 
         public function getOrderId() {

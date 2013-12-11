@@ -6,7 +6,7 @@
     //$db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
     include "functions.php";
 
-    listProducts("table",1,2,3,4);
+    listOrders("admin","ALL");
 
     //listProducts('thumbnail','ALL');
 ?>

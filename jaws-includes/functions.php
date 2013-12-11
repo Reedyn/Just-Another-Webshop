@@ -63,6 +63,23 @@
             }
             echo	'</tbody>';
             echo	'</table>';
+        }else if($listType=="user" && $products!=NULL){
+            echo '<section class="products">';
+            for($i=0;$i<count($products);$i++){
+                echo '<article class="product">';
+                echo    '<a href="">';
+                echo        '<img src="'.$products[$i]->ImgUrl.'" class="product-image"/>';
+                echo    '</a>';
+                echo    '<div class="product-meta">';
+                echo	    '<h2 class="product-title">'.$products[$i]->Name.'</h2>';
+                echo        '<span class="product-price">'.$products[$i]->Price.'</span>';
+                echo        '<div class="product-add-to-cart-button">';
+                echo             '<a href=""><img src="img/cart.png"></a>';
+                echo        '</div>';
+                echo    '</div><!-- .product-meta -->';
+                echo '</article>';
+            }
+            echo '</section>';
         }else{
             echo '<span class="error">No products found.</span>';
         }

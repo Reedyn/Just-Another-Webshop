@@ -1,4 +1,5 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	?>		
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php"; include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navAdmin.php";	?>
+
 		<section class="wrapper">
 			<article class="main-content">
 				<?php require($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/db.php');
@@ -36,16 +37,40 @@
 					<input type="text" name="stock" pattern="^.+$" required placeholder="0"></br>
 					<input type="file" name="product-image" required></br>
 					<select name="taxanomy" placeholder="Taxanomy">
-						<option value="1">Consoles</option>
-						<option value="2">Accessories</option>
+						<option value="2">Consoles</option>
 						<option value="3">Games</option>
+						<option value="4">Accessories</option>
 					</select></br>
 					<input type="submit" name="addProduct" value="Add Product">	
 				</form>
 				<?php 
 				} else {
-					echo "<p>Admin page for product with id ".$_GET['product'].".</p>"; 
-				} ?>
+					if (isset($_POST['editProduct'])){
+						
+						if($db->dbEditProduct($_POST['name'],$_POST['description'],'/img/'.$_FILES['product-image']['name'],$_POST['taxanomy'],$_POST['price'],$_POST['stock'])){
+							echo "Success";
+						} else {
+							echo "Couldn't edit product.";
+						}
+				
+					}
+					$product = $db->dbGetProducts($_GET['product']);
+					
+						?>
+						
+				<form enctype="multipart/form-data" action="/admin/products/<?php $_GET['product']; ?>" method="post">
+					<input type="text" name="name" value="<?php echo $product[0]['Name']; ?>" pattern="^.+$" required placeholder="Product Name"></br>
+					<input type="text" name="description" value="<?php echo $product[0]['Description']; ?>" pattern="^.+$" required placeholder="Description"></br>
+					<input type="text" name="price" value="<?php echo $product[0]['Price']; ?>" pattern="^[0-9]+$" required placeholder="0"></br>
+					<input type="text" name="stock" value="<?php echo $product[0]['Stock']; ?>" pattern="^[0-9]+$" required placeholder="0"></br>
+					<select name="taxanomy" placeholder="Taxanomy">
+						<option value="2">Consoles</option>
+						<option value="3">Games</option>
+						<option value="4">Accessories</option>
+					</select></br>
+					<input type="submit" name="editProduct" value="Edit Product">
+				</form>	
+					<?php } ?>
 			</article>
 		</section><!-- .wrapper -->
 <?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>

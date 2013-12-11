@@ -1,4 +1,4 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	?>
+<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navUser.php";?>
 		<section class="wrapper">
 			<article class="main-content">
 				<?php include_once $_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php"; 
@@ -17,7 +17,6 @@
 					));
 					
 					listUsers("table","12345");
-					var_dump(get_included_files());
 				} ?>
 			
 			</article>

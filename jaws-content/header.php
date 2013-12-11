@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+<?php session_start() ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -8,12 +8,20 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="/jaws-content/themes/default/css/normalize.min.css">
 	<link rel="stylesheet" href="/jaws-content/themes/default/css/style.css">
+	<link rel="stylesheet" href="/jaws-content/themes/default/css/table.css">
 	<link rel="stylesheet" type="text/css" href="/jaws-content/themes/default/css/gh-buttons.css">
 	
 	<script src="/jaws-content/themes/default/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	<script src="/jaws-content/themes/default/js/vendor/jquery-1.10.1.min.js"></script>
 	<script src="/jaws-content/themes/default/js/jquery.tablesorter.min.js"></script>
 	<script src="/jaws-content/themes/default/js/reg.js"></script>
+    	<script>
+    		$(document).ready(function() 
+				{ 
+					$("#table").tablesorter(); 
+				} 
+			); 
+    	</script>
 	
 	<title>???</title>
 </head>
@@ -21,6 +29,6 @@
 <section class="wrapper">
 	<header class="site-head">
 		<section class="wrapper">
-			<a href="index.html"><img src="/jaws-content/themes/default/img/logotype.png"></a>
+			<a href="/"><img src="/jaws-content/themes/default/img/logotype.png"></a>
 		</section><!-- .wrapper -->
 	</header>

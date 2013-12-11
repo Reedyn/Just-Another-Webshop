@@ -4,6 +4,7 @@ RewriteEngine on
 RewriteRule ^/{0,1}$	/jaws-content/page-home.php [QSA]
 
 # Admin
+RewriteRule ^admin/*$												/jaws-content/page-admin.php [QSA]
 RewriteRule ^admin/(search|products|taxanomies|orders|users)?/*$	/jaws-content/page-admin-$1.php [QSA]
 # RewriteRule ^admin/(search)/([a-ö0-9]{1,})*/*$					/jaws-content/page-admin-search.php?search=$2 [QSA]
 RewriteRule ^admin/(products)/(new|[0-9]{1,})*/*$					/jaws-content/page-admin-product.php?product=$2 [QSA]
@@ -21,6 +22,7 @@ RewriteRule ^(products)/([0-9]+)(-[a-ö\-_]{1,})*/([0-9]{1,})+.*/*$ 	/jaws-conte
 
 # Login/Register
 RewriteRule ^(login|register|sign-up|signup|sign-in|signin)/*$ 		/jaws-content/page-login.php?login [QSA]
+RewriteRule ^(logout)/*$ 											/jaws-content/page-home.php?logout [QSA]
 																	
 # Cart
 RewriteRule ^cart*/*$ 												/jaws-content/page-cart.php?cart [QSA]
@@ -28,7 +30,7 @@ RewriteRule ^cart/([a-ö]{1,})*/*$ 									/jaws-content/page-cart.php?cart=$1 
 
 
 # Settings
-RewriteRule ^settings/([a-ö]{1,})*/*$ 								/jaws-content/page-settings-$1.php [QSA]
+RewriteRule ^settings/([a-ö]{1,})+/*$ 								/jaws-content/page-settings-$1.php [QSA]
 RewriteRule ^settings/(orders)*/([0-9]*)/*$ 						/jaws-content/page-settings-order.php?order=$2 [QSA]
 																	
 
@@ -36,7 +38,8 @@ RewriteRule ^settings/(orders)*/([0-9]*)/*$ 						/jaws-content/page-settings-or
 RewriteRule ^search/([a-ö0-9]{1,})*/*$ 								/jaws-content/page-search.php?search=$1 [QSA]
 
 # Page
-RewriteRule ^([a-ö]{1,})/*$ 										/jaws-content/page-$1.php [QSA]
+
+RewriteRule ^([a-z]{1,})/*$ 										/jaws-content/page-$1.php?$1 [QSA]
 
 # 404
 ErrorDocument  404  												/jaws-content/404.php

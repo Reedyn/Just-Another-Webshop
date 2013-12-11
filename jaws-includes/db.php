@@ -183,7 +183,7 @@
             if ($row != NULL) {
                 if ($LoginEmail==$row['Mail'] && $hashedPassword==$row['Password']) {
                     //Return the SSNr may be necessary
-                    return $row['SSNr'];
+                    return true;
                 }else{
                     //We know only the password is wrong
                     //But we wont mention it

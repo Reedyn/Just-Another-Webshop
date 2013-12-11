@@ -3,12 +3,14 @@
 			<article class="main-content">
 				<?php var_dump($_POST);
 				if (isset($_POST['register'])){
+
 					if (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "Name invalid!";
 					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "LastName invalid!";
 					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "E-Mail invalid!";
+                        UserRegister();
 					}
 				}
 				
@@ -17,6 +19,7 @@
 						echo "Form invalid";
 					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
 						echo "Form invalid!";
+                        UserLogin();
 					}
 				}
 				

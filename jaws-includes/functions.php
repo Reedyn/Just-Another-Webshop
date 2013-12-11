@@ -210,10 +210,10 @@
             echo '<span class="reg_failed">Registration failed</span>';
         }
     }
-    function UserLogin($a,$b){
+    function UserLogin(){
         global $db;
-        //if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
-        if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
+        if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
+        //if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
             $sessionkey="";
             for($i=0;$i<21;$i++){

@@ -34,7 +34,7 @@
                 echo '</div><!-- .product-meta -->';
                 echo '</article>';
             }
-        }else if($listType=="table" && $products!=NULL){
+        }else if($listType=="admin" && $products!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
             echo	'	<tr class="row">';
@@ -58,7 +58,7 @@
                 echo	'	<td class="col">'.$products[$i]->Taxanomy.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Price.'</td>';
                 echo	'	<td class="col">'.$products[$i]->Stock.'</td>';
-                echo	'	<td class="col"><a href="/admin/orders/'.$products[$i]->ProductId.'"/>Edit</a></td>';
+                echo	'	<td class="col"><a href="/admin/products/'.$products[$i]->ProductId.'"/>Edit</a></td>';
                 echo	'</tr>';
             }
             echo	'</tbody>';
@@ -79,7 +79,7 @@
         // Get a list of orders from database and save the array in $orders
         // Loop through array and add all Orders to $orders as a Order Class
         $orders=call_user_func_array("getOrders",$pass_arg_list);
-        if($listType=="table" && $orders!=NULL){
+        if($listType=="admin" && $orders!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
             echo	'	<tr class="row">';
@@ -120,7 +120,7 @@
             $pass_arg_list[$j]=$arg_list[$i];
         }
         $users=call_user_func_array("getUsers",$pass_arg_list);
-        if($listType=="table" && $users!=NULL){
+        if($listType=="admin" && $users!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
             echo	'	<tr class="row">';
@@ -151,7 +151,7 @@
             $pass_arg_list[$j]=$arg_list[$i];
         }
         $taxanomies=call_user_func_array("getProductsFromTaxanomy",$pass_arg_list);
-        if($listType=="table" && $taxanomies!=NULL){
+        if($listType=="admin" && $taxanomies!=NULL){
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
             echo	'	<tr class="row">';
@@ -175,7 +175,7 @@
                 echo	'	<td class="col">'.$taxanomies[$i]->Taxanomy.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Price.'</td>';
                 echo	'	<td class="col">'.$taxanomies[$i]->Stock.'</td>';
-                echo	'	<td class="col"><a href="/admin/orders/'.$taxanomies[$i]->ProductId.'"/>Edit</a></td>';
+                echo	'	<td class="col"><a href="/admin/taxanomies/'.$taxanomies[$i]->ProductId.'"/>Edit</a></td>';
                 echo	'</tr>';
             }
             echo	'</tbody>';

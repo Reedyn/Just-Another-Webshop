@@ -14,5 +14,8 @@
                 <a href=""><li>ACCESSORIES</li></a>
                 <a href="login.php"><li>Login/Register</li></a>
     </ul>
+<<<<<<< HEAD
     <a href=""><img class="shoppingCart" src="img/cartBIG.png"></a>
+=======
+>>>>>>> develop
 </nav>

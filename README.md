@@ -1,6 +1,6 @@
 # [Just Another Webshop](http://justanotherwebshop.gustavlindqvist.se)
 
-![File Structure](https://github.com/reedyn/Just-Another-Webshop/blob/master/Temporary%20Project%20Files/File-Structure.png?raw=true)
+![File Structure](https://github.com/reedyn/Just-Another-Webshop/blob/develop/Temporary%20Project%20Files/File-Structure.png?raw=true)
 
 ## Logins
 

@@ -1,11 +1,11 @@
 RewriteEngine on 
 
 # Home
-RewriteRule ^/{0,1}$	/index.php?home [QSA]
+RewriteRule ^/{0,1}$	/jaws-content/page-home.php [QSA]
 
 # Admin
 RewriteRule ^admin/(search|products|taxanomies|orders|users)?/*$	/jaws-content/page-admin-$1.php [QSA]
-# RewriteRule ^admin/(search)/([a-ö0-9]{1,})*/*$					/index.php?admin=$1&search=$2 [QSA]
+# RewriteRule ^admin/(search)/([a-ö0-9]{1,})*/*$					/jaws-content/page-admin-search.php?search=$2 [QSA]
 RewriteRule ^admin/(products)/(new|[0-9]{1,})*/*$					/jaws-content/page-admin-product.php?product=$2 [QSA]
 RewriteRule ^admin/(taxanomies)/(new|[0-9]{1,})*/*$					/jaws-content/page-admin-taxanomy.php?taxanomy=$2 [QSA]
 RewriteRule ^admin/(orders)/([0-9]{1,})*/*$							/jaws-content/page-admin-order.php?order=$2 [QSA]

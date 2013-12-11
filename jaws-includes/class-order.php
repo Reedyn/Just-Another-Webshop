@@ -19,12 +19,11 @@
         global $db;
         //Call function in db.php to get the array of users
         $data=call_user_func_array(array($db,"dbGetUsersOrders"),$arg_list);
-
-        $order=NULL;
+        $orders=NULL;
         for($i=0;$i<count($data);$i++){
-            $order[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],$data[$i]['ProductList']);
+            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL);
         }
-        return $order;
+        return $orders;
     }
 
     class Order {
@@ -44,8 +43,12 @@
             $this->ChargedCard  = $ChargedCard;
             $this->OrderIP      = $OrderIP;
             $this->ProductList  = NULL;
-            for($i=0;$i<count($ProductList);$i++){
-                $this->ProductList[$i]=new ListedProduct($ProductList[$i][0],$ProductList[$i][1],$ProductList[$i][2]);
+
+            if($ProductList==NULL){
+            }else{
+                for($i=0;$i<count($ProductList);$i++){
+                    $this->ProductList[$i]=new ListedProduct($ProductList[$i][0],$ProductList[$i][1],$ProductList[$i][2]);
+                }
             }
         }
 

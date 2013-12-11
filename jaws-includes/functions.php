@@ -142,7 +142,6 @@
             echo	'</tbody>';
             echo	'</table>';
         }else if($listType=="userorders"){
-            global $db;
             $orders=call_user_func_array("getUsersOrders",$pass_arg_list);
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';

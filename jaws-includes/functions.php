@@ -128,8 +128,6 @@
             echo	'</thead>';
             echo	'<tbody>';
             for ($i=0;$i<count($orders);$i++){
-                global $db;
-                $orders=call_user_func_array(array($db,"dbGetUsersOrders"),$pass_arg_list);
                 echo	'<tr class="row">';
                 echo	'	<td class="col">'.$orders[$i]->OrderId.'</td>';
                 echo	'	<td class="col">'.$orders[$i]->SSNr.'</td>';
@@ -143,7 +141,9 @@
             }
             echo	'</tbody>';
             echo	'</table>';
-        }else if($listType=="users" && $orders!=NULL){
+        }else if($listType=="userorders"){
+            global $db;
+            $orders=call_user_func_array(array($db,"dbGetUsersOrders"),$pass_arg_list);
             echo '<table id="table" class="tablesorter">';
             echo	'<thead>';
             echo	'	<tr class="row">';

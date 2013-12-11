@@ -5,6 +5,7 @@
    Just Another Webshop
    ========================================================================== */
 html {
+  overflow-x: hidden;
   font-size: 62.5%;
 }
 body {
@@ -87,10 +88,11 @@ body nav.site-nav ul ul {
   position: absolute;
   background: #c0392b;
   width: 100%;
-  top: 39px;
+  top: 40px;
   height: 20px;
   border-right: none;
   left: -9999px;
+  border-left: 1px solid #eee;
 }
 body nav.site-nav ul ul:hover {
   left: 0;
@@ -114,8 +116,8 @@ body article.main-content section.products {
 }
 body article.main-content section.products article.product {
   float: left;
-  width: 24.2%;
-  margin-left: 0.5%;
+  width: 22.2%;
+  margin-left: 1.5%;
   margin-bottom: 10px;
   background: white;
   position: relative;
@@ -216,16 +218,73 @@ h1 {
     width: 42px;
   }
 }
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 770px) {
   .wrapper {
     width: 100%;
     border: none;
   }
+}
+@media screen and (max-width: 630px) {
+  .wrapper {
+    width: 100%;
+    border: none;
+  }
+  body article.main-content section.products article.product {
+    width: 30%;
+  }
+  body nav.site-nav {
+    top: -14px;
+  }
+  body nav.site-nav ul li {
+    display: block;
+    background: #c0392b;
+    border-top: 1px solid white;
+  }
+  body nav.site-nav ul {
+    padding: 0;
+  }
+  body nav.site-nav ul a {
+    color: #fff;
+    line-height: 31px;
+  }
+  body nav.site-nav ul a:nth-child(1) li {
+    padding: 0 20px;
+  }
+  body nav.site-nav ul a:nth-child(4) {
+    float: inherit;
+    padding-right: 0;
+    color: black;
+  }
+  body nav.site-nav ul ul {
+    top: 33px;
+  }
+  body nav.site-nav ul li:hover ul {
+    left: -9999px;
+  }
+  body nav.site-nav .shoppingCart {
+    top: -116px;
+  }
   .shoppingCart {
-    position: absolute;
-    bottom: -400px;
-    left: 92%;
-    width: 42px;
+    left: 78%;
+    width: 68px;
+  }
+  body article.main-content {
+    margin-top: 38px;
+  }
+}
+@media screen and (max-width: 520px) {
+  .wrapper {
+    width: 100%;
+    border: none;
+  }
+  body header.site-head .wrapper {
+    width: 100%;
+  }
+  body header.site-head .wrapper img {
+    width: 50%;
+  }
+  body nav.site-nav ul a {
+    font-size: 13px;
   }
 }
 /* ==========================================================================

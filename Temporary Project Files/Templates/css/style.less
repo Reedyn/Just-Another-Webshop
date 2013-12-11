@@ -1,7 +1,11 @@
 /* ==========================================================================
    Just Another Webshop
    ========================================================================== */
+
+@wrapper-width520px: 520px;
+@wrapper-width630px: 630px;
 @wrapper-width680px: 680px;
+@wrapper-width770px: 770px;
 @wrapper-width810px: 810px;
 @background: #000;
 @secondary-background:url('../img/header.png');
@@ -9,6 +13,8 @@
 @redColor: #c0392b;
 
 html {
+
+overflow-x: hidden;
 	font-size: 62.5%;
 } 
 
@@ -91,10 +97,11 @@ body {
                     position: absolute;
                     background: @redColor;
                     width: 100%;
-                    top: 39px;
+                    top: 40px;
                     height: 20px;
                     border-right: none;
                     left: -9999px;
+                    border-left: 1px solid #eee;
                     &:hover {
                         left: 0;
                     }
@@ -125,8 +132,8 @@ body {
 			     padding: 45px 0 ;
 				article.product {				
 					float: left;
-					width: 24.2%;
-                    margin-left: 0.5%;
+					width: 22.2%;
+                    margin-left: 1.5%;
 					margin-bottom: 10px;
 					background: white;
                     position: relative;
@@ -256,19 +263,78 @@ h1   {
     ul {
     }
 }
-
-@media screen and (max-width: @wrapper-width680px) {
+@media screen and (max-width: @wrapper-width770px) {
     .wrapper {
         width: 100%;
         border:none;
     }
-    .shoppingCart {
-            position: absolute;
-            bottom: -400px;
-            left: 92%;
-            width: 42px;
-        }
+
+}
+
+@media screen and (max-width: @wrapper-width630px) {
+    .wrapper {
+        width: 100%;
+        border:none;
+    }
+    body article.main-content section.products article.product {
+        width: 30%;
+    }
+    body nav.site-nav {
+        top: -14px;
+    }
+    body nav.site-nav ul li {
+        display: block;
+        background: @redColor;
+        border-top: 1px solid white;
+    }
+    body nav.site-nav ul {
+        padding: 0;
+    }
+    body nav.site-nav ul a {
+        color: #fff;
+        line-height: 31px;
+    }
+    body nav.site-nav ul a:nth-child(1) li {
+        padding: 0 20px;
+    }
     
+    body nav.site-nav ul a:nth-child(4) {
+        float: inherit;
+        padding-right: 0;
+        color: black;
+    }
+    body nav.site-nav ul ul {
+        top: 33px;
+    }
+    body nav.site-nav ul li:hover ul {
+        left: -9999px;
+    }
+    body nav.site-nav .shoppingCart {
+        top: -116px;
+    }
+    .shoppingCart {
+        left: 78%;
+        width: 68px;
+    }
+    body article.main-content {
+        margin-top: 38px;
+    }
+}
+
+@media screen and (max-width: @wrapper-width520px) { 
+    .wrapper {
+            width: 100%;
+            border:none;
+        }
+        body header.site-head .wrapper {
+            width: 100%;
+        }
+        body header.site-head .wrapper img {
+            width: 50%;
+        }
+        body nav.site-nav ul a {
+            font-size: 13px;
+        }
 }
 
 /* ==========================================================================

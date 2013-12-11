@@ -19,8 +19,10 @@
 
             $hashedPassword=$this->PasswordHash($salt,$Password);
             if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$salt')") === TRUE) {
+                echo "Success";
                 return true;
             }else{
+                echo "failure";
                 return false;
             }
         }
@@ -172,10 +174,8 @@
 
 
         public function dbMatchPassword($LoginEmail, $LoginPassword) {// Used to check if login matches database, returns a boolean.
-            if($result=$this->query("SELECT SSNr,Mail,Password,PwSalt FROM users WHERE Mail='$LoginEmail'")==TRUE){
-                while($row=$result->fetch_assoc()){
-
-                }
+            if($result=$this->query("SELECT SSNr,Mail,Password,PwSalt FROM users WHERE Mail='$LoginEmail'")){
+                $row=$result->fetch_assoc();
             }else{
                 return false;
             }

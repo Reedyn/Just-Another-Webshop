@@ -80,8 +80,24 @@
                 echo '</article>';
             }
             echo '</section>';
+        }else if($listType=="single" && $products!=NULL){
+            echo '<section class="product">';
+            echo    '<article class="product">';
+		    echo        '<a href="">';
+			echo			'<img src="'.$products[0]->ImgUrl.'" class="product-image"/>';
+			echo	    '</a>';
+			echo	'</article>';
+			echo	'<div class="product-meta">';
+			echo	    '<h2 class="product-title">'.$products[0]->Name.'</h2>';
+			echo		'<div class="product-description">'.$products[0]->Description.'</div>';
+			echo		'<span class="product-price">'.$products[0]->Price.'</span>';
+			echo		'<div class="product-add-to-cart-button">';
+			echo			'<a href=""><img src="img/cart.png"></a>';
+			echo		'</div>';
+			echo	'</div><!-- .product-meta -->';
+			echo '</section>';
         }else{
-            echo '<span class="error">No products found.</span>';
+            echo '<span class="error">No product found.</span>';
         }
 
     }
@@ -243,23 +259,26 @@
     }
     function UserLogin(){
         global $db;
-        if($CurrentSSNr=$db->dbMatchPassword($_POST['email'],$_POST['password'])==TRUE){
+        if($CurrentUser=$db->dbMatchPassword($_POST['email'],$_POST['password'])){
         //if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
+
             $sessionkey="";
             for($i=0;$i<21;$i++){
                 $sessionkey.=$chars[rand(0,count($chars)-1)];
             }
-            if($db->dbEditUser($CurrentSSNr,"SessionKey",$sessionkey)==TRUE){
+            if($db->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
                 echo '<span class="login_success">Login successful</span>';
                 $_SESSION['SessionKey']=$sessionkey;
+                if($CurrentUser[1]==TRUE){
+                    $_SESSION['IsAdmin']=TRUE;
+                }
             }
 
         }else{
             echo '<span class="login_failed">Login failed</span>';
         }
     }
-
 
 
 ?>

@@ -63,103 +63,38 @@
             }
         }
 
-        public function dbDeleteUsers() { // Attempts to delete users and returns a boolean.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // all the users will be deleted and primary key
-            // will be reset. Otherwise the function will delete
-            // the ID of users (SSNr) that are entered as arguments.
-            // Example: dbDeleteUsers(SSNr1,SSNr2,SSNr3...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($this->query("DELETE FROM users")===TRUE){
-                    $this->query("ALTER TABLE users AUTO_INCREMENT=1");
-                    return true;
-                }else{
-                    return false;
-                }
+        public function dbDeleteUser($SSNr) { // Attempts to delete users and returns a boolean.
+            if($this->query("DELETE FROM users WHERE SSNr in ($SSNr)")===TRUE){
+                return true;
             }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-                if($this->query("DELETE FROM users WHERE SSNr in ($param)")===TRUE){
-                    return true;
-                }else{
-                    return false;
-                }
+                return false;
             }
-
         }
 
-        public function dbGetUsers(){ //Returns an array with user arrays, NULL/FALSE if none found.
-            // Function uses dynamic arguments.
-            // To get all users the first and only
-            // argument must be "ALL".
-            // The arguments for getting a user is
-            // the users ID (SSNr) for the user.
-            // Works with endless of arguments.
-            // Ex: dbGetUsers(user1ssnr,user2ssnr,user3ssnr...);
+        public function dbGetUser($SSNr){ //Returns an array with user arrays, NULL/FALSE if none found.
+            $user=NULL;
+            if($result=$this->query("SELECT * FROM users WHERE SSNr in ($SSNr)")===TRUE){
+                while($row=$result->fetch_assoc()){
+                    $user=$row;
+                }    
+            }
+            return $user;
+        }
 
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
+        public function dbGetUsersAll(){
             $user_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM users");
+            if($result=$this->query("SELECT * FROM users")===TRUE){
                 $i=0;
-                while($row=$result->fetch_assoc()){
+                while($row=$resuslt->fetch_assoc()){
                     $user_list[$i]=$row;
-                    $i++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-                $result=$this->query("SELECT * FROM users WHERE SSNr in($param)");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $user_list[$i]=$row;
-                    $i++;
-                }
+                }    
             }
             return $user_list;
         }
 
-        public function dbGetUsersOrders() {
-            //This function is not needed
-            // If thats not the case I will
-            // make it call the other getOrder function
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
+        public function dbGetUsersOrders($SSNr){
             $order_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM orders");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $order_list[$i]=$row;
-                    $i++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<count($numargs);$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                $result=$this->query("SELECT * FROM orders WHERE SSNr in ($param)");
+            if($result=$this->query("SELECT * FROM orders WHERE SSNr in ($SSNr)")===TRUE){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;
@@ -218,71 +153,26 @@
             }
         }
 
-        public function dbDeleteCards() { // Attempts to remove a card, returns a boolean.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // all the users will be deleted and primary key
-            // will be reset. Otherwise the function will delete
-            // the ID of users (SSNr) that are entered as arguments.
-            // Example: dbDeleteUsers(SSNr1,SSNr2,SSNr3...);
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($this->query("DELETE FROM cards")===TRUE){
-                    return true;
-                }else{
-                    return false;
-                }
+        public function dbDeleteCard($CardId) { // Attempts to remove a card, returns a boolean.
+            if($this->query("DELETE FROM cards WHERE CardId in ($CardId)")===TRUE){
+                return true;
             }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                if($this->query("DELETE FROM cards WHERE CardNr in ($param)")===TRUE){
-                    return true;
-                }else{
-                    return false;
-                }
+                return false;
             }
         }
 
+        public function dbGetCard($CardId){ //Attempts to get cards, returns an array with card arrays. If failure returns NULL.
+            $card=NULL;
+            if($result=$this->query("SELECT * FROM cards WHERE CardId in($CardId)")===TRUE){
+                $card=$result->fetch_assoc();
+            }
+            return $card;
+        }
 
-
-        // Card
-
-        public function dbGetCards(){ //Attempts to get cards, returns an array with card arrays. If failure returns NULL.
-            // Function uses dynamic arguments.
-            // To get all users the first and only
-            // argument must be "ALL".
-            // The arguments for getting a card is
-            // the card ID (CardId) for the order.
-            // Works with endless of arguments.
-            // Ex: dbGetCards(CardId1,CardId2,CardId3...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
+        public function dbGetCardsAll(){
             $card_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM cards");
+            if($result=$this->query("SELECT * FROM cards")===TRUE){
                 $i=0;
-                while($row=$result->fetch_assoc()){
-                    $card_list[$i]=$row;
-                    $i++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-                $result=$this->query("SELECT * FROM cards WHERE CardId in($param)");
                 while($row=$result->fetch_assoc()){
                     $card_list[$i]=$row;
                     $i++;
@@ -290,6 +180,7 @@
             }
             return $card_list;
         }
+
 
         /*  ###################################################################################################
             Orders
@@ -337,7 +228,7 @@
         }
 
         private function dbAddOrderList($OrderId) { // Attempts to add order_list for orders, returns a boolean or a string.
-            // This wont be called outside of this file
+            // This wont be called from outside of this class
 
             $numargs=func_num_args();
             $arg_list=func_get_args();
@@ -388,60 +279,38 @@
             }
         }
 
-        public function dbDeleteOrders() { // Attempts to removes an order and associated ordered items (orderList), returns a boolean.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // all the orders(and order_lists) will be deleted and primary key
-            // will be reset. Otherwise the function will delete
-            // the ID of orders (OrderId) that are entered as arguments.
-            // Example: dbDeleteOrders(OrderId1,OrderId2,OrderId3...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            $param="";
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($this->query("DELETE FROM order_lists")===TRUE){
-                    if($this->query("DELETE FROM orders")===TRUE){
-                        $this->query("ALTER TABLE orders AUTO_INCREMENT=1");
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }
-                else{
+        public function dbDeleteOrder($OrderId) { // Attempts to removes an order and associated ordered items (orderList), returns a boolean.
+            
+            $this->autocommit(false);
+            if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")===TRUE){
+                if($this->query("DELETE FROM orders WHERE OrderId in ($OrderId)")===TRUE){
+                    $this->autocommit(true);
+                    return true;
+                }else{
+                    $this->rollback();
                     return false;
                 }
             }else{
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }
-                    else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-                if($this->query("DELETE FROM order_lists WHERE OrderId in ($param)")===TRUE){
-                    if($this->query("DELETE FROM orders WHERE OrderId in ($param)")===TRUE){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }
-                else{
-                    return false;
-                }
+                $this->rollback();
+                return false;
             }
         }
 
-        public function dbGetOrders(){ //Attempts to get orders, returns an array with order arrays. If failure returns NULL.
-            // Function uses dynamic arguments.
-            // To get all users the first and only
-            // argument must be "ALL".
-            // The arguments for getting an order is
-            // the orders ID (OrderId) for the order.
-            // Works with endless of arguments.
-            // Ex: dbGetOrders(OrderId1,OrderId2,OrderId3...);
+        public function dbGetOrder($OrderId){ //Attempts to get orders, returns an array with order arrays. If failure returns NULL.
 
+            $order=NULL;
+            if($result=$this->query("SELECT * FROM orders WHERE OrderId='$OrderId'")===TRUE){
+                if($result_list=$this->query("SELECT * FROM order_lists WHERE OrderId='$OrderId'")===TRUE){
+                    $order=$result->fetch_assoc();
+                    $i=0;
+                    while($row=$result_list->fetch_assoc()){
+                        $order["OrderList"][$i]=$row;
+                        $i++;
+                    }
+                }
+            }
+            return $order;
+            /*
             $numargs=func_num_args();
             $arg_list=func_get_args();
             $order_list=NULL;
@@ -494,6 +363,18 @@
                 $i++;
             }
             return $order_list;
+            */
+        }
+
+        public function dbGetOrdersAll(){
+            $order_list;
+            if($result=$this->query("SELECT * FROM orders")===TRUE){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $order_list[$i]=$row;
+                    $i++;
+                }
+            }
         }
 
          /*  ###################################################################################################
@@ -553,76 +434,34 @@
             }
         }
 
-        public function dbDeleteProducts() { // Attempts to delete products, returns a boolean.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // all the products will be deleted and primary key
-            // will be reset. Otherwise the function will delete
-            // the ID of products (ProductId) that are entered as arguments.
-            // Example: dbDeleteProducts(ProductId1,ProductId2,ProductId3...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($this->query("DELETE FROM products")===TRUE){
-                    $this->query("ALTER TABLE products AUTO_INCREMENT=1");
-                    return true;
-                }else{
-                    return false;
-                }
+        public function dbDeleteProduct($ProductId) { // Attempts to delete products, returns a boolean.
+            if($this->query("DELETE FROM products WHERE ProductId in ($ProductId)")===TRUE){
+                return true;
             }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                if($this->query("DELETE FROM products WHERE ProductId in ($param)")===TRUE){
-                    return true;
-                }else{
-                    return false;
-                }
+                return false;
             }
         }
 
-        public function dbGetProducts(){ // Attempts to get products, returns an array of product arrays. Failure returns NULL.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // gets all products.
-            // Otherwise the function will get from
-            // the ID of products (ProductId) that are entered as arguments.
-            // Example: dbGetProducts(ProductId1,ProductId2,ProductId3...);
+        public function dbGetProduct($ProductId){ // Attempts to get product, returns a product array. Failure returns NULL.
 
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
+            $product=NULL;
+            
+            if($result=$this->query("SELECT * FROM products WHERE ProductId in ($ProductId)")){
+                $product=$result->fetch_assoc()
+            }
+            return $product;
+        }
+
+        public function dbGetProductsAll(){
             $product_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($result=$this->query("SELECT * FROM products")){
-                    $i=0;
-                    while($row=$result->fetch_assoc()){
-                        $product_list[$i]=$row;
-                        $i++;
-                    }
+            
+            if($result=$this->query("SELECT * FROM products WHERE ProductId in ($ProductId)")){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $product[$i]=$row;   
+                    $i++;
                 }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-
-                if($result=$this->query("SELECT * FROM products WHERE ProductId in ($param)")){
-                    $i=0;
-                    while($row=$result->fetch_assoc()){
-                        $product_list[$i]=$row;
-                        $i++;
-                    }
-                }
+                
             }
             return $product_list;
         }
@@ -672,110 +511,32 @@
             }
         }
 
-        public function dbDeleteTaxanomies() { // Attempts to delete taxanomies, returns a boolean.
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // all the taxanomies will be deleted and primary key
-            // will be reset. Otherwise the function will delete
-            // the ID of taxanomies (TaxanomyId) that are entered as arguments.
-            // Example: dbDeleteTaxanomies(TaxanomyId1,TaxanomyId2,TaxanomyId3...);
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                if($this->query("DELETE FROM taxanomies")===TRUE){
-                    $this->query("ALTER TABLE taxanomies AUTO_INCREMENT=1");
-                    $this->query("INSERT INTO taxanomies SET TaxanomyName='MasterParent'");
-                    return true;
-                }else{
-                    return false;
-                }
+        public function dbDeleteTaxanomy($TaxanomyId) { // Attempts to delete taxanomies, returns a boolean.
+                
+            if($this->query("DELETE FROM taxanomies WHERE TaxanomyId in ($TaxanomyId)")===TRUE){
+                return true;
             }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                if($this->query("DELETE FROM taxanomies WHERE TaxanomyId in ($param)")===TRUE){
-                    return true;
-                }else{
-                    return false;
-                }
+                return false;
             }
         }
-        public function dbGetTaxanomies(){//Returns an array with taxanomies
-            //flexible arguments
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            $taxanomy_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM taxanomies");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $taxanomy_list[$i]=$row;
-                    $i++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyId in ($param)");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $taxanomy_list[$i]=$row;
-                    $i++;
-                }
-            }
-            return $taxanomy_list;
-        }
-        public function dbGetProductsFromTaxanomy(){ //Returns an array of product arrays. Failure returns NULL.
-            // Function uses dynamic amount of arguments.
-            // Gets products with Taxanomy matching arguments,
-            // several arguments possible, need exact match.
-            // Example: dbGetProductsFromTaxanomy(Taxanomy1,Taxanomy2...);
 
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
+        public function dbGetTaxanomy($TaxanomyId){//Returns an array with taxanomies
+            $taxanomy=NULL;
+            $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyId in ($TaxanomyId)");
+                $taxanomy_list=$result->fetch_assoc();
+            }
+            return $taxanomy;
+        }
+
+        public function dbGetProductsFromTaxanomy($TaxanomyId){ //Returns an array of product arrays. Failure returns NULL.
+            
             $product_list=NULL;
-            $taxanomy_list=NULL;
-            $complete_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM products");
-                $tax_result=$this->query("SELECT * FROM taxanomies");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $product_list[$i]=$row;
-                    $i++;
-                }
-                $i=0;
-                while($row=$tax_result->fetch_assoc()){
-                    $taxanomy_list[$row['TaxanomyId']]=$row;
-                    $i++;
-                }
 
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                $result= $this->query("SELECT * FROM products WHERE Taxanomy in ($param)");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $product_list[$i]=$row;
-                    $i++;
-                }
+            $result=$this->query("SELECT * FROM products WHERE Taxanomy in ($TaxanomyId)");
+            $i=0;
+            while($row=$result->fetch_assoc()){
+                $product_list[$i]=$row;
+                $i++;
             }
             return $product_list;
         }
@@ -784,42 +545,12 @@
             Currency
         */  ###################################################################################################
 
-        public function dbGetCurrencies(){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
-            // Functions has dynamic amount of arguments.
-            // If the first and only argument == "ALL",
-            // gets all currencies.
-            // Otherwise the function will get from
-            // the ID of currency (CurrencyId) that are entered as arguments.
-            // Example: dbGetCurrencies(CurrencyId1,CurrencyId2,CurrencyId3...);
-
-
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            $currency_list=NULL;
-            if($numargs==1 && $arg_list[0]=="ALL"){
-                $result=$this->query("SELECT * FROM currencies");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $currency_list[$i]=$row;
-                    $i++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].",";
-                    }
-                }
-                $result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($param)");
-                $i=0;
-                while($row=$result->fetch_assoc()){
-                    $currency_list[$i]=$row;
-                    $i++;
-                }
+        public function dbGetCurrency($CurrencyId){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
+            $currency=NULL;
+            if($result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($CurrencyId)")===TRUE){
+                $currency=$result->fetch_assoc();    
             }
-            return $currency_list;
+            return $currency;
         }
 
 

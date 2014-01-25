@@ -1,8 +1,9 @@
 <?php
-    $dbHost = "localhost";
-    //$dbUser = "root";
-    $dbUser = "jaws";
-    //$dbPassword = "";
-    $dbPassword = "tDBbs8XCtPeVwx9C";
-    $dbName = "jaws_db";
+    $config = array (
+        'dbHost' => 'localhost',
+        'dbUser' => 'jaws',
+        'dbPassword' => 'aEGHMDzaN7xU8QHx',
+        'dbName' =>    'jaws_db',
+        'siteName' => 'Hockey Gear'
+    )
 ?>

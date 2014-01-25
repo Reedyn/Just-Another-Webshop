@@ -17,9 +17,6 @@ function isAdmin() {
 
 function indexer() { // Function for delivering pages based on GET variables and building website title.
 	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
-	global $title;
-	global $subpage;
-	global $separator;
 	$title = "Just Another Webshop";
 	$separator = " / ";
 	/* ######################################

@@ -1,6 +1,6 @@
 <?php
     $dbHost = "localhost";
-    $dbUser = "root";
-    $dbPassword = "621955";
+    $dbUser = "rooty";
+    $dbPassword = "rootmaster2014";
     $dbName = "jaws_db";
 ?>

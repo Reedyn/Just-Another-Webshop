@@ -1,4 +1,4 @@
-<?php session_start() ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,15 +14,7 @@
 	<script src="/jaws-content/themes/default/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	<script src="/jaws-content/themes/default/js/vendor/jquery-1.10.1.min.js"></script>
 	<script src="/jaws-content/themes/default/js/jquery.tablesorter.min.js"></script>
-	<script src="/jaws-content/themes/default/js/reg.js"></script>
-    	<script>
-    		$(document).ready(function() 
-				{ 
-					$("#table").tablesorter(); 
-				} 
-			); 
-    	</script>
-	
+	<script src="/jaws-content/themes/default/js/reg.js"></script>	
 	<title>???</title>
 </head>
 <body>

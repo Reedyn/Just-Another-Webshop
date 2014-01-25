@@ -1,8 +1,6 @@
 <?php
 	
 function indexer() { // Function for delivering pages based on GET variables.
-	include($_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php"); // replaceheader.
-	
 	/* ######################################
 					Admin
 	*/ ######################################
@@ -91,7 +89,6 @@ function indexer() { // Function for delivering pages based on GET variables.
 	} else {
 		include($_SERVER['DOCUMENT_ROOT']."/jaws-content/404.php");
 	}
-	include($_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php"); // replacefooter.
 }
 
 ?>

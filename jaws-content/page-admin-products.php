@@ -14,32 +14,32 @@
               <td>jfieajifae</td>
               <td>499$</td>
               <td>Skates</td>
-              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+              <td><a href="/admin/products/42874189/" class="btn btn-default">Edit</a></td>
             </tr>
             <tr>
               <td>42874189</td>
               <td>2013-02-21</td>
               <td>1232131</td>
-              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+              <td><a href="/admin/products/42874189/" class="btn btn-default">Edit</a></td>
             </tr>
             <tr>
               <td>42874189</td>
               <td>2013-02-21</td>
               <td>Bauer blabala</td>
-              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+              <td><a href="/admin/products/42874189/" class="btn btn-default">Edit</a></td>
             </tr>
             <tr>
               <td>42874189</td>
               <td>2013-02-21</td>
               <td>312313</td>
-              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+              <td><a href="/admin/products/42874189/" class="btn btn-default">Edit</a></td>
             </tr>
             <tr>
             <td></td>
             <td></td>
             <td></td>
               <td>
-                <input type="button" href="page-admin-product.php" class="btn btn-primary" value="Add Product"></a>
+                <a href="/admin/products/new/" class="btn btn-primary">Add Product</a>
               </td>
             </tr>
           </table>

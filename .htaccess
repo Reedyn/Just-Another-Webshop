@@ -7,10 +7,10 @@ RewriteRule ^/(logout)/?$                                           /index.php?l
 # Admin
 RewriteRule ^admin/(search|products|taxanomies|orders|users)?/*$    /index.php?admin=$1 [QSA]
 RewriteRule ^admin/(search)/(\w+)*/*$                               /index.php?admin=$1&search=$2 [QSA]
-RewriteRule ^admin/(products)/(new|\d?)*/*$                         /index.php?admin=$1&product=$2&product-name=$3 [QSA]
-RewriteRule ^admin/(taxanomies)/(new|\d?)*/*$                       /index.php?admin=$1&taxanomy=$2 [QSA]
-RewriteRule ^admin/(orders)/(\d?)*/*$                               /index.php?admin=$1&order=$2 [QSA]
-RewriteRule ^admin/(users)/(new|\d?)*/*$                            /index.php?admin=$1&user=$2 [QSA]
+RewriteRule ^admin/(products)/(new|\d+)+/*$                         /index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(taxanomies)/(new|\d+)*/*$                       /index.php?admin=$1&taxanomy=$2 [QSA]
+RewriteRule ^admin/(orders)/(\d+)*/*$                               /index.php?admin=$1&order=$2 [QSA]
+RewriteRule ^admin/(users)/(new|\d+)*/*$                            /index.php?admin=$1&user=$2 [QSA]
 
 # Category
 RewriteRule ^(products)/(\d+)-?(\w+)?/*$                            /index.php?$1&category=$2&category-name=$3 [QSA]

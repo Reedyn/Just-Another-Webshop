@@ -14,8 +14,8 @@
           <p>55453 Jönköping</p>
           <p>lindqvist.gustav@gmail.com</p>
           <p>9761378126</p>
-          <input type="button" class="btn btn-default" value="Edit">
-          <input type="button" class="btn btn-primary" value="Log out">
+          <a href="/settings/user/" class="btn btn-default">Edit</a>
+          <a href="/logout/" class="btn btn-default">Logout</a>
 
         </div>
         <div class="panel-heading ">Orders</div>

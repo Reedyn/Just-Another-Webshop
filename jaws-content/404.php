@@ -1,4 +1,4 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navUser.php";?>
+<?php jaws_header(); ?>
 		<section class="wrapper">
 			<article class="main-content">
 				<?php /*include "/jaws-includes/functions.php";*/ 
@@ -10,8 +10,6 @@
 					echo "Page";
 				}
 				echo " not found."; 
-				
-				var_dump($_GET);?>
 			</article>
 		</section><!-- .wrapper -->
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php"; ?>
+<?php jaws_footer(); ?>

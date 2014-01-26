@@ -25,3 +25,7 @@
     </head>
     <?php jaws_navigation(); ?>
     <div class="container marketing">
+    <h2>Post</h2>
+    <?php var_dump($_POST); ?>
+    <h2>Get</h2>
+    <?php var_dump($_GET); ?>

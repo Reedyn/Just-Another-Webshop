@@ -54,8 +54,8 @@ function indexer() { // Function for delivering pages based on GET variables and
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-users.php"); // Otherwise load product list.
 			}
-		} else if($_GET['admin'] == "taxanomies"){
-			if(isset($_GET['taxanomy'])){ 				
+		} else if($_GET['admin'] == "categories"){
+			if(isset($_GET['category'])){ 				
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-taxanomy.php"); // Load product if user is trying to access a specific product.	
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-taxanomies.php"); // Otherwise load product list.

@@ -3,10 +3,10 @@
      <li class="dropdown dropdownCategory">
       <a id="drop4" role="button" data-toggle="dropdown" href="#">Choose Category <b class="caret"></b></a>
       <ul id="menu1" class="dropdown-menu dropdown-menuCategory" role="menu" aria-labelledby="drop4">
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Skates</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Sticks</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Helmets</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Goalie</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/products/1-skates/">Skates</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/products/2-sticks/">Sticks</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/products/3-helmets/">Helmets</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/products/4-goalie/">Goalie</a></li>
       </ul>
     </li>
   </div>

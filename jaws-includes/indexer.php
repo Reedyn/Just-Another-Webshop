@@ -23,7 +23,7 @@ function indexer() { // Function for delivering pages based on GET variables and
 					Admin
 	*/ ######################################
 	if(isset($_GET['admin'])){ // Check if user is trying to access admin
-		$subpage = $_GET['admin'].$separator."Admin".$separator;
+		$subpage = ucfirst($_GET['admin']).$separator."Admin".$separator;
 		if($_GET['admin'] == "products"){
 			if(isset($_GET['product'])){ 			
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-product.php"); // Load product if user is trying to access a specific product.

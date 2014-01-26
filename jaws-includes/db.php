@@ -19,10 +19,8 @@
 
             $hashedPassword=$this->PasswordHash($salt,$Password);
             if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$salt')") === TRUE) {
-                echo "Success";
                 return true;
             }else{
-                echo "failure";
                 return false;
             }
         }
@@ -56,7 +54,7 @@
                     $param.=$arg_list[$i]."',";
                 }
             }
-            if($this->query("UPDATE users SET $param WHERE SSNr='$SSNr'")===TRUE){
+            if($this->query("UPDATE users SET $param WHERE SSNr='$SSNr'")==TRUE){
                 return true;
             }else{
                 return false;
@@ -64,7 +62,7 @@
         }
 
         public function dbDeleteUser($SSNr) { // Attempts to delete users and returns a boolean.
-            if($this->query("DELETE FROM users WHERE SSNr in ($SSNr)")===TRUE){
+            if($this->query("DELETE FROM users WHERE SSNr in ($SSNr)")==TRUE){
                 return true;
             }else{
                 return false;
@@ -73,7 +71,7 @@
 
         public function dbGetUser($SSNr){ //Returns an array with user arrays, NULL/FALSE if none found.
             $user=NULL;
-            if($result=$this->query("SELECT * FROM users WHERE SSNr in ($SSNr)")===TRUE){
+            if($result=$this->query("SELECT * FROM users WHERE SSNr in ($SSNr)")){
                 while($row=$result->fetch_assoc()){
                     $user=$row;
                 }    
@@ -83,10 +81,11 @@
 
         public function dbGetUsersAll(){
             $user_list=NULL;
-            if($result=$this->query("SELECT * FROM users")===TRUE){
+            if($result=$this->query("SELECT * FROM users")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $user_list[$i]=$row;
+                    $i++;
                 }    
             }
             return $user_list;
@@ -94,7 +93,7 @@
 
         public function dbGetUsersOrders($SSNr){
             $order_list=NULL;
-            if($result=$this->query("SELECT * FROM orders WHERE SSNr in ($SSNr)")===TRUE){
+            if($result=$this->query("SELECT * FROM orders WHERE SSNr in ($SSNr)")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;
@@ -163,7 +162,7 @@
 
         public function dbGetCard($CardId){ //Attempts to get cards, returns an array with card arrays. If failure returns NULL.
             $card=NULL;
-            if($result=$this->query("SELECT * FROM cards WHERE CardId in($CardId)")===TRUE){
+            if($result=$this->query("SELECT * FROM cards WHERE CardId in($CardId)")){
                 $card=$result->fetch_assoc();
             }
             return $card;
@@ -171,7 +170,7 @@
 
         public function dbGetCardsAll(){
             $card_list=NULL;
-            if($result=$this->query("SELECT * FROM cards")===TRUE){
+            if($result=$this->query("SELECT * FROM cards")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $card_list[$i]=$row;
@@ -299,8 +298,8 @@
         public function dbGetOrder($OrderId){ //Attempts to get orders, returns an array with order arrays. If failure returns NULL.
 
             $order=NULL;
-            if($result=$this->query("SELECT * FROM orders WHERE OrderId='$OrderId'")===TRUE){
-                if($result_list=$this->query("SELECT * FROM order_lists WHERE OrderId='$OrderId'")===TRUE){
+            if($result=$this->query("SELECT * FROM orders WHERE OrderId='$OrderId'")){
+                if($result_list=$this->query("SELECT * FROM order_lists WHERE OrderId='$OrderId'")){
                     $order=$result->fetch_assoc();
                     $i=0;
                     while($row=$result_list->fetch_assoc()){
@@ -310,65 +309,12 @@
                 }
             }
             return $order;
-            /*
-            $numargs=func_num_args();
-            $arg_list=func_get_args();
-            $order_list=NULL;
-            $order_list_internal=NULL;
-            if($numargs==1 && $arg_list[0]=='ALL'){
-                $result=$this->query("SELECT * FROM orders");
-                $result_order_list=$this->query("SELECT * FROM order_lists");
-                $i=0;
-                $k=0;
-                $temp=NULL;
-                while($row_order_list=$result_order_list->fetch_assoc()){
-                    if($row_order_list['OrderId']!=$temp){
-                        $k=0;
-                    }
-                    $order_list_internal[$row_order_list['OrderId']][$k]=$row_order_list;
-                    $temp=$row_order_list['OrderId'];
-                    $k++;
-                }
-            }else{
-                $param="";
-                for($i=0;$i<$numargs;$i++){
-                    if($i==$numargs-1){
-                        $param.=$arg_list[$i];
-                    }else{
-                        $param.=$arg_list[$i].',';
-                    }
-                }
-                $result=$this->query("SELECT * FROM orders WHERE OrderId in ($param)");
-                $result_order_list=$this->query("SELECT * FROM order_lists WHERE OrderId in ($param)");
-                $i=0;
-                $k=0;
 
-                $temp=NULL;
-                while($row_order_list=$result_order_list->fetch_assoc()){
-                    if($row_order_list['OrderId']!=$temp){
-                        $k=0;
-                    }
-                    $order_list_internal[$row_order_list['OrderId']][$k]=$row_order_list;
-                    $temp=$row_order_list['OrderId'];
-                    $k++;
-                }
-            }
-            while($row=$result->fetch_assoc()){
-                $ProductListArray=NULL;
-                for($j=0;$j<count($order_list_internal[$row['OrderId']]);$j++){
-                    $ProductListArray[count($ProductListArray)]=array($order_list_internal[$row['OrderId']][$j]['OrderId'],$order_list_internal[$row['OrderId']][$j]['ProductId'],$order_list_internal[$row['OrderId']][$j]['Amount']);
-                }
-                $row['ProductList']=$ProductListArray;
-                $order_list[$i]=$row;
-                $i++;
-            }
-            return $order_list;
-            */
         }
 
         public function dbGetOrdersAll(){
             $order_list=NULL;
-            if($result=$this->query("SELECT * FROM orders")===TRUE){
+            if($result=$this->query("SELECT * FROM orders")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $order_list[$i]=$row;
@@ -547,7 +493,7 @@
 
         public function dbGetCurrency($CurrencyId){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
             $currency=NULL;
-            if($result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($CurrencyId)")===TRUE){
+            if($result=$this->query("SELECT * FROM currencies WHERE CurrencyId in ($CurrencyId)")){
                 $currency=$result->fetch_assoc();    
             }
             return $currency;

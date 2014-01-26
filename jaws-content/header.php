@@ -23,4 +23,5 @@
       <!-- Custom styles for this template -->
       <link href="/jaws-content/themes/default/css/carousel.css" rel="stylesheet">
     </head>
-    <?php jaws_navigation() ?>
+    <?php jaws_navigation(); ?>
+    <div class="container marketing">

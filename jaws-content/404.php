@@ -1,7 +1,7 @@
 <?php jaws_header(); ?>
 		<section class="wrapper">
 			<article class="main-content">
-				<?php /*include "/jaws-includes/functions.php";*/ 
+				<?php
 				if(isset($_GET['404'])){ 
 					if(!($_GET['404'] == "")) {
 						echo $_GET['404']; 
@@ -9,7 +9,7 @@
 				} else {
 					echo "Page";
 				}
-				echo " not found."; 
+				echo " not found."; ?>
 			</article>
 		</section><!-- .wrapper -->
 <?php jaws_footer(); ?>

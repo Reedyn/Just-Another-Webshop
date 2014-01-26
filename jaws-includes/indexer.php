@@ -12,17 +12,29 @@ function jaws_navigation() {
 }
 
 function isAdmin() {
-    return true;
+    if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+        return true;
+    }
+    return false;    
+}
+
+function isLoggedIn() {
+    if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+        return true;
+    }
+    return false;  
 }
 
 function indexer() { // Function for delivering pages based on GET variables and building website title.
 	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
 	$title = "Just Another Webshop";
 	$separator = " / ";
+	if(isset($_GET['logout'])){ // Check if user is trying to logout
+	    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-logout.php");
 	/* ######################################
 					Admin
 	*/ ######################################
-	if(isset($_GET['admin'])){ // Check if user is trying to access admin
+    } else if(isset($_GET['admin'])){ // Check if user is trying to access admin
 		$subpage = ucfirst($_GET['admin']).$separator."Admin".$separator;
 		if($_GET['admin'] == "products"){
 			if(isset($_GET['product'])){ 			

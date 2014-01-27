@@ -4,6 +4,42 @@
     include_once 'class-order.php';
     include_once 'class-user.php';
     include_once 'db.php';
+    
+    function jaws_header() {
+        include($_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php");
+    }
+    
+    function jaws_footer() {
+        include($_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php");
+    }
+    function jaws_navigation() {
+        include($_SERVER['DOCUMENT_ROOT']."/jaws-content/navigation.php");
+    }
+    
+    function showError($error, $type) {
+        echo '<div class="alert alert-'.$type.'">';
+        echo '    <a class="close" data-dismiss="alert">×</a>';
+        echo '    <strong>'.$error.'</strong>.';
+        echo '</div>';
+    }
+    
+    function registerError($message, $type) {
+        $_SESSION['error'] = array("message" => $message,"type" => $type);
+    }
+    
+    function isAdmin() {
+        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+            return true;
+        }
+        return false;    
+    }
+    
+    function isLoggedIn() {
+        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+            return true;
+        }
+        return false;  
+    }
 
     function listProducts($listType){ // List products in the fashion specified.
         // Get a list of products from database and save the array in $products

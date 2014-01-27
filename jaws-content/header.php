@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="/jaws-content/themes/default/img/favicon.ico">
 
-  <title><?php echo "Just Another Webshop"; ?></title>
+  <title>Just Another Webshop</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/jaws-content/themes/default/css/bootstrap.css" rel="stylesheet">
@@ -32,6 +32,12 @@
     </head>
     <?php jaws_navigation(); ?>
     <div class="container marketing">
+    <?php 
+    if(isset($_SESSION['error'])) {
+        jaws_error($_SESSION['error']['message'], $_SESSION['error']['type']);
+        unset($_SESSION['error']);
+    }
+    ?>
     <h2>Post</h2>
     <?php var_dump($_POST); ?>
     <h2>Get</h2>

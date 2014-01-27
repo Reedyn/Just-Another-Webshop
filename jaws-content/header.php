@@ -34,11 +34,7 @@
     <div class="container marketing">
     <?php 
     if(isset($_SESSION['error'])) {
-        jaws_error($_SESSION['error']['message'], $_SESSION['error']['type']);
+        showError($_SESSION['error']['message'], $_SESSION['error']['type']);
         unset($_SESSION['error']);
     }
     ?>
-    <h2>Post</h2>
-    <?php var_dump($_POST); ?>
-    <h2>Get</h2>
-    <?php var_dump($_GET); ?>

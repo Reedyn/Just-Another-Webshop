@@ -1,54 +1,32 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navUser.php"; include $_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php";?>	
-		<section class="wrapper">
-			<article class="main-content">
-				<?php var_dump($_POST);
-				if (isset($_POST['register'])){
+<?php if(!isLoggedIn() && isset($_POST['login-submit'])) { $_SESSION['logged-in'] = true; header("Location: /"); exit(); } jaws_header(); ?>
+<div class="container marketing">
 
-					if (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
-						echo "Name invalid!";
-					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
-						echo "LastName invalid!";
-					} elseif (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
-						echo "E-Mail invalid!";
-                        UserRegister();
-					}
-				}
-				
-				
-				if (isset($_POST['login'])){
-					if (!preg_match('^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}^', $_POST['email'])){
-						echo "Form invalid";
-					} else {
-                        UserLogin();
-					}
-				}
-				
-				?>
-				<form action="/login/" method="post">
-                    <input type="text" name="SSNr" pattern="^([0-9]\s)+$" required placeholder="yyyymmddxxxx"></br>
-					<input type="text" name="firstName" pattern="^.+$" required placeholder="first name..."></br>
-					<input type="text" name="lastName" pattern="^.+$" required placeholder="last name..."></br>
-					<input type="text" name="streetAdress" pattern="^.+$" required placeholder="street address..."></br>
-					<input type="text" name="postAddress" pattern="^([0-9]\s)+$" required placeholder="post address..."></br>
-					<input type="text" name="city" pattern="^[a-zåäöÅÄÖ]+$" required placeholder="city..."></br>
-					<input type="text" name="phone" pattern="^(\+46|0)[0-9]*$" required placeholder="phone..."></br>
-					<input type="text" name="email" required pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email..."></br>
-					<input type="password" name="password" pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" required id="password" placeholder="password..."></br>
-					<select name="country" placeholder="country...">
-						<option value="sweden">Sweden</option>
-						<option value="norway">Norway</option>
-						<option value="usa">United States of America</option>
-						<option value="china">China</option>
-					</select></br>
-					<input type="submit" name="register" value="Register">	
-				</form>
+      <div class="well well-lg">
+        <h2 class="form-signin-heading">Login</h2>
+        <form method="post" class="form-signin" role="form">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user" ></span></span>
+                <input name="login-name" type="text" class="form-control" placeholder="Username">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-6">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input name="login-password" type="password" class="form-control" placeholder="Password">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->  
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-2">
+              <button name="login-submit"class="btn btn-primary btn-block btn-margin" type="submit">Sign in</button>
+            </div>
+          </div>
+        </form>
+      </div>
 
-                <form action="/login/" method="post">
-                    <input type="text" name="email" required pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]{1,}@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email..."></br>
-                    <input type="password" name="password" pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" required id="password" placeholder="password..."></br>
-                    <input type="submit" name="login" value="Login">
-                </form>
-				
-			</article>
-		</section><!-- .wrapper -->
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>
+      <!-- START THE FEATURETTES -->
+
+      <hr class="featurette-divider">
+<?php jaws_footer(); ?>

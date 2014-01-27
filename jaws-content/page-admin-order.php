@@ -1,104 +1,94 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navAdmin.php";?>	
-		<section class="wrapper">
-			<article class="main-content">
-				<?php if (isset($_SESSION['IsAdmin'])){ ?>
-				<table class="table">
-					<tr>
-						<td><strong>Order</strong></td>
-						<td>43274324</td>
-					</tr>
-					<tr>
-						<td><strong>Date</strong></td>
-						<td>2013-09-26</td>
-					</tr>
-				</table>
-				<table class="table">
-					<tr>
-						<th><strong>Shipping Address</strong></th>
-						<th></th>
-						<th><strong>Billing Address</strong></th>
-						<th></th>
-					</tr>
-					<tr>
-						<td><strong>Street Address</strong></td>
-						<td>Hermansvägen 104</td>
-						<td>Street Address</td>
-						<td>Hermansvägen 104</td>
-					</tr>
-					<tr>
-						<td>Post Address</td>
-						<td>55453</td>
-						<td>Post Address</td>
-						<td>55453</td>
-					</tr>
-					<tr>
-						<td>City</td>
-						<td>Jönköping</td>
-						<td>City</td>
-						<td>Jönköping</td>
-					</tr>
-				</table>
-				<table class="table">
-					<tr>
-						<th>Name</th>
-						<th>Weight</th>
-						<th>Price</th>
-						<th>Amount</th>
-						<th>Total Price</th>
-					</tr>
-					<tr>
-						<td>Nintendo 64</td>
-						<td>1,2 kg</td>
-						<td>1200 kr</td>
-						<td>2</td>
-						<td>2400 kr</td>
-					</tr>
-					<tr>
-						<td>Nintendo 65</td>
-						<td>1,2 kg</td>
-						<td>2000 kr</td>
-						<td>1</td>
-						<td>2000 kr</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Sum</td>
-						<td>4400 kr</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Total Weight</td>
-						<td>4,6 kg</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Shipping Cost</td>
-						<td>150 kr</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Total value of order</td>
-						<td>4550 kr</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>Total value of order including VAT</td>
-						<td><strong>5687.5 kr</strong></td>
-					</tr>
-				</table>
-				<?php } else {
-				echo "<p>You do not have authorization to see this page!</p>";
-				} ?>
-			</article>
-		</section><!-- .wrapper -->
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>
+<?php jaws_header(); ?>
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading ">Order</div>
+        <div class="panel-body">
+          <table class="table">
+            <th>Invoice 123123</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <tr>
+              <td class="bold">Costumer</td>
+              <td></td>
+              <td class="bold">Gustav Lindqvist</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="bold">Ordernumber</td>
+              <td></td>
+              <td>3928392</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="bold">Date of purchase</td>
+              <td></td>
+              <td>2013-11-11</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="bold">Name</td>
+              <td class="bold">Price</td>
+              <td class="bold">Amount</td>
+              <td class="bold">Reserved</td>
+              <td class="bold">Sent</td>
+              <td class="bold">Cost</td>
+            </tr>
+            <tr>
+              <td>Bauer 145 skates blue, sm</td>
+              <td>359$</td>
+              <td>1</td>
+              <td>0</td>
+              <td>1</td>
+              <td class="bold">359$</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="bold">Shipping cost</td>
+              <td class="bold">20$</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="bold">Total cost, including shipping etc..</td>
+              <td class="bold">419$</td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td><a class="btn btn-default" href="/admin/orders/">Back</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+
+
+        </div>
+
+      </div>
+
+      <!-- START THE FEATURETTES -->
+<?php jaws_footer(); ?>

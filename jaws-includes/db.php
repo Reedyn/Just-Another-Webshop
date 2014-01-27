@@ -1,6 +1,6 @@
 <?php
     include_once 'config.php';
-    $db=new Database($dbHost,$dbUser,$dbPassword,$dbName);
+    $db=new Database($config['dbHost'],$config['dbUser'],$config['dbPassword'],$config['dbName']);
 
     class Database extends mysqli {
         public function __construct($dbHost,$dbUser,$dbPassword,$dbName) {
@@ -85,7 +85,7 @@
             $user_list=NULL;
             if($result=$this->query("SELECT * FROM users")===TRUE){
                 $i=0;
-                while($row=$resuslt->fetch_assoc()){
+                while($row=$result->fetch_assoc()){
                     $user_list[$i]=$row;
                 }    
             }
@@ -367,7 +367,7 @@
         }
 
         public function dbGetOrdersAll(){
-            $order_list;
+            $order_list=NULL;
             if($result=$this->query("SELECT * FROM orders")===TRUE){
                 $i=0;
                 while($row=$result->fetch_assoc()){
@@ -375,6 +375,7 @@
                     $i++;
                 }
             }
+            return $order_list;
         }
 
          /*  ###################################################################################################
@@ -447,7 +448,7 @@
             $product=NULL;
             
             if($result=$this->query("SELECT * FROM products WHERE ProductId in ($ProductId)")){
-                $product=$result->fetch_assoc()
+                $product=$result->fetch_assoc();
             }
             return $product;
         }
@@ -455,7 +456,7 @@
         public function dbGetProductsAll(){
             $product_list=NULL;
             
-            if($result=$this->query("SELECT * FROM products WHERE ProductId in ($ProductId)")){
+            if($result=$this->query("SELECT * FROM products WHERE ProductId")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
                     $product[$i]=$row;   
@@ -523,8 +524,7 @@
         public function dbGetTaxanomy($TaxanomyId){//Returns an array with taxanomies
             $taxanomy=NULL;
             $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyId in ($TaxanomyId)");
-                $taxanomy_list=$result->fetch_assoc();
-            }
+            $taxanomy=$result->fetch_assoc();
             return $taxanomy;
         }
 

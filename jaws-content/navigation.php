@@ -37,7 +37,6 @@
                     <?php } ?>
                     <li><a href="/logout/">Logout</a></li>
                     <?php } else { ?>
-                    <li><a href="/login/">Login for testing</a></li>
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login/Register<b class="caret"></b></a>
                       <ul class="dropdown-menu">

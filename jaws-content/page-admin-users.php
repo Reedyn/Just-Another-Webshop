@@ -1,6 +1,4 @@
 <?php jaws_header(); ?>
-
-
 <div class="container marketing">
 
       <div class="panel panel-primary">

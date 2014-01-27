@@ -1,4 +1,4 @@
-<?php jaws_header(); var_dump($_POST); ?>
+<?php jaws_header(); ?>
     <!-- Marketing messaging and featurettes
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->

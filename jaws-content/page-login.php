@@ -1,4 +1,4 @@
-<?php if(!isLoggedIn()) { $_SESSION['logged-in'] = true; header("Location: /"); exit(); } jaws_header(); ?>
+<?php if(!isLoggedIn() && isset($_POST['login-submit'])) { $_SESSION['logged-in'] = true; header("Location: /"); exit(); } jaws_header(); ?>
 <div class="container marketing">
 
       <div class="well well-lg">

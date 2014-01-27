@@ -1,4 +1,4 @@
-<?php jaws_header(); var_dump($_POST); ?>
+<?php jaws_header();?>
       <div class="container marketing">
       <div class="panel panel-primary">
         <!-- Default panel contents -->

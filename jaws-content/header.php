@@ -21,7 +21,14 @@
       <![endif]-->
 
       <!-- Custom styles for this template -->
-      <link href="/jaws-content/themes/default/css/carousel.css" rel="stylesheet">
+    <link href="/jaws-content/themes/default/css/carousel.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jaws-content/themes/default/js/validatr.min.js"></script>
+    <script type="text/javascript">
+        $(function ($) {
+            $('form').validatr(); 
+        });
+    </script>
     </head>
     <?php jaws_navigation(); ?>
     <div class="container marketing">

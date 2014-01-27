@@ -6,7 +6,6 @@
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
       </ol>
       <div class="carousel-inner">
         <div class="item active">
@@ -15,27 +14,17 @@
             <div class="carousel-caption">
               <h1>15% Off Your First Purchase</h1>
               <p>As a new costumer we give you 15% off your first purchase, regarding any equipment.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+              <p><a class="btn btn-lg btn-primary" href="/register/" role="button">Sign up today</a></p>
             </div>
           </div>
-        </div>
-        <div class="item">
-          <img src="img/test2.jpg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>About us</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#about" role="button">Learn more</a></p>
-            </div>
-          </div>
-        </div>
+        </div> 
         <div class="item">
           <img src="img/test3.jpg" alt="Third slide">
           <div class="container">
             <div class="carousel-caption">
               <h1>Partnership with Bauer</h1>
               <p>We are proud to present that we now have equipment from Bauer up for sale.<t/p>
-                <p><a class="btn btn-lg btn-primary" href="page-products.php" role="button">Browse gears</a></p>
+                <p><a class="btn btn-lg btn-primary" href="/products/" role="button">Browse gears</a></p>
               </div>
             </div>
           </div>

@@ -1955,6 +1955,21 @@ output {
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
+.form-control:focus:invalid:focus {
+    border-color: #e9322d;
+    -webkit-box-shadow: 0 0 6px #f8b9b7;
+    -moz-box-shadow: 0 0 6px #f8b9b7;
+    box-shadow: 0 0 6px #f8b9b7;
+}
+
+.form-control:focus:invalid, .form-control:focus:invalid, .form-control:focus:invalid {
+    color: #b94a48;
+    border-color: #ee5f5b;
+}
+.validatr-message {
+    z-index: 1000;
+}
+
 .form-control:-moz-placeholder {
   color: #999999;
 }

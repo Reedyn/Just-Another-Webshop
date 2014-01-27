@@ -126,7 +126,7 @@
         }
     }
     function listCart(){
-
+        
     }
     function listAdminSingleOrder($OrderId){
         $order=getOrder($OrderId);
@@ -245,6 +245,203 @@
         </div>
       </div>';
     }
+    function listAdminSingleProduct($ProductId){
+        $product=getProduct($ProductId);
+        if($product){
+            echo '<div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading ">Edit Product</div>
+            <div class="panel-body">
+              <form class="form-signin" role="form">
+                Name
+                <input type="text" class="form-control" value="'.$product->Name.'">
+                Description
+                <textarea type="text" id="mBot" rows="10" class="form-control">'.$product->Description.'</textarea>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">Product ID</span>
+                      <input type="text" class="form-control" value="'.$product->ProductId.'">
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">Price</span>
+                      <input type="text" class="form-control" value="'.$product->Price.'$">
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">Currently in stock</span>
+                      <input type="text" class="form-control" value="'.$product->Stock.'">
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                   <div class="input-group">
+                    <span class="input-group-addon">Weight</span>
+                    <input type="text" class="form-control" value="'.$product->ProductWeight.'">
+                  </div>
+                </div>
+                  <div class="col-lg-4">
+                    <span class="btn btn-default btn-file">Browse image<input type="file">
+                    </span>
+                  </div>
+              </div>
+              <tr>
+                <td>
+                  <button class="btn btn-primary btn-block" type="submit">Submit changes</button>
+                </td>
+              </tr>
+            </form>
+          </div>';
+        }else{
+            echo 'No product found!';
+        }
+    }
+
+    function listAdminProducts(){
+        $products=getAllProducts();
+        if($products){
+            echo '<div class="panel-heading ">Products</div>
+            <div class="panel-body">
+            <table class="table">
+            <div class="panel panel-primary">
+        <!-- Default panel contents -->
+            <th><input type="button" class="btn btn-default" value="Name"></th>
+            <th><input type="button" class="btn btn-default" value="Price"></th>
+            <th><input type="button" class="btn btn-default" value="Category"></th>
+            <th>Edit</th>';
+
+            for($i=0;$i<count($products);$i++){
+                echo '<tr>
+              <td>'.$products[$i]->Name.'</td>
+              <td>'.$products[$i]->Price.'</td>
+              <td>'.$products[$i]->Taxanomy.'</td>
+              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+            </tr>';
+            }
+            echo '<tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <input type="button" href="page-admin-product.php" class="btn btn-primary" value="Add Product"></a>
+              </td>
+            </tr>
+            </table>
+            </div>';
+        }else{
+            echo 'No products found!';
+        }
+    }
+    function listAdminSingleUser($SSNr){
+        $user=getUser($SSNr);
+        if($user){
+            echo '<div class="well well-lg">
+            <h2 class="form-signin-heading">Edit Profile</h2>
+            <form class="form-signin" role="form">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">Social Security Number</span>
+                    <input type="text" class="form-control" value="'.$user->SSNr.'" readonly>
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">First name</span>
+                    <input type="text" class="form-control" value="'.$user->FirstName.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">Last Name</span>
+                    <input type="text" class="form-control" value="'.$user->LastName.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+              </div><!-- /.row -->
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">Street Address</span>
+                    <input type="text" class="form-control" value="'.$user->StreetAddress.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">Post Address</span>
+                    <input type="text" class="form-control" value="'.$user->PostAddress.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">City</span>
+                    <input type="text" class="form-control" value="'.$user->City.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+              </div><!-- /.row -->
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-addon inputLeft">Phone</span>
+                    <input type="text" class="form-control" value="'.$user->Telephone.'">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+
+              </div><!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="input-group">
+                    <input type="button" class="btn btn-primary" value="New password">
+                  </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+
+              </div><!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <button class="btn btn-primary btn-block" type="submit">Submit changes</button>
+                </div>
+              </div>
+            </form>
+          </div>';
+        }else{
+            echo 'No user found!';
+        }
+    }
+    function listAdminUsers(){
+        $users=getAllUsers();
+        if($users){
+            echo'<div class="panel panel-primary">
+              <!-- Default panel contents -->
+              <div class="panel-heading ">Users</div>
+              <div class="panel-body">
+                  <table class="table">
+                      <th><input type="button" class="btn btn-default" value="Personal Securit Number"></th>
+                      <th><input type="button" class="btn btn-default" value="Full name"></th>
+                      <th>Edit</th>';
+            for($i=0;$i<count($users);$i++){
+                echo '<tr>
+                          <td>'.$users[$i]->SSNr.'</td>
+                          <td>'.$users[$i]->FirstName.' '.$users[$i]->LastName.'</td>
+                          <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+                      </tr>';
+            }
+            echo '<tr>
+              <td></td>
+              <td></td>
+              <td><input href="page-admin-product.php" class="btn btn-primary" type="button" value="Add new user"></td>
+            </tr>
+          </table>
+
+        </div>
+
+      </div>';
+        }else{
+            echo 'No users found!';
+        }
+    }
 
     function UserRegister(){
         global $db;
@@ -254,10 +451,9 @@
             echo '<span class="reg_failed">Registration failed</span>';
         }
     }
-    function UserLogin(){
+    function UserLogin($mail,$password){
         global $db;
-        if($CurrentUser=$db->dbMatchPassword($_POST['email'],$_POST['password'])){
-        //if($CurrentSSNr=$db->dbMatchPassword($a,$b)==TRUE){
+        if($CurrentUser=$db->dbMatchPassword($mail,$password)){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
 
             $sessionkey="";
@@ -271,7 +467,6 @@
                     $_SESSION['IsAdmin']=TRUE;
                 }
             }
-
         }else{
             echo '<span class="login_failed">Login failed</span>';
         }
@@ -372,5 +567,4 @@
         return $orders;
     }
     // END ORDER ----------------------------------|
-
 ?>

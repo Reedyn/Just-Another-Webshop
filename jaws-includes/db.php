@@ -120,7 +120,6 @@
                     //Return the SSNr may be necessary
                     $retarr=array($row['SSNr'],$row['IsAdmin']);
 					return $retarr;
-
                 }else{
                     //We know only the password is wrong
                     //But we wont mention it

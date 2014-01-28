@@ -41,7 +41,7 @@
     }
     
     function isAdmin() {
-        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true && isset($_SESSION['is-admin']) && $_SESSION['is-admin'] == true) {
             return true;
         }
         return false;    

@@ -1,6 +1,9 @@
 <?php
 if(!isLoggedIn() && isset($_POST['login-submit'])) { 
     $_SESSION['logged-in'] = true;
+    if($_POST['login-submit'] == 'admin') {
+        $_SESSION['is-admin'] = true;
+    }
     if(isset($_SESSION['redirect'])) {
         header("Location: ".$_SESSION['redirect']);
         unset($_SESSION['redirect']);
@@ -55,6 +58,9 @@ jaws_header(); ?>
           <div class="row">
             <div class="col-lg-2">
               <button name="login-submit"class="btn btn-primary btn-block btn-margin" type="submit">Login</button>
+            </div>
+            <div class="col-lg-2">
+              <button name="login-submit"class="btn btn-primary btn-block btn-margin" value="admin" type="submit">Login as admin</button>
             </div>
           </div>
         </form>

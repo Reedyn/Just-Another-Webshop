@@ -1,10 +1,26 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navUser.php";?>	
-		<section class="wrapper">
-			<article class="main-content">
-				<ul>
-					<li><a href="/settings/orders/">Orders</a></li>
-					<li><a href="/settings/user/">User settings</a></li>
-				</ul>
-			</article>
-		</section><!-- .wrapper -->
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>
+<?php jaws_header(); ?>	
+		<!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading ">Profile</div>
+        <div class="panel-body">
+          <p>Gustav Lindqvist</p>
+          <p>Hermansvägen 104</p>
+          <p>55453 Jönköping</p>
+          <p>lindqvist.gustav@gmail.com</p>
+          <p>910201-1914</p>
+          <a href="/settings/user/" class="btn btn-default">Edit</a>
+          <a href="/logout/" class="btn btn-default">Logout</a>
+
+        </div>
+        <div class="panel-heading ">Orders</div>
+        <div class="panel-body">
+          <a href="/settings/orders/"><p>Follow your orders here</p></a>
+        </div>
+     </div>
+<?php jaws_footer(); ?>	

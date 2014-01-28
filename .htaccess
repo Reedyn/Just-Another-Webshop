@@ -1,46 +1,39 @@
 RewriteEngine on 
 
 # Home
-RewriteRule ^/{0,1}$	/jaws-content/page-home.php [QSA]
+RewriteRule ^/?$                                                    /index.php?home [QSA]
+RewriteRule ^/(logout)/?$                                           /index.php?logout [QSA]
 
 # Admin
-RewriteRule ^admin/*$												/jaws-content/page-admin.php [QSA]
-RewriteRule ^admin/(search|products|taxanomies|orders|users)?/*$	/jaws-content/page-admin-$1.php [QSA]
-# RewriteRule ^admin/(search)/([a-ö0-9]{1,})*/*$					/jaws-content/page-admin-search.php?search=$2 [QSA]
-RewriteRule ^admin/(products)/(new|[0-9]{1,})*/*$					/jaws-content/page-admin-product.php?product=$2 [QSA]
-RewriteRule ^admin/(taxanomies)/(new|[0-9]{1,})*/*$					/jaws-content/page-admin-taxanomy.php?taxanomy=$2 [QSA]
-RewriteRule ^admin/(orders)/([0-9]{1,})*/*$							/jaws-content/page-admin-order.php?order=$2 [QSA]
-RewriteRule ^admin/(users)/(new|[0-9]{1,})*/*$						/jaws-content/page-admin-user.php?user=$2 [QSA]
+RewriteRule ^admin/(search|products|categories|orders|users)?/*$    /index.php?admin=$1 [QSA]
+RewriteRule ^admin/(search)/(\w+)*/*$                               /index.php?admin=$1&search=$2 [QSA]
+RewriteRule ^admin/(products)/(new|\d+)+/*$                         /index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(categories)/(new|\d+)*/*$                       /index.php?admin=$1&category=$2 [QSA]
+RewriteRule ^admin/(orders)/(\d+)*/*$                               /index.php?admin=$1&order=$2 [QSA]
+RewriteRule ^admin/(users)/(new|\d+)*/*$                            /index.php?admin=$1&user=$2 [QSA]
 
 # Category
-RewriteRule ^(products)/([0-9]+)(-[a-ö\-_]{1,})*/*$					/jaws-content/page-products.php?category=$2 [QSA]
-																	
+RewriteRule ^(products)/(\d+)-?(\w+)?/*$                            /index.php?$1&category=$2&category-name=$3 [QSA]
 
 # Product
-RewriteRule ^(products)/([0-9]+)(-[a-ö\-_]{1,})*/([0-9]{1,})+.*/*$ 	/jaws-content/page-product.php?category=$2&product=$4 [QSA]
-																	
+RewriteRule ^(products)/(\d+)-?(\w+)?/(\d+)-?(\S+)?/*$              /index.php?$1&category=$2&category-name=$3&product=$4&product-name=$5 [QSA]
 
 # Login/Register
-RewriteRule ^(login|register|sign-up|signup|sign-in|signin)/*$ 		/jaws-content/page-login.php?login [QSA]
-RewriteRule ^(logout)/*$ 											/jaws-content/page-home.php?logout [QSA]
-																	
-# Cart
-RewriteRule ^cart*/*$ 												/jaws-content/page-cart.php?cart [QSA]
-RewriteRule ^cart/([a-ö]{1,})*/*$ 									/jaws-content/page-cart.php?cart=$1 [QSA]
+RewriteRule ^(login|sign-in|signin|register|sign-up|signup)/*$      /index.php?login [QSA]
 
+# Cart
+RewriteRule ^cart/(\w+)*/*$                                         /index.php?cart=$1 [QSA]
 
 # Settings
-RewriteRule ^settings/([a-ö]{1,})+/*$ 								/jaws-content/page-settings-$1.php [QSA]
-RewriteRule ^settings/(orders)*/([0-9]*)/*$ 						/jaws-content/page-settings-order.php?order=$2 [QSA]
-																	
+RewriteRule ^settings/(\w+)/*$                                      /index.php?settings=$1 [QSA]
+RewriteRule ^settings/(orders)/([0-9]*)/*$                          /index.php?settings=$1&order=$2 [QSA]
 
 # Search
-RewriteRule ^search/([a-ö0-9]{1,})*/*$ 								/jaws-content/page-search.php?search=$1 [QSA]
+RewriteRule ^search/(\s+)*/*$                                       /index.php?search=$1 [QSA]
 
 # Page
-
-RewriteRule ^([a-z]{1,})/*$ 										/jaws-content/page-$1.php?$1 [QSA]
+RewriteRule ^(\w+)/*$                                               /index.php?$1 [QSA]
 
 # 404
-ErrorDocument  404  												/jaws-content/404.php
-RewriteRule ^([a-ö0-9]*)$ 											/jaws-content/404.php404=$1 [QSA]
+ErrorDocument  404                                                  /index.php?404
+RewriteRule ^(\w*)$                                                 /index.php?404=$1 [QSA]

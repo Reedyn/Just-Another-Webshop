@@ -1,9 +1,26 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php";	include $_SERVER['DOCUMENT_ROOT']."/jaws-content/navAdmin.php";?>
-		<section class="wrapper">
-			<article class="main-content">
-				<?php /*include "/jaws-includes/functions.php";*/
-				echo "<p>Admin page listing taxanomies.</p>";
-				var_dump($_GET);?>
-			</article>
-		</section><!-- .wrapper -->
-<?php include $_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php";	?>
+<?php jaws_header(); ?>
+<div class="panel panel-primary">
+  <div class="panel-heading">Categories</div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+        <li>Helmets <a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a>
+            <ul>
+                <li>Goalkeeper helmets <a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+            </ul>
+        
+        </li>
+        <li>Skates <a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/1" class="btn btn-default btn-xs">Edit</a></li>
+        <li><a href="/admin/categories/new" class="btn btn-primary">Add category</a>
+    </ul>
+  </div>
+</div>
+
+<?php jaws_footer(); ?>

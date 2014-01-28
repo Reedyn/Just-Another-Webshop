@@ -25,12 +25,4 @@
           </p>
         </div>
       </div>
-
-      <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
-
-      
-
-      <!-- /END THE FEATURETTES -->
 <?php jaws_footer(); ?>

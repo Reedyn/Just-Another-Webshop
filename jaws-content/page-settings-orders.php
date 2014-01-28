@@ -43,8 +43,4 @@
         </div>
 
       </div>
-
-      <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
 <?php jaws_footer(); ?>

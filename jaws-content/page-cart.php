@@ -1,4 +1,4 @@
-<?php jaws_header(); ?>
+<?php jaws_header(); if(!isLoggedIn()){ loginPrompt("Please login to checkout your shopping cart"); }?>
     <!-- Marketing messaging and featurettes
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
@@ -15,7 +15,7 @@
               <tr>
                 <td>Bauer blabla</td>
                 <td>
-                  <button type="submit"> <span class="glyphicon glyphicon-refresh"></span></button>
+                  <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-refresh"></span></button>
                 </td>
                 <td>
                   <div class="col-lg-2">
@@ -32,7 +32,7 @@
             <tr>
               <td>Jofa blabla</td>
               <td>
-                <button type="submit"> <span class="glyphicon glyphicon-refresh"></span></button>
+                <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-refresh"></span></button>
               </td>
               <td> <div class="col-lg-2">
                    <div class="input-group">
@@ -184,9 +184,6 @@
     </div>
   </div>
 </div>
-<!-- START THE FEATURETTES -->
-
-<hr class="featurette-divider">
 
 
 <?php jaws_footer(); ?>

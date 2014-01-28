@@ -5,9 +5,11 @@
             <div class="navbar navbar-inverse navbar-static-top" role="navigation">
               <div class="container">
                 <div class="navbar-header">
-                  <?php if(isLoggedIn()) { ?>
-                  <li class="shoppingCart"><a href="/cart/"><span class="glyphicon glyphicon-shopping-cart"></a></li>
-                  <?php } ?>
+                  <li class="shoppingCart">
+                      <a href="/cart/">
+                          Shopping Cart <?php itemsInCart(); ?> <span class="glyphicon glyphicon-shopping-cart"></span>
+                      </a>
+                    </li>
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -37,13 +39,7 @@
                     <?php } ?>
                     <li><a href="/logout/">Logout</a></li>
                     <?php } else { ?>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login/Register<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="/login/">Login</a></li>
-                        <li><a href="/register/">Register</a></li>
-                      </ul>
-                    </li>
+                    <li><a href="/login/">Login</a></li>
                     <?php } ?>
                   </ul>
                 </div>

@@ -89,6 +89,4 @@
         </div>
 
       </div>
-
-      <!-- START THE FEATURETTES -->
 <?php jaws_footer();

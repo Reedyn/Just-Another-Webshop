@@ -18,11 +18,8 @@ RewriteRule ^(products)/(\d+)-?(\w+)?/*$                            /index.php?$
 # Product
 RewriteRule ^(products)/(\d+)-?(\w+)?/(\d+)-?(\S+)?/*$              /index.php?$1&category=$2&category-name=$3&product=$4&product-name=$5 [QSA]
 
-# Login
-RewriteRule ^(login|sign-in|signin)/*$                              /index.php?login [QSA]
-
-# Register
-RewriteRule ^(register|sign-up|signup)/*$                           /index.php?register [QSA]
+# Login/Register
+RewriteRule ^(login|sign-in|signin|register|sign-up|signup)/*$      /index.php?login [QSA]
 
 # Cart
 RewriteRule ^cart/(\w+)*/*$                                         /index.php?cart=$1 [QSA]

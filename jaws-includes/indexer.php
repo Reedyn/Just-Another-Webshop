@@ -98,13 +98,6 @@ function indexer() { // Function for delivering pages based on GET variables and
 		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-login.php");
 		
 	/* ######################################
-					  Register
-	*/ ######################################
-	} else if(isset($_GET['register'])) {
-		$subpage = "Register".$separator;
-		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-register.php");
-		
-	/* ######################################
 					  404
 	*/ ######################################	
 	} else if(isset($_GET['404'])) {

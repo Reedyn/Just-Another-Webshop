@@ -170,16 +170,21 @@ body {
 }
 
 .shoppingCart {
-  position: absolute;
-  right: 67px;
-  top: 21px;
-  list-style: none;
+height: 40px;
+position: absolute;
+right: 67px;
+top: 21px;
+list-style: none;
 }
 .shoppingCart a {
-
-  color: white;
-  font-size: 28px;
-  padding: 5px;
+color: white;
+font-size: 17px;
+line-height: 40px;
+}
+.shoppingCart a .glyphicon.glyphicon-shopping-cart {
+font-size: 24px;
+line-height: 40px;
+vertical-align: sub;
 }
 
 .bold {

@@ -22,6 +22,19 @@
         echo '    <strong>'.$error.'</strong>.';
         echo '</div>';
     }
+    /*
+    $_SESSION['cart'] = array (
+        534758435 => 2,
+        53475543535 => 1)
+    );
+    */  
+    function addToCart($productId) {
+        if(isset($_SESSION['cart'][$productId])){
+            $_SESSION['cart'][$productId] = $_SESSION['cart'][$productId] + 1;
+        } else {
+            $_SESSION['cart'][$productId] = 1;
+        } 
+    }
     
     function registerError($message, $type) {
         $_SESSION['error'] = array("message" => $message,"type" => $type);
@@ -39,6 +52,23 @@
             return true;
         }
         return false;  
+    }
+    
+    function loginPrompt($prompt){
+        $_SESSION['redirect'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        registerError($prompt,'warning');
+        header('Location: /login/');
+        exit;
+    }
+    
+    function itemsInCart(){
+        if(isset($_SESSION['cart'])){
+            $cartAmount = 0;
+            foreach ($_SESSION['cart'] as $key => $value){
+                $cartAmount += $value;
+            }
+            echo "<span>(".$cartAmount." items)</span>";
+        }
     }
 
     function listProducts($listType){ // List products in the fashion specified.

@@ -5,7 +5,5 @@
             <?php } else {
             echo "<p>You do not have authorization to see this page!</p>";
             } ?>
-
-      <hr class="featurette-divider">
 <?php jaws_footer(); ?>
             

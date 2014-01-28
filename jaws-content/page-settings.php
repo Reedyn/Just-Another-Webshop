@@ -10,10 +10,10 @@
         <div class="panel-heading ">Profile</div>
         <div class="panel-body">
           <p>Gustav Lindqvist</p>
-          <p>Hermansv'gen 104</p>
+          <p>Hermansvägen 104</p>
           <p>55453 Jönköping</p>
           <p>lindqvist.gustav@gmail.com</p>
-          <p>9761378126</p>
+          <p>910201-1914</p>
           <a href="/settings/user/" class="btn btn-default">Edit</a>
           <a href="/logout/" class="btn btn-default">Logout</a>
 
@@ -23,8 +23,4 @@
           <a href="/settings/orders/"><p>Follow your orders here</p></a>
         </div>
      </div>
-
-     <!-- START THE FEATURETTES -->
-
-     <hr class="featurette-divider">
 <?php jaws_footer(); ?>	

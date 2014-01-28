@@ -1,3 +1,12 @@
+
+      <?php
+      echo '<h4>Session</h4>';
+    var_dump($_SESSION);
+    echo '<h4>Post</h4>';
+    var_dump($_POST);
+
+      ?>
+      <hr class="featurette-divider">
       <!-- FOOTER -->
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>

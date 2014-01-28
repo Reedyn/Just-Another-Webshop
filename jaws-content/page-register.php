@@ -23,7 +23,7 @@ if(isset($_POST['user-submit'])) {
           <div class="row">
             <div class="col-lg-4">
               <div class="input-group">
-                <span class="input-group-addon"></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                 <input pattern="^\d{2,4}-?\d{2}-?\d{2}-?\d{4}$" required name="user-ssn" type="text" class="form-control" placeholder="Social Security Number">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
@@ -89,8 +89,4 @@ if(isset($_POST['user-submit'])) {
           </div>
         </form>
       </div>
-
-      <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
 <?php jaws_footer(); ?>

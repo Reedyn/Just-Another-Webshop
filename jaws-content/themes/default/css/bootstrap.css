@@ -602,6 +602,10 @@ ol ol {
   list-style: none;
 }
 
+.list-unstyled li {
+    line-height: 30px;
+}
+
 .list-inline {
   padding-left: 0;
   list-style: none;

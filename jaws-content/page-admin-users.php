@@ -32,7 +32,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td><a href="/admin/users/new/" class="btn btn-default">Add new user</a></td>
+              <td><a href="/admin/users/new/" class="btn btn-primary">Add new user</a></td>
             </tr>
           </table>
 

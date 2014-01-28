@@ -25,7 +25,7 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p><form method="post">
             <a href="/products/1-category/1-product-name"class="btn btn-default">View details</a>
-            <button class="btn btn-primary" name="add-to-cart" value="43565465" type="submit">Add to cart</button></form>
+            <button class="btn btn-primary" name="add-to-cart" value="555" type="submit">Add to cart</button></form>
           </p>
         </div><!-- /.col-lg-4 -->
         
@@ -36,7 +36,7 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <form method="post">             <a href="/products/1-category/1-product-name"class="btn btn-default">View details</a>
-            <button class="btn btn-primary" name="add-to-cart" value="43565465" type="submit">Add to cart</button></form>
+            <button class="btn btn-primary" name="add-to-cart" value="555" type="submit">Add to cart</button></form>
           </p>
         </div><!-- /.col-lg-4 -->
         
@@ -47,7 +47,7 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <form method="post">             <a href="/products/1-category/1-product-name"class="btn btn-default">View details</a>
-            <button class="btn btn-primary" name="add-to-cart" value="43565465" type="submit">Add to cart</button></form>
+            <button class="btn btn-primary" name="add-to-cart" value="666" type="submit">Add to cart</button></form>
           </p>
         </div><!-- /.col-lg-4 -->
         
@@ -58,7 +58,7 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <form method="post">             <a href="/products/1-category/1-product-name"class="btn btn-default">View details</a>
-            <button class="btn btn-primary" name="add-to-cart" value="43565465" type="submit">Add to cart</button></form>
+            <button class="btn btn-primary" name="add-to-cart" value="666" type="submit">Add to cart</button></form>
           </p>
         </div><!-- /.col-lg-4 -->
         
@@ -70,7 +70,7 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <form method="post">             <a href="/products/1-category/1-product-name"class="btn btn-default">View details</a>
-            <button class="btn btn-primary" name="add-to-cart" value="43565465" type="submit">Add to cart</button></form>
+            <button class="btn btn-primary" name="add-to-cart" value="666" type="submit">Add to cart</button></form>
           </p>
         </div><!-- /.col-lg-4 -->
         

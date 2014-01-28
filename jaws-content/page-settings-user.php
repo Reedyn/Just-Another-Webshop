@@ -20,8 +20,6 @@ if(isset($_POST['user-submit'])) {
     } else {
         showError("Error while saving profile", "danger");
     }
-}
-    
 }?>
     <div class="container marketing">
      <div class="well well-lg">

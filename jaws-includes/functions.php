@@ -80,10 +80,16 @@
             foreach ($_SESSION['cart'] as $key => $value){
                 $cartAmount += $value;
             }
+            
             if($cartAmount != 1){
                 $suffix = "items";
             }
-            echo "<span>(".$cartAmount." ".$suffix.")</span>";
+            if($cartAmount == 0){
+                echo "";
+            } else {
+                echo "<span>(".$cartAmount." ".$suffix.")</span>";
+            }
+            
         }
     }
 

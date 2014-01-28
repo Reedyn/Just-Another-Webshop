@@ -1,4 +1,26 @@
-<?php jaws_header(); if(!isLoggedIn()){ loginPrompt("Please login to checkout your shopping cart"); }?>
+<?php jaws_header();
+if(!isLoggedIn()){
+    loginPrompt("Please login to checkout your shopping cart");
+}
+
+if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']])){
+    unset($_SESSION['cart'][$_POST['cart-remove']]);
+    registerError("Item removed from cart","success");
+    header('Location: '.$_SERVER['REQUEST_URI']);
+    exit();
+}
+if(isset($_POST['cart-update'])){
+    foreach($_POST as $key => $value){ 
+        if(isset($_SESSION['cart'][$key])) {
+            $_SESSION['cart'][$key] = $value;
+        }
+    }
+    registerError("Cart updated","success");
+    header('Location: '.$_SERVER['REQUEST_URI']);
+    exit();
+}
+                  
+?>
     <!-- Marketing messaging and featurettes
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
@@ -10,40 +32,41 @@
         <div class="panel-heading ">Step 1 - Check your cart</div>
         <div class="panel-body">
 
-          <form action="/cart/" method="post">
+          <form method="post">
             <table class="table">
               <tr>
-                <td>Bauer blabla</td>
+                <td>Bauer Skates</td>
                 <td>
-                  <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-refresh"></span></button>
+                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
                 </td>
                 <td>
                   <div class="col-lg-2">
                    <div class="input-group">
-                    <input type="text" class="form-control" value="1">
+                    <input type="text" class="form-control" name="555" value="1">
                   </div>
                 </div>
               </td>
               <td>
-                <input href="#" type="button" class="btn btn-default" value="remove">
+                <button class="btn btn-default" name="cart-remove" value="555">Remove</button>
               </td>
-              <td>450$</td>
+              <td>800$</td>
             </tr>
             <tr>
-              <td>Jofa blabla</td>
-              <td>
-                <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-refresh"></span></button>
-              </td>
-              <td> <div class="col-lg-2">
+                <td>Bauer Skates</td>
+                <td>
+                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
+                </td>
+                <td>
+                  <div class="col-lg-2">
                    <div class="input-group">
-                    <input type="text" class="form-control" value="1">
+                    <input type="text" class="form-control" name="666" value="1">
                   </div>
                 </div>
               </td>
               <td>
-                <input href="#" type="button" class="btn btn-default" value="remove">
+                <button class="btn btn-default" name="cart-remove" value="666">Remove</button>
               </td>
-              <td>450$</td>
+              <td>800$</td>
             </tr>
             <tr>
               <td></td>

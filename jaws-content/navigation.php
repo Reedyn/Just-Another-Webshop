@@ -7,7 +7,7 @@
                 <div class="navbar-header">
                   <li class="shoppingCart">
                       <a href="/cart/">
-                          Shopping Cart <?php itemsInCart(); ?> <span class="glyphicon glyphicon-shopping-cart"></span>
+                          <?php itemsInCart(); ?> <span class="glyphicon glyphicon-shopping-cart"></span>
                       </a>
                     </li>
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">
+                  <a class="navbar-brand" href="/">
                     <img src="/jaws-content/themes/default/img/logotype.png">
                   </a>
                 </div>

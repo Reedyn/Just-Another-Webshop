@@ -64,10 +64,14 @@
     function itemsInCart(){
         if(isset($_SESSION['cart'])){
             $cartAmount = 0;
+            $suffix = "item";
             foreach ($_SESSION['cart'] as $key => $value){
                 $cartAmount += $value;
             }
-            echo "<span>(".$cartAmount." items)</span>";
+            if($cartAmount != 1){
+                $suffix = "items";
+            }
+            echo "<span>(".$cartAmount." ".$suffix.")</span>";
         }
     }
 

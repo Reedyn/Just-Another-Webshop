@@ -35,6 +35,12 @@ function indexer() { // Function for delivering pages based on GET variables and
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-taxanomies.php"); // Otherwise load product list.
 			}
+		} else if($_GET['admin'] == "currencies"){
+			if(isset($_GET['currency'])){ 				
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-currency.php"); // Load product if user is trying to access a specific product.	
+			} else { 
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-currencies.php"); // Otherwise load product list.
+			}
 		} else if($_GET['admin'] == ""){
 			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin.php"); // If sub-page isn't defined load admin page.
 		} else {

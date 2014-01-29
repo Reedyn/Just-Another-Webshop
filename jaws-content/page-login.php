@@ -1,7 +1,7 @@
 <?php jaws_header(); 
 if(!isLoggedIn() && isset($_POST['user-login'])) { 
     $_SESSION['logged-in'] = true;
-    if($_POST['login-submit'] == 'admin') {
+    if($_POST['user-login'] == 'admin') {
         $_SESSION['is-admin'] = true;
     }
     if(isset($_SESSION['redirect'])) {
@@ -112,7 +112,7 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" required name="user-password" type="password" class="form-control" placeholder="Password">
+                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" data-message="Your password needs to be at least 6 characters long." required name="user-password" type="password" class="form-control" placeholder="Password">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
             </div><!-- /.row -->

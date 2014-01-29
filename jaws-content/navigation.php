@@ -34,6 +34,7 @@
                         <li><a href="/admin/products/">Products</a></li>
                         <li><a href="/admin/users/">Users</a></li>
                         <li><a href="/admin/categories/">Categories</a></li>
+                        <li><a href="/admin/currencies/">Currencies</a></li>
                       </ul>
                     </li>
                     <?php } ?>

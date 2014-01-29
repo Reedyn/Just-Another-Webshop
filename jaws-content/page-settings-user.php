@@ -26,24 +26,18 @@ if(isset($_POST['user-submit'])) {
         <h2 class="form-signin-heading">Edit profile</h2>
         <form method="post" class="form-signin" role="form">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                 <input readonly name="user-ssn" type="text" value="910201-1914" class="form-control" placeholder="Social Security Number">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
                 <input readonly name="user-mail" type="email" value="gustav@glindqvist.se" class="form-control" placeholder="E-Mail">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input name="user-password" type="password" class="form-control" placeholder="New Password">
-            </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->  
             </div><!-- /.row -->
           <div class="row">
             <div class="col-lg-4">
@@ -87,10 +81,19 @@ if(isset($_POST['user-submit'])) {
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->
           <div class="row">
-            <div class="col-lg-2">
-              <a href="/settings/" class="btn btn-default btn-block">Back</a>
-            </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input name="user-old-password" type="password" class="form-control" placeholder="Old Password">
+            </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" data-message="Your password needs to be at least 6 characters long." name="user-new-password" type="password" class="form-control" placeholder="New Password">
+            </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
               <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
             </div>
           </div>

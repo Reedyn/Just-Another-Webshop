@@ -12,6 +12,9 @@ if(!isLoggedIn() && isset($_POST['login-submit'])) {
     registerError('Welcome back','success');
     header("Location: /");
     exit(); 
+} else if(isLoggedIn()) {
+    header("Location: /");
+    exit();
 }
 /* Server-side validation 
 if success, register user and go to homepage. */

@@ -237,11 +237,13 @@
         <div class="panel-heading ">Database orders</div>
         <div class="panel-body">
           <table class="table">
+            <thead>
             <th><input type="button" class="btn btn-default" value="Order ID"></th>
             <th><input type="button" class="btn btn-default" value="Date of purchase"></th>
             <th><input type="button" class="btn btn-default" value="Personal number"></th>
             <th><input type="button" class="btn btn-default" value="Total cost"></th>
-            <th>Full details</th>';
+            <th>Full details</th>
+            </thead><tbody>';
         if($orders){
             for($i=0;$i<count($orders);$i++){
                 echo '<tr>
@@ -253,7 +255,7 @@
                 </tr>';
             }
         }
-        echo '</table>
+        echo '</tbody></table>
         </div>
       </div>';
     }
@@ -261,7 +263,6 @@
         $product=getProduct($ProductId);
         if($product){
             echo '<div class="panel panel-primary">
-            <!-- Default panel contents -->
             <div class="panel-heading ">Edit Product</div>
             <div class="panel-body">
               <form class="form-signin" role="form">
@@ -318,11 +319,11 @@
             <div class="panel-heading ">Products</div>
             <div class="panel-body">
             <table class="table">
-
+            <thead>
             <th><input type="button" class="btn btn-default" value="Name"></th>
             <th><input type="button" class="btn btn-default" value="Price"></th>
             <th><input type="button" class="btn btn-default" value="Category"></th>
-            <th>Edit</th>';
+            <th></th></thead><tbody>';
         if($products){
             for($i=0;$i<count($products);$i++){
                 echo '<tr>
@@ -334,14 +335,14 @@
             }
 
         }
-        echo '<tr>
+        echo '</tbody><tfoot><tr>
               <td></td>
               <td></td>
               <td></td>
               <td>
                 <input type="button" href="page-admin-product.php" class="btn btn-primary" value="Add Product"></a>
               </td>
-            </tr>
+            </tr></tfoot>
             </table>
             </div>';
     }
@@ -428,9 +429,10 @@
               <div class="panel-heading ">Users</div>
               <div class="panel-body">
                   <table class="table">
+                      <thead>
                       <th><input type="button" class="btn btn-default" value="Personal Securit Number"></th>
                       <th><input type="button" class="btn btn-default" value="Full name"></th>
-                      <th>Edit</th>';
+                      <th></th></thead><tbody>';
         if($users){
 
             for($i=0;$i<count($users);$i++){
@@ -441,11 +443,11 @@
                       </tr>';
             }
         }
-        echo '<tr>
+        echo '</tbody><tfoot><tr>
               <td></td>
               <td></td>
               <td><input href="page-admin-product.php" class="btn btn-primary" type="button" value="Add new user"></td>
-            </tr>
+            </tr></tfoot>
           </table>
 
         </div>

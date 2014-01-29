@@ -1960,18 +1960,30 @@ output {
 }
 
 .form-control:focus:invalid:focus {
+    background: #FFEAEA;
     border-color: #e9322d;
     -webkit-box-shadow: 0 0 6px #f8b9b7;
     -moz-box-shadow: 0 0 6px #f8b9b7;
     box-shadow: 0 0 6px #f8b9b7;
 }
 
+
 .form-control:focus:invalid, .form-control:focus:invalid, .form-control:focus:invalid {
+    background: #FFEAEA;
     color: #b94a48;
     border-color: #ee5f5b;
 }
+
+.form-control:focus:valid, .form-control:focus:valid, .form-control:focus:valid {
+    background: #E7ECF8;
+}
+
+.form.control:required {
+    background: #FFF;
+}
 .validatr-message {
-    z-index: 1000;
+display: inline-table;
+z-index: 1000;
 }
 
 .form-control:-moz-placeholder {

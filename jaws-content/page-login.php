@@ -1,4 +1,5 @@
-<?php jaws_header(); 
+<?php jaws_header();
+
 if(!isLoggedIn() && isset($_POST['user-login'])) { 
     $_SESSION['logged-in'] = true;
     if($_POST['user-login'] == 'admin') {
@@ -31,8 +32,18 @@ if(isset($_POST['user-register'])) {
         isset($_POST['user-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-password']) &&
         isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
         isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
-        isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
-        
+        isset($_POST['user-post-address'])&&
+        isset($_POST['user-street-address'])&&
+        isset($_POST['user-city'])) {
+        $_SESSION['form']['register'] = array(
+            'user-ssn' => $_POST['user-ssn'],
+            'user-mail' => $_POST['user-mail'],
+            'user-first-name' => $_POST['user-first-name'],
+            'user-last-name' => $_POST['user-last-name'],
+            'user-phone' => $_POST['user-phone'],
+            'user-street-address' => $_POST['user-street-address'],
+            'user-post-address' => $_POST['user-post-address'],
+            'user-city' => $_POST['user-city']);
         # was there a reCAPTCHA response?
         if (isset($_POST["recaptcha_response_field"]) && $_POST["recaptcha_response_field"] != "") {
                 $resp = recaptcha_check_answer ($privatekey,
@@ -41,19 +52,22 @@ if(isset($_POST['user-register'])) {
                                                 $_POST["recaptcha_response_field"]);
         
                 if ($resp->is_valid) {
-                $_SESSION['logged-in'] = true;
-                if(isset($_SESSION['redirect'])) {
-                    registerError('Welcome to Hockey Gear','success');
-                    header("Location: ".$_SESSION['redirect']);
-                    unset($_SESSION['redirect']);
-                    exit();
-                }
-                    registerError('Welcome to Hockey Gear','success');
-                    header("Location: /");
-                    exit();
+                    if (true) { //Add user
+                        if(isset($_SESSION['redirect'])) {
+                            registerError('Welcome to Hockey Gear','success');
+                            header("Location: ".$_SESSION['redirect']);
+                            unset($_SESSION['redirect']);
+                            exit();
+                        } 
+                        registerError('Registration successful. Welcome to Hockey Gear','success');
+                        header("Location: /");
+                        exit();
+                    } else {
+                        showError("Adding user failed", "danger");
+                    }
                 } else {
                         $error = $resp->error;
-                        showError($error, "danger");
+                        showError("Incorrect captcha", "danger");
                 }
         } else {
             showError("You need to fill in the captcha", "warning");
@@ -98,13 +112,13 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                <input pattern="^\d{2,4}-?\d{2}-?\d{2}-?\d{4}$" required name="user-ssn" type="text" class="form-control" placeholder="Social Security Number">
+                <input <?php fillForm("register","user-ssn"); ?> pattern="^\d{2,4}-?\d{2}-?\d{2}-?\d{4}$" required name="user-ssn" type="text" class="form-control" placeholder="Social Security Number">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
-                <input pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" required name="user-mail" type="email" class="form-control" placeholder="E-Mail">
+                <input <?php fillForm("register","user-mail"); ?>pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" required name="user-mail" type="email" class="form-control" placeholder="E-Mail">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
@@ -118,20 +132,20 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
+                <input <?php fillForm("register","user-first-name"); ?>pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
+                <input <?php fillForm("register","user-last-name"); ?>pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
-                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" name="user-phone" type="tel" class="form-control" placeholder="Phone">
+                <input <?php fillForm("register","user-phone"); ?>pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" required name="user-phone" type="tel" class="form-control" placeholder="Phone">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 --> 
             </div><!-- /.row -->
@@ -139,20 +153,20 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-street-address" type="text" class="form-control" placeholder="Street Address">
+                <input <?php fillForm("register","user-street-address"); ?> name="user-street-address" required type="text" class="form-control" placeholder="Street Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-post-address" type="text" class="form-control" placeholder="Post Address">
+                <input <?php fillForm("register","user-post-address"); ?> name="user-post-address" required type="text" class="form-control" placeholder="Post Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-city" type="text" class="form-control" placeholder="City">
+                <input <?php fillForm("register","user-city"); ?> name="user-city" type="text" required class="form-control" placeholder="City">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->

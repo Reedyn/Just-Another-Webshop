@@ -34,11 +34,17 @@
     
         return $result;
     }
+    function fillForm($form, $name) {
+        if(isset($_SESSION['form'][$form])){ 
+            echo 'value="'.$_SESSION['form'][$form][$name].'"';
+        }
+    }
+    
     function addToCart($productId) {
-        if(isset($_SESSION['cart'][$productId])){
-            $_SESSION['cart'][$productId] += 1;
+        if(isset($_SESSION['cart']['items'][$productId])){
+            $_SESSION['cart']['items'][$productId] += 1;
         } else {
-            $_SESSION['cart'][$productId] = 1;
+            $_SESSION['cart']['items'][$productId] = 1;
         } 
     }
     
@@ -72,10 +78,10 @@
     }
     
     function itemsInCart(){
-        if(isset($_SESSION['cart'])){
+        if(isset($_SESSION['cart']['items'])){
             $cartAmount = 0;
             $suffix = "item";
-            foreach ($_SESSION['cart'] as $key => $value){
+            foreach ($_SESSION['cart']['items'] as $key => $value){
                 $cartAmount += $value;
             }
             
@@ -145,7 +151,7 @@
         <!-- Default panel contents -->
         <div class="panel-heading ">Order</div>
         <div class="panel-body">
-          <table class="table">
+          <table class="sortable table">
             <th>Invoice</th>
             <th></th>
             <th></th>
@@ -236,7 +242,7 @@
         <!-- Default panel contents -->
         <div class="panel-heading ">Database orders</div>
         <div class="panel-body">
-          <table class="table">
+          <table class="sortable table">
             <thead>
             <th><input type="button" class="btn btn-default" value="Order ID"></th>
             <th><input type="button" class="btn btn-default" value="Date of purchase"></th>
@@ -251,7 +257,7 @@
                   <td>'.$orders[$i]->OrderDate.'</td>
                   <td>'.$orders[$i]->SSNr.'</td>
                   <td>'.$orders[$i]->OrderPrice.'$</td>
-                  <td><input type="button" class="btn btn-default" value="View"></td>
+                  <td><a href="/admin/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Edit</a></td>
                 </tr>';
             }
         }
@@ -260,67 +266,146 @@
       </div>';
     }
     function listAdminSingleProduct($ProductId){
-        $product=getProduct($ProductId);
-        if($product){
+        if ($ProductId == "new"){
             echo '<div class="panel panel-primary">
-            <div class="panel-heading ">Edit Product</div>
-            <div class="panel-body">
-              <form class="form-signin" role="form">
-                Name
-                <input type="text" class="form-control" value="'.$product->Name.'">
-                Description
-                <textarea type="text" id="mBot" rows="10" class="form-control">'.$product->Description.'</textarea>
-                <div class="row">
-                  <div class="col-lg-4">
-                    <div class="input-group">
-                      <span class="input-group-addon">Product ID</span>
-                      <input type="text" class="form-control" value="'.$product->ProductId.'">
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="input-group">
-                      <span class="input-group-addon">Price</span>
-                      <input type="text" class="form-control" value="'.$product->Price.'$">
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="input-group">
-                      <span class="input-group-addon">Currently in stock</span>
-                      <input type="text" class="form-control" value="'.$product->Stock.'">
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                   <div class="input-group">
-                    <span class="input-group-addon">Weight</span>
-                    <input type="text" class="form-control" value="'.$product->ProductWeight.'">
-                  </div>
+        <div class="panel-heading ">New Product</div>
+        <div class="panel-body">
+          <form method="post" enctype="multipart/form-data" class="form-signin" role="form">
+            Name
+            <input pattern="^.+$"name="product-name" type="text" class="form-control">
+            description
+            <textarea pattern="^.+$" name="product-description" type="text" id="mBot" rows="10" class="form-control"></textarea>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Product ID</span>
+                  <input pattern="^\d+$" disabled name="product-id" type="text" class="form-control" placeholder="Will be automatically generated">
                 </div>
-                  <div class="col-lg-4">
-                    <span class="btn btn-default btn-file">Browse image<input type="file">
-                    </span>
-                  </div>
               </div>
-              <tr>
-                <td>
-                  <button class="btn btn-primary btn-block" type="submit">Submit changes</button>
-                </td>
-              </tr>
-            </form>
-          </div>';
-        }else{
-            echo 'No product found!';
-        }
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Price (in Euro)</span>
+                  <input name="product-price" type="text" pattern="^\d+$" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Currently in stock</span>
+                  <input pattern="^\d+$" name="product-stock" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-4">
+               <div class="input-group">
+                <span class="input-group-addon">Weight (in gram)</span>
+                <input pattern="^\d+$" name="product-weight" type="text" class="form-control">
+              </div>
+            </div>
+              <div class="col-lg-4">
+               <div class="input-group">
+                <span class="input-group-addon">Category</span>
+                <select class="form-control" name="product-category">
+                  <option value="false">None</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+              <div class="col-lg-4">
+                <span class="btn btn-block btn-default btn-file">Browse image<input name="product-image" required data-message="You need to upload an image" accept="image/jpeg" type="file">
+                </span>
+              </div>
+          </div>
+        <div class="row">
+              <div class="col-lg-4">
+              </div>
+              <div class="col-lg-8">
+              <button name="product-add" class="btn btn-primary btn-block" type="submit">Add product</button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>';
+        } else {
+            $product=getProduct($ProductId);
+            if($product){
+                echo '<div class="panel panel-primary">
+        <div class="panel-heading ">New Product</div>
+        <div class="panel-body">
+          <form method="post" enctype="multipart/form-data" class="form-signin" role="form">
+            Name
+            <input pattern="^.+$"name="product-name" type="text" class="form-control" value="'.$product->Name.'">
+            description
+            <textarea pattern="^.+$" name="product-description" type="text" id="mBot" rows="10" class="form-control">'.$product->Description.'</textarea>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Product ID</span>
+                  <input pattern="^\d+$" readonly name="product-id" type="text" class="form-control" value="'.$product->ProductId.'">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Price (in Euro)</span>
+                  <input name="product-price" type="text" pattern="^\d+$" class="form-control" value="'.$product->Price.'">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <span class="input-group-addon">Currently in stock</span>
+                  <input pattern="^\d+$" name="product-stock" type="text" class="form-control" value="'.$product->Stock.'">
+                </div>
+              </div>
+              <div class="col-lg-4">
+               <div class="input-group">
+                <span class="input-group-addon">Weight (in gram)</span>
+                <input pattern="^\d+$" name="product-weight" type="text" class="form-control" value="'.$product->ProductWeight.'">
+              </div>
+            </div>
+              <div class="col-lg-4">
+               <div class="input-group">
+                <span class="input-group-addon">Category</span>
+                <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">
+                  <option value="false">None</option>
+                  <option>2</option>
+                  <option selected>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+              <div class="col-lg-4">
+                <span class="btn btn-block btn-default btn-file">Browse image<input name="product-image" data-message="You need to upload an image" accept="image/jpeg" type="file">
+                </span>
+              </div>
+          </div>
+        <div class="row">
+              <div class="col-lg-4">
+              <button name="product-delete" class="btn btn-danger btn-block" type="submit">Delete product</button>
+              </div>
+              <div class="col-lg-8">
+              <button name="product-edit" class="btn btn-primary btn-block" type="submit">Save product</button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>';
+            }else{
+                showError('No product found','danger');
+            }
+        } 
     }
 
     function listAdminProducts(){
         $products=getAllProducts();
         echo '<div class="panel panel-primary">
-        <!-- Default panel contents -->
             <div class="panel-heading ">Products</div>
             <div class="panel-body">
-            <table class="table">
+            <table class="sortable table">
             <thead>
             <th><input type="button" class="btn btn-default" value="Name"></th>
+            <th><input type="button" class="btn btn-default" value="Product ID"></th>
             <th><input type="button" class="btn btn-default" value="Price"></th>
             <th><input type="button" class="btn btn-default" value="Category"></th>
             <th></th></thead><tbody>';
@@ -328,9 +413,10 @@
             for($i=0;$i<count($products);$i++){
                 echo '<tr>
               <td>'.$products[$i]->Name.'</td>
+              <td>'.$products[$i]->ProductId.'</td>
               <td>'.$products[$i]->Price.'</td>
               <td>'.$products[$i]->Taxanomy.'</td>
-              <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+              <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit</a></td>
             </tr>';
             }
 
@@ -339,12 +425,13 @@
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td>
-                <input type="button" href="page-admin-product.php" class="btn btn-primary" value="Add Product"></a>
+                <a href="/admin/products/new/" class="btn btn-primary">Add Product</a>
               </td>
             </tr></tfoot>
             </table>
-            </div>';
+            </div></div>';
     }
     function listAdminSingleUser($SSNr){
         $user=getUser($SSNr);
@@ -428,7 +515,7 @@
               <!-- Default panel contents -->
               <div class="panel-heading ">Users</div>
               <div class="panel-body">
-                  <table class="table">
+                  <table class="sortable table">
                       <thead>
                       <th><input type="button" class="btn btn-default" value="Personal Securit Number"></th>
                       <th><input type="button" class="btn btn-default" value="Full name"></th>
@@ -439,14 +526,14 @@
                 echo '<tr>
                           <td>'.$users[$i]->SSNr.'</td>
                           <td>'.$users[$i]->FirstName.' '.$users[$i]->LastName.'</td>
-                          <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
+                          <td><a href="/admin/users/'.$users[$i]->SSNr.'/" class="btn btn-default">Edit</a></td>
                       </tr>';
             }
         }
         echo '</tbody><tfoot><tr>
               <td></td>
               <td></td>
-              <td><input href="page-admin-product.php" class="btn btn-primary" type="button" value="Add new user"></td>
+              <td><a href="/admin/users/new/" class="btn btn-primary">Add User</a></td>
             </tr></tfoot>
           </table>
 

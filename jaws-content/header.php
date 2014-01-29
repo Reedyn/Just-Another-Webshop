@@ -35,14 +35,13 @@
     <div class="container marketing">
     
     <?php
-    include_once "/jaws-includes/functions.php";
     if(isset($_SESSION['error'])) {
         showError($_SESSION['error']['message'], $_SESSION['error']['type']);
         unset($_SESSION['error']);
     }
     if (isset($_POST['add-to-cart'])){
         addToCart($_POST['add-to-cart']);
-        header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit; 
     }
     ?>

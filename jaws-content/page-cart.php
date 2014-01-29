@@ -9,6 +9,12 @@ if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']
     header('Location: '.$_SERVER['REQUEST_URI']);
     exit();
 }
+if(isset($_POST['currency'])){
+    $_SESSION['cart']['currency'] = intval($_POST['currency']);
+    registerError("Currency changed","success");
+    redirect($_SERVER['REQUEST_URI']);
+    
+}
 if(isset($_POST['cart-update'])){
     foreach($_POST as $key => $value){ 
         if(isset($_SESSION['cart'][$key])) {
@@ -18,6 +24,10 @@ if(isset($_POST['cart-update'])){
     registerError("Cart updated","success");
     header('Location: '.$_SERVER['REQUEST_URI']);
     exit();
+}
+if(isset($_POST['checkout'])){
+    $remove = array("-", " ");
+    $_POST['card-number'] = str_replace($remove, "", $_POST['card-number']);                  
 }
                   
 ?>
@@ -62,13 +72,36 @@ if(isset($_POST['cart-update'])){
               </td>
               <td>800$</td>
             </tr>
-            <tr>
+            </tbody>
+            <tfoot>
+                <tr>
               <td></td>
               <td></td>
-              <td></td>
+              <td>
+
+                    <div class="input-group">
+                        
+                        <select class="form-control"name='currency' onchange='this.form.submit()'>
+                        <?php
+                        $name = "Currency";
+                        for($i = 0; $i < 5; $i++){
+                            if($i == $_SESSION['cart']['currency']){
+                                $selected = " selected";
+                            } else {
+                                $selected = "";
+                            }
+                            echo '<option value="'.$i.'"'.$selected.'>'.$name.' '.$i.'</option>';
+                        }
+                        ?>
+                        </select>
+                        <noscript><input type="submit" value="Submit"></noscript>
+                    </div>
+              </td>
               <td class="bold">Total Cost</td>
               <td class="bold">900$</td>
             </tr>
+                
+            </tfoot>
 
           </table>
         </form>
@@ -97,12 +130,12 @@ if(isset($_POST['cart-update'])){
               <td>
                 <div class="input-group">
                   <span class="input-group-addon inputLeft">Street Address</span>
-                  <input name="shipping-street-address" type="text" class="form-control" value="Hemreiaj13">
+                  <input required name="shipping-street-address" type="text" class="form-control" placeholder="Street Address">
                 </div>
               </td>
               <td><div class="input-group">
                 <span class="input-group-addon inputLeft">Street Address</span>
-                <input name="billing-street-address" type="text" class="form-control" value="Hemreiaj13">
+                <input required name="billing-street-address" type="text" class="form-control" value="Hemreiaj13">
               </div>
             </td>
           </tr>
@@ -110,27 +143,27 @@ if(isset($_POST['cart-update'])){
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input name="shipping-post-address"type="text" class="form-control" value="postadressi">
+                <input required name="shipping-post-address"type="text" class="form-control" value="postadressi">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input name="billing-post-address" type="text" class="form-control" value="postadressi">
+                <input required name="billing-post-address" type="text" class="form-control" value="postadressi">
               </div>
             </td>
           </tr>
           <tr>
             <td>
               <div class="input-group">
-                <span name="shipping-city" class="input-group-addon inputLeft">City</span>
-                <input type="text" class="form-control" value="city">
+                <span class="input-group-addon inputLeft">City</span>
+                <input required name="shipping-city" type="text" class="form-control" value="city">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">City</span>
-                <input name="billing-city"type="text" class="form-control" value="city">
+                <input required name="billing-city" type="text" class="form-control" value="city">
               </div>
             </td>
           </tr>
@@ -140,29 +173,13 @@ if(isset($_POST['cart-update'])){
           <tr>
             <td>
               <div class="input-group">
-                <span name="card-full-name"class="input-group-addon inputLeft">Full Name</span>
-                <input type="text" class="form-control" value="">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="input-group">
-                <span name="card-number"class="input-group-addon inputLeft">Card Number</span>
-                <input type="text" class="form-control" value="">
+                <span class="input-group-addon inputLeft">Full Name</span>
+                <input name="card-full-name" required type="text" class="form-control" value="">
               </div>
             </td>
             <td>
-              <div class="input-group">
-                <span name="card-cvc"class="input-group-addon inputLeft">cvc</span>
-                <input type="text" class="form-control" value="">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="card-expiry-month" class="btn btn-default dropdown-toggle" id='expireMM'>
-                <option value=''>Month</option>
+              <select required name="card-expiry-month" class="btn btn-default dropdown-toggle" id='expireMM'>
+                <option value='false'>Month</option>
                 <option value='01'>Janaury</option>
                 <option value='02'>February</option>
                 <option value='03'>March</option>
@@ -176,23 +193,35 @@ if(isset($_POST['cart-update'])){
                 <option value='11'>November</option>
                 <option value='12'>December</option>
               </select> 
-              <select name="card-expiry-year" class="btn btn-default dropdown-toggle" id='expireYY'>
-                <option value=''>Year</option>
-                <option value='10'>14</option>
-                <option value='11'>15</option>
-                <option value='12'>16</option>
-                <option value='12'>17</option>
-                <option value='12'>18</option>
-                <option value='12'>19</option>
+              <select required name="card-expiry-year" class="btn btn-default dropdown-toggle" id='expireYY'>
+                <option value='false'>Year</option>
+                <option value='14'>14</option>
+                <option value='15'>15</option>
+                <option value='16'>16</option>
+                <option value='17'>17</option>
+                <option value='18'>18</option>
+                <option value='19'>19</option>
               </select> 
-            </td>
-            <td>
             </td>
           </tr>
           <tr>
             <td>
-              <a class="btn btn-default" href="page-product.php" role="button">&laquo; Back</a>
-              <button type="submit" class="btn btn-info">Review before placing order</button>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">Card Number</span>
+                <input required pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="">
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">CVC</span>
+                <input name="card-cvc" pattern="^\d{3}$" required type="text" class="form-control" value="">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a class="btn btn-default" href="/cart/">&laquo; Back</a>
+              <button type="submit" class="btn btn-info" name="checkout">Review before placing order</button>
             </td>
             <td></td>
           </tr>

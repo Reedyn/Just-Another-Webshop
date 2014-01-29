@@ -12,20 +12,26 @@
             <tr>
                 <th>SEK</th>
                 <th>0.113498611</th>
-                <th><a class="btn btn-default btn-xs" href="/admin/currencies/1">View</a></th>
+                <th><a class="btn btn-default" href="/admin/currencies/1">View</a></th>
             </tr>
             <tr>
                 <th>Euro</th>
                 <th>1</th>
-                <th><a class="btn btn-default btn-xs" href="/admin/currencies/2">View</a></th>
+                <th><a class="btn btn-default" href="/admin/currencies/2">View</a></th>
             </tr>
             <tr>
                 <th>USD</th>
                 <th>0.731314904</th>
-                <th><a class="btn btn-default btn-xs" href="/admin/currencies/3">View</a></th>
+                <th><a class="btn btn-default" href="/admin/currencies/3">View</a></th>
             </tr> 
         </tbody>
-        <tfoot></tfoot>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th><a href="/admin/currencies/new/" class="btn btn-primary">Add Currency</a></th>
+            </tr> 
+        </tfoot>
     </table>
   </div>
 </div>

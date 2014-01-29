@@ -2,4 +2,4 @@
 
 <?php listAdminProducts(); ?>
 
-<?php>jaws_footer(); ?>
+<?php jaws_footer(); ?>

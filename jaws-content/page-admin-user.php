@@ -97,7 +97,7 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
-                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" name="user-phone" type="tel" class="form-control" placeholder="Phone">
+                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" required name="user-phone" type="tel" class="form-control" placeholder="Phone">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 --> 
             </div><!-- /.row -->
@@ -105,33 +105,43 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-street-address" type="text" class="form-control" placeholder="Street Address">
+                <input name="user-street-address" required type="text" class="form-control" placeholder="Street Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-post-address" type="text" class="form-control" placeholder="Post Address">
+                <input name="user-post-address" required type="text" class="form-control" placeholder="Post Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input name="user-city" type="text" class="form-control" placeholder="City">
+                <input name="user-city" required type="text" class="form-control" placeholder="City">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->
           <div class="row">
-            <div class="col-lg-2">
-              <button name="user-submit" class="btn btn-primary btn-block" type="submit" value="new">Add user</button>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+              <div class="input-group">
+                  <span required class="input-group-addon">Access level</span>
+                  <select class="form-control" name="user-admin">
+                      <option selected value="false">User</option>
+                      <option value="true">Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+              <button name="user-submit" class="btn btn-primary btn-block" type="submit" value="new">Add User</button>
             </div>
           </div>
         </form>
       </div>
       </div>
 <?php } else { ?>
-<div class="container marketing">
      <div class="panel panel-primary">
       <div class="panel-heading">Edit User</div>
       <div class="panel-body">
@@ -201,6 +211,21 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->
           <div class="row">
+            
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+              <div class="input-group">
+                  <span required class="input-group-addon">Access level</span>
+                  <select class="form-control" name="user-admin">
+                      <option selected value=false>User</option>
+                      <option value=true>Administrator</option>
+                    </select>
+                </div>
+            </div>            
+            <div class="col-lg-2">
+              <button name="user-delete" class="btn btn-danger btn-block" value="edit" type="submit">Delete User</button>
+            </div>
             <div class="col-lg-2">
               <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
             </div>

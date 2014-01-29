@@ -2,6 +2,7 @@
 
 function indexer() { // Function for delivering pages based on GET variables and building website title.
 	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
+	if(!isset($_SESSION['cart']['currency'])){ $_SESSION['cart']['currency'] = 0;};
 	$title = "Just Another Webshop";
 	$separator = " / ";
 	if(isset($_GET['logout'])){ // Check if user is trying to logout

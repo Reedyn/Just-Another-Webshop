@@ -24,7 +24,10 @@ if (!isAdmin()){
                 $newImage = $manipulator->resample(200, 200);
                 // saving file to uploads folder
                 $manipulator->save($_SERVER['DOCUMENT_ROOT'].'/img/' . $_FILES['product-image']['name']);
-                showError('Image upload successful','success');
+                if (true) {
+                    registerError('Product added successfully','success');
+                    redirect("/admin/products/".$_POST['product-id']);
+                } 
             } else {
                 showError('Problem while uploading file',"danger");
             }       

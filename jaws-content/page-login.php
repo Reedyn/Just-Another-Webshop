@@ -10,11 +10,9 @@ if(!isLoggedIn() && isset($_POST['user-login'])) {
         exit();
     }
     registerError('Welcome back','success');
-    header("Location: /");
-    exit(); 
+    redirect("/");
 } else if(isLoggedIn()) {
-    header("Location: /");
-    exit();
+    redirect("/");
 }
 /* Server-side validation 
 if success, register user and go to homepage. */

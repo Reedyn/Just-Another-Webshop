@@ -61,10 +61,14 @@
     }
     
     function loginPrompt($prompt){
-        $_SESSION['redirect'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
         registerError($prompt,'warning');
         header('Location: /login/');
         exit;
+    }
+    function redirect($location){
+        header("Location: ".$location);
+        exit();
     }
     
     function itemsInCart(){

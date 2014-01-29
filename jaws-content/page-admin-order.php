@@ -1,10 +1,4 @@
 <?php jaws_header(); ?>
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing">
-
       <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div class="panel-heading ">Order</div>

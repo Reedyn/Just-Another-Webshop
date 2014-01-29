@@ -21,12 +21,6 @@ if(isset($_POST['cart-update'])){
 }
                   
 ?>
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing">
-
       <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div class="panel-heading ">Step 1 - Check your cart</div>

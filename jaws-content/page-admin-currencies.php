@@ -5,23 +5,23 @@
     <table class="sortable table">
         <thead>
             <th><button class="btn btn-default">Currency</button></th>
-            <th><button class="btn btn-default">Value (related to SEK)</button></th>
+            <th><button class="btn btn-default">Value (in relation to Euro)</button></th>
             <th></th>
         </thead>
         <tbody>
             <tr>
                 <th>SEK</th>
-                <th>1</th>
+                <th>0.113498611</th>
                 <th><a class="btn btn-default btn-xs" href="/admin/currencies/1">View</a></th>
             </tr>
             <tr>
                 <th>Euro</th>
-                <th>9</th>
+                <th>1</th>
                 <th><a class="btn btn-default btn-xs" href="/admin/currencies/2">View</a></th>
             </tr>
             <tr>
                 <th>USD</th>
-                <th>6</th>
+                <th>0.731314904</th>
                 <th><a class="btn btn-default btn-xs" href="/admin/currencies/3">View</a></th>
             </tr> 
         </tbody>

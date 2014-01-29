@@ -21,7 +21,6 @@ if(isset($_POST['user-submit'])) {
         showError("Error while saving profile", "danger");
     }
 }?>
-    <div class="container marketing">
      <div class="well well-lg">
         <h2 class="form-signin-heading">Edit profile</h2>
         <form method="post" class="form-signin" role="form">

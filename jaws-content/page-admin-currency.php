@@ -7,23 +7,20 @@
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="taxanomy-name" type="text" class="form-control" placeholder="Category Name">
+                <input pattern="^\w+$" required name="currency-name" type="text" class="form-control" placeholder="Currency Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
-               <div class="input-group">
-                <span class="input-group-addon">Parent Category</span>
-                <select class="form-control" name="taxanomy-parent">
-                  <option value="false">None</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input pattern="^(\d|[\.])+$" required name="currency-value" type="text" class="form-control" placeholder="Currency value in relation to Euro">
+              </div><!-- /input-group -->
             </div>
-            <div class="col-lg-4">
-                  <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
+            <div class="col-lg-2">
+                  <button name="currency-add" class="btn btn-primary btn-block" type="submit" value="new">Add currency</button>
+            </div>
+            <div class="col-lg-2">
+                  <button name="currency-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
             </div>
             </div><!-- /.row -->
         </form>

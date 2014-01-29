@@ -1,8 +1,5 @@
 <?php jaws_header(); ?>
-<div class="container marketing">
-    <?php
-        listAdminUsers();
-    ?>
-</div>
+
+<?php listAdminUsers(); ?>
 
 <?php jaws_footer(); ?>

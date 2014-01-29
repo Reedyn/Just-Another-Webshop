@@ -1,5 +1,4 @@
 <?php jaws_header();?>
-      <div class="container marketing">
       <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div class="panel-heading "><?php if($_GET['product'] == 'new') { echo "New"; } else { echo "Edit"; }?> Product</div>

@@ -33,7 +33,8 @@
     <?php jaws_navigation(); ?>
     <div class="container marketing">
     
-    <?php 
+    <?php
+    include_once "/jaws-includes/functions.php";
     if(isset($_SESSION['error'])) {
         showError($_SESSION['error']['message'], $_SESSION['error']['type']);
         unset($_SESSION['error']);

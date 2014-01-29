@@ -4,7 +4,7 @@
     include_once 'class-order.php';
     include_once 'class-user.php';
     include_once 'db.php';
-    
+
     function jaws_header() {
         include($_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php");
     }
@@ -232,16 +232,18 @@
             <th><input type="button" class="btn btn-default" value="Personal number"></th>
             <th><input type="button" class="btn btn-default" value="Total cost"></th>
             <th>Full details</th>';
-        for($i=0;$i<count($orders);$i++){
-            echo '<tr>
-              <td>'.$orders[$i]->OrderId.'</td>
-              <td>'.$orders[$i]->OrderDate.'</td>
-              <td>'.$orders[$i]->SSNr.'</td>
-              <td>'.$orders[$i]->OrderPrice.'$</td>
-              <td><input type="button" class="btn btn-default" value="View"></td>
-            </tr>';
+        if($orders){
+            for($i=0;$i<count($orders);$i++){
+                echo '<tr>
+                  <td>'.$orders[$i]->OrderId.'</td>
+                  <td>'.$orders[$i]->OrderDate.'</td>
+                  <td>'.$orders[$i]->SSNr.'</td>
+                  <td>'.$orders[$i]->OrderPrice.'$</td>
+                  <td><input type="button" class="btn btn-default" value="View"></td>
+                </tr>';
+            }
         }
-         echo '</table>
+        echo '</table>
         </div>
       </div>';
     }
@@ -301,17 +303,17 @@
 
     function listAdminProducts(){
         $products=getAllProducts();
-        if($products){
-            echo '<div class="panel-heading ">Products</div>
+        echo '<div class="panel panel-primary">
+        <!-- Default panel contents -->
+            <div class="panel-heading ">Products</div>
             <div class="panel-body">
             <table class="table">
-            <div class="panel panel-primary">
-        <!-- Default panel contents -->
+
             <th><input type="button" class="btn btn-default" value="Name"></th>
             <th><input type="button" class="btn btn-default" value="Price"></th>
             <th><input type="button" class="btn btn-default" value="Category"></th>
             <th>Edit</th>';
-
+        if($products){
             for($i=0;$i<count($products);$i++){
                 echo '<tr>
               <td>'.$products[$i]->Name.'</td>
@@ -320,7 +322,9 @@
               <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
             </tr>';
             }
-            echo '<tr>
+
+        }
+        echo '<tr>
               <td></td>
               <td></td>
               <td></td>
@@ -330,9 +334,6 @@
             </tr>
             </table>
             </div>';
-        }else{
-            echo 'No products found!';
-        }
     }
     function listAdminSingleUser($SSNr){
         $user=getUser($SSNr);
@@ -412,8 +413,7 @@
     }
     function listAdminUsers(){
         $users=getAllUsers();
-        if($users){
-            echo'<div class="panel panel-primary">
+        echo'<div class="panel panel-primary">
               <!-- Default panel contents -->
               <div class="panel-heading ">Users</div>
               <div class="panel-body">
@@ -421,6 +421,8 @@
                       <th><input type="button" class="btn btn-default" value="Personal Securit Number"></th>
                       <th><input type="button" class="btn btn-default" value="Full name"></th>
                       <th>Edit</th>';
+        if($users){
+
             for($i=0;$i<count($users);$i++){
                 echo '<tr>
                           <td>'.$users[$i]->SSNr.'</td>
@@ -428,7 +430,8 @@
                           <td><input href="page-admin-product.php" class="btn btn-default" type="button" value="Edit"></td>
                       </tr>';
             }
-            echo '<tr>
+        }
+        echo '<tr>
               <td></td>
               <td></td>
               <td><input href="page-admin-product.php" class="btn btn-primary" type="button" value="Add new user"></td>
@@ -438,29 +441,27 @@
         </div>
 
       </div>';
-        }else{
-            echo 'No users found!';
-        }
+    }
+    function listAdminTaxanomies(){
+        $GLOBALS['db']->dbGetTaxanomyAll();
     }
 
     function UserRegister(){
-        global $db;
-        if($db->dbAddUser($_POST['SSNr'],$_POST['email'],$_POST['password'],$_POST['firstName'],$_POST['lastName'],$_POST['streetAddress'],$_POST['postAddress'],$_POST['city'],$_POST['phone'])==TRUE){
+        if($GLOBALS['db']->dbAddUser($_POST['SSNr'],$_POST['email'],$_POST['password'],$_POST['firstName'],$_POST['lastName'],$_POST['streetAddress'],$_POST['postAddress'],$_POST['city'],$_POST['phone'])==TRUE){
             echo '<span class="reg_success">Registration successful</span>';
         }else{
             echo '<span class="reg_failed">Registration failed</span>';
         }
     }
     function UserLogin($mail,$password){
-        global $db;
-        if($CurrentUser=$db->dbMatchPassword($mail,$password)){
+        if($CurrentUser=$GLOBALS['db']->dbMatchPassword($mail,$password)){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
 
             $sessionkey="";
             for($i=0;$i<21;$i++){
                 $sessionkey.=$chars[rand(0,count($chars)-1)];
             }
-            if($db->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
+            if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
                 echo '<span class="login_success">Login successful</span>';
                 $_SESSION['SessionKey']=$sessionkey;
                 if($CurrentUser[1]==TRUE){
@@ -475,9 +476,8 @@
     //  USER START
     // -------------------------------------
     function getUser($SSNr) { // Returns a product from the product as a Product class.
-        global $db;
         //Call function in db.php to get the array of users
-        $data=$db->dbGetUser($SSNr);
+        $data=$GLOBALS['db']->dbGetUser($SSNr);
 
         $user=NULL;
         if($data!=NULL){
@@ -487,13 +487,12 @@
     }
 
     function getAllUsers(){
-        global $db;
 
-        $data=$db->dbGetUsersAll();
+        $data=$GLOBALS['db']->dbGetUsersAll();
 
         $users=NULL;
         for($i=0;$i<count($data);$i++){
-            $users=new User($data[$i]['SSNr'],$data[$i]['Mail'],$data[$i]['Password'],$data[$i]['FirstName'],$data[$i]['LastName'],$data[$i]['StreetAddress'],$data[$i]['PostAddress'],$data[$i]['City'],$data[$i]['Telephone'],$data[$i]['SessionKey'],$data[$i]['IsAdmin']);
+            $users[$i]=new User($data[$i]['SSNr'],$data[$i]['Mail'],$data[$i]['Password'],$data[$i]['FirstName'],$data[$i]['LastName'],$data[$i]['StreetAddress'],$data[$i]['PostAddress'],$data[$i]['City'],$data[$i]['Telephone'],$data[$i]['SessionKey'],$data[$i]['IsAdmin']);
         }
         return $users;
     }
@@ -503,8 +502,7 @@
     //  PRODUCT
     // -------------------------------------
     function getProduct($ProductId) { // Returns a product from the product as a Product class.
-        global $db;
-        $data=$db->dbGetProduct($ProductId);
+        $data=$GLOBALS['db']->dbGetProduct($ProductId);
         $product=NULL;
         if($data!=NULL){
             $product=new Product($data['ProductId'],$data['Name'],$data['Description'],$data['ImgUrl'],$data['Taxanomy'],$data['Price'],$data['Stock'],$data['ProductWeight']);
@@ -512,8 +510,7 @@
         return $product;
     }
     function getAllProducts(){
-        global $db;
-        $data=$db->dbGetProductsAll();
+        $data=$GLOBALS['db']->dbGetProductsAll();
         $products=NULL;
         for($i=0;$i<count($data);$i++){
             $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock'],$data[$i]['ProductWeight']);
@@ -521,8 +518,7 @@
         return $products;
     }
     function getProductsFromTaxanomy($TaxanomyId){
-        global $db;
-        $data=$db->dbGetProductsFromTaxanomy($TaxanomyId);
+        $data=$GLOBALS['db']->dbGetProductsFromTaxanomy($TaxanomyId);
         $products=NULL;
         for($i=0;$i<count($data);$i++){
             $products[$i]=new Product($data[$i]['ProductId'],$data[$i]['Name'],$data[$i]['Description'],$data[$i]['ImgUrl'],$data[$i]['Taxanomy'],$data[$i]['Price'],$data[$i]['Stock'],$data[$i]['ProductWeight']);
@@ -538,9 +534,7 @@
     //  ORDER
     // -------------------------------------
     function getOrder($OrderId) { // Returns an order from the order as an Order class.
-        global $db;
-        //Call function in db.php to get the array of users
-        $data=$db->dbGetOrder($OrderId);
+        $data=$GLOBALS['db']->dbGetOrder($OrderId);
 
         $order=NULL;
         if($data!=NULL){
@@ -549,8 +543,7 @@
         return $order;
     }
     function getAllOrders() { // Returns an order from the order as an Order class.
-        global $db;
-        $data=$db->dbGetOrdersAll();
+        $data=$GLOBALS['db']->dbGetOrdersAll();
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
             $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL);
@@ -558,8 +551,7 @@
         return $orders;
     }
     function getUsersOrders($SSNr) { // Returns an order from the order as an Order class.
-        global $db;
-        $data=$db->dbGetUsersOrders($SSNr);
+        $data=$GLOBALS['db']->dbGetUsersOrders($SSNr);
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
             $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL);

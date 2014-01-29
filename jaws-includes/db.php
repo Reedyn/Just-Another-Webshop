@@ -1,5 +1,6 @@
 <?php
     include_once 'config.php';
+    global $db;
     $db=new Database($config['dbHost'],$config['dbUser'],$config['dbPassword'],$config['dbName']);
 
     class Database extends mysqli {
@@ -404,7 +405,7 @@
             if($result=$this->query("SELECT * FROM products WHERE ProductId")){
                 $i=0;
                 while($row=$result->fetch_assoc()){
-                    $product[$i]=$row;   
+                    $product_list[$i]=$row;
                     $i++;
                 }
                 
@@ -484,6 +485,18 @@
                 $i++;
             }
             return $product_list;
+        }
+        public function dbGetTaxanomiesAll(){ //Returns an array of product arrays. Failure returns NULL.
+
+            $taxanomy_list=NULL;
+
+            $result=$this->query("SELECT * FROM taxanomies WHERE Taxanomy");
+            $i=0;
+            while($row=$result->fetch_assoc()){
+                $taxanomy_list[$i]=$row;
+                $i++;
+            }
+            return $taxanomy_list;
         }
 
         /*  ###################################################################################################

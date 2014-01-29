@@ -1,9 +1,49 @@
-<?php jaws_header();?>
+<?php jaws_header();
+if (!isAdmin()){
+    loginPrompt("You need to be an administrator to access this page.");
+}
+    if ($_GET['product'] == "new" && isset($_POST['product-save'])){
+        if (isset($_POST['product-id']) && preg_match("$.+$", $_POST['product-id']) &&
+            isset($_POST['product-name']) && preg_match("$.+$", $_POST['product-name']) &&
+            isset($_POST['product-description']) && preg_match("$.+$", $_POST['product-description']) &&
+            isset($_POST['product-price']) && preg_match("$.+$", $_POST['product-price']) &&
+            isset($_POST['product-stock']) && preg_match("$.+$", $_POST['product-stock']) &&
+            isset($_POST['product-weight']) && preg_match("$.+$", $_POST['product-weight']) &&
+            isset($_POST['product-stock']) && preg_match("$.+$", $_POST['product-stock']) &&
+            isset($_POST['product-category']) && preg_match("$.+$", $_POST['product-category']) &&
+            isset($_FILES['product-image'])){
+            
+            require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/image-resizer.php');
+            // array of valid extensions
+            $validExtensions = array('.jpg','.jpeg');
+            // get extension of the uploaded file
+            $fileExtension = strrchr($_FILES['product-image']['name'], ".");
+            // check if file Extension is on the list of allowed ones
+            if (in_array($fileExtension, $validExtensions)) {
+                $manipulator = new ImageManipulator($_FILES['product-image']['tmp_name']);
+                $newImage = $manipulator->resample(200, 200);
+                // saving file to uploads folder
+                $manipulator->save($_SERVER['DOCUMENT_ROOT'].'/img/' . $_FILES['product-image']['name']);
+                showError('Image upload successful','success');
+            } else {
+                showError('Problem while uploading file',"danger");
+            }       
+        } else {
+            showError('Product save failed',"danger");
+            var_dump($_FILES);
+            var_dump($_POST);
+        }
+    } else if (true){
+        // Edit product     
+    }
+
+      
+      ?>
       <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div class="panel-heading "><?php if($_GET['product'] == 'new') { echo "New"; } else { echo "Edit"; }?> Product</div>
         <div class="panel-body">
-          <form method="post" class="form-signin" role="form">
+          <form method="post" enctype="multipart/form-data" class="form-signin" role="form">
             Name
             <input pattern="^.+$"name="product-name" type="text" class="form-control" value="hejhe">
             description
@@ -46,7 +86,7 @@
               </div>
             </div>
               <div class="col-lg-4">
-                <span class="btn btn-block btn-default btn-file">Browse image<input name="product-image" type="file">
+                <span class="btn btn-block btn-default btn-file">Browse image<input name="product-image" required data-message="You need to upload an image" accept="image/jpeg" type="file">
                 </span>
               </div>
           </div>

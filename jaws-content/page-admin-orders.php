@@ -1,9 +1,5 @@
 <?php jaws_header(); ?>
-		<div class="container marketing">
 
-            <?php
-                listAdminOrders();
-            ?>
+<?php listAdminOrders(); ?>
 
-      </div>
 <?php jaws_footer(); ?>

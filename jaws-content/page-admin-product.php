@@ -19,7 +19,7 @@
               <div class="col-lg-4">
                 <div class="input-group">
                   <span class="input-group-addon">Price (in SEK)</span>
-                  <input name="product-price" type="text" pattern="^\d+$" class="form-control" value="421$">
+                  <input name="product-price" type="text" pattern="^\d+$" class="form-control" value="421">
                 </div>
               </div>
               <div class="col-lg-4">
@@ -31,7 +31,7 @@
               <div class="col-lg-4">
                <div class="input-group">
                 <span class="input-group-addon">Weight (in gram)</span>
-                <input pattern="^\d+$" name="product-weight" type="text" class="form-control" value="1.4">
+                <input pattern="^\d+$" name="product-weight" type="text" class="form-control" value="1400">
               </div>
             </div>
               <div class="col-lg-4">
@@ -47,15 +47,18 @@
               </div>
             </div>
               <div class="col-lg-4">
-                <span class="btn btn-default btn-file">Browse image<input name="product-image" type="file">
+                <span class="btn btn-block btn-default btn-file">Browse image<input name="product-image" type="file">
                 </span>
               </div>
           </div>
-          <tr>
-            <td>
-              <button name="submit" class="btn btn-primary btn-block" type="submit">Submit changes</button>
-            </td>
-          </tr>
+        <div class="row">
+              <div class="col-lg-4">
+              <button name="product-delete" class="btn btn-danger btn-block" type="submit">Delete product</button>
+              </div>
+              <div class="col-lg-8">
+              <button name="product-save" class="btn btn-primary btn-block" type="submit">Save product</button>
+              </div>
+            </div>
         </form>
       </div>
     </div>

@@ -1,7 +1,4 @@
 <?php jaws_header();
-if (!isAdmin()){
-    loginPrompt("You need to be an administrator to access this page.");
-}
     if (isset($_POST['product-add'])){
         if (isset($_POST['product-name']) && preg_match("$.+$", $_POST['product-name']) &&
             isset($_POST['product-description']) && preg_match("$.+$", $_POST['product-description']) &&

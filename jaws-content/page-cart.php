@@ -1,34 +1,34 @@
 <?php jaws_header();
-if(!isLoggedIn()){
+if(!isLoggedIn()){ // Prompt user to login when trying
     loginPrompt("Please login to checkout your shopping cart");
 }
 
-if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']])){
+if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']])){ // Remove item from cart when button is pressed.
     unset($_SESSION['cart'][$_POST['cart-remove']]);
     registerError("Item removed from cart","success");
     header('Location: '.$_SERVER['REQUEST_URI']);
     exit();
 }
 
-if(isset($_POST['currency'])){
+if(isset($_POST['currency']) && !isset($_POST['cart-update'])){ // Set new currency when a new currency is selected.
     $id = intval($_POST['currency']);
     // $db->getCurrency();
     setCurrency($id,"Swedish crowns","kr", "suffix",0.113082696);
     registerError("Currency changed","success");
-    redirect($_SERVER['REQUEST_URI']);
+    redirect();
     
 }
-if(isset($_POST['cart-update'])){
+
+if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
     foreach($_POST as $key => $value){ 
         if(isset($_SESSION['cart'][$key])) {
             $_SESSION['cart'][$key] = $value;
         }
     }
     registerError("Cart updated","success");
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit();
+    redirect();
 }
-if(isset($_POST['checkout'])){
+if(isset($_POST['checkout'])){ // If user is trying to checkout
     $remove = array("-", " ");
     $_POST['card-number'] = str_replace($remove, "", $_POST['card-number']);                  
 }
@@ -84,7 +84,7 @@ if(isset($_POST['checkout'])){
 
                     <div class="input-group">
                         
-                        <select class="form-control"name='currency' onchange='this.form.submit()'>
+                        <select class="form-control" name='currency' onchange='this.form.submit()'>
                         <?php
                         $name = "Currency";
                         for($i = 0; $i < 5; $i++){

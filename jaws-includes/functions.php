@@ -72,7 +72,10 @@
         header('Location: /login/');
         exit;
     }
-    function redirect($location){
+    function redirect($location = "current"){
+        if($location == "current") {
+            $location = $_SERVER['REQUEST_URI'];
+        }
         header("Location: ".$location);
         exit();
     }

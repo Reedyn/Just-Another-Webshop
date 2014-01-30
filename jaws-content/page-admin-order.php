@@ -1,4 +1,10 @@
-<?php jaws_header(); ?>
+<?php jaws_header(); 
+      if(isset($_POST['order-delete'])) {
+          registerError("Order deleted","danger");
+          redirect();
+      }
+      
+      ?>
       <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div class="panel-heading ">Order</div>
@@ -75,7 +81,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td><a class="btn btn-danger">Delete order</a></td>
+              <td><form method="post"><button type="submit" name="order-delete" class="btn btn-danger" value="<?php echo $_GET['order']; ?>">Delete order</button></form></td>
             </tr>
           </table>
 

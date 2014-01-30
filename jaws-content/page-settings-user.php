@@ -6,19 +6,33 @@ if(isset($_POST['user-submit'])) {
         isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
         isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
         
-        if (isset($_POST['user-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-password'])){
-            //Change password.
-        }
-        // Add user to database if successful do
-        if (true) {
-            registerError('Profile saved','success');
-            header('Location: '.$_SERVER['REQUEST_URI']);
-            exit(); 
-        } else {
-            showError("Error while saving profile", "danger");
+        // Check if user is trying to save a new password
+        if (isset($_POST['user-new-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-new-password']) &&
+            isset($_POST['user-old-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-new-password'])){
+            
+            if (true) { //Match old password with database
+                if(true) {// Save user with new password to db
+                    registerError("Your profile with your new password has been saved.","success");
+                    redirect();
+                } else {
+                    registerError("Error while saving profile.");
+                    redirect();
+                }
+            } else {
+                registerError("Your password didn't match the one stored in database");
+                redirect();
+            }
+        } else { // When user didn't change password
+            if (true) { // Save user to database, 
+                registerError('Your profile has been saved','success');
+                redirect(); 
+            } else {
+                registerError("Error while saving profile", "danger");
+                redirect();
+            }
         }
     } else {
-        showError("Error while saving profile", "danger");
+        showError("Your inputs must match the specified format", "danger");
     }
 }?>
      <div class="well well-lg">
@@ -83,7 +97,7 @@ if(isset($_POST['user-submit'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input name="user-old-password" type="password" class="form-control" placeholder="Old Password">
+                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" name="user-old-password" type="password" class="form-control" placeholder="Old Password">
             </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
@@ -97,6 +111,5 @@ if(isset($_POST['user-submit'])) {
             </div>
           </div>
         </form>
-      </div>
       </div>
 <?php jaws_footer(); ?>

@@ -16,7 +16,7 @@
         include($_SERVER['DOCUMENT_ROOT']."/jaws-content/navigation.php");
     }
     
-    function showError($error, $type) {
+    function showError($error, $type = "danger") {
         echo '<div class="alert alert-'.$type.'">';
         echo '    <a class="close" data-dismiss="alert">×</a>';
         echo '    <strong>'.$error.'</strong>.';
@@ -48,7 +48,7 @@
         } 
     }
     
-    function registerError($message, $type) {
+    function registerError($message, $type = "danger") {
         $_SESSION['error'] = array("message" => $message,"type" => $type);
     }
     
@@ -595,15 +595,15 @@
         $GLOBALS['db']->dbGetTaxanomyAll();
     }
 
-    function UserRegister(){
-        if($GLOBALS['db']->dbAddUser($_POST['SSNr'],$_POST['email'],$_POST['password'],$_POST['firstName'],$_POST['lastName'],$_POST['streetAddress'],$_POST['postAddress'],$_POST['city'],$_POST['phone'])==TRUE){
-            echo '<span class="reg_success">Registration successful</span>';
+    function registerUser(){
+        if($GLOBALS['db']->dbAddUser($_POST['user-ssn'],$_POST['user-mail'],$_POST['user-password'],$_POST['user-first-name'],$_POST['user-last-name'],$_POST['user-street-address'],$_POST['user-post-address'],$_POST['user-city'],$_POST['user-phone'])==TRUE){
+            return true;
         }else{
-            echo '<span class="reg_failed">Registration failed</span>';
+            return false;
         }
     }
-    function UserLogin($mail,$password){
-        if($CurrentUser=$GLOBALS['db']->dbMatchPassword($mail,$password)){
+    function login(){
+        if($CurrentUser=$GLOBALS['db']->dbMatchPassword($_POST['login-mail'],$_POST['login-password'])){
             $chars=array('1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f');
 
             $sessionkey="";
@@ -611,14 +611,14 @@
                 $sessionkey.=$chars[rand(0,count($chars)-1)];
             }
             if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
-                echo '<span class="login_success">Login successful</span>';
                 $_SESSION['SessionKey']=$sessionkey;
                 if($CurrentUser[1]==TRUE){
                     $_SESSION['IsAdmin']=TRUE;
                 }
+                return true;
             }
         }else{
-            echo '<span class="login_failed">Login failed</span>';
+            return false;
         }
     }
     // -------------------------------------

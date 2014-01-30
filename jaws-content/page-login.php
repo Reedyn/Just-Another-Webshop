@@ -1,19 +1,19 @@
 <?php jaws_header();
 
-if(!isLoggedIn() && isset($_POST['user-login'])) { 
-    $_SESSION['logged-in'] = true;
-    if($_POST['user-login'] == 'admin') {
-        $_SESSION['is-admin'] = true;
+if(isset($_POST['user-login'])) {
+    if(login()){
+        $_SESSION['logged-in'] = true;
+        if(isset($_SESSION['redirect'])) {
+            header("Location: ".$_SESSION['redirect']);
+            unset($_SESSION['redirect']);
+            exit();
+        }
+        registerError('Welcome back','success');
+        redirect("/");
+    } else {
+        registerError("The specified email and password combination didn't match",'danger');
+        redirect();
     }
-    if(isset($_SESSION['redirect'])) {
-        header("Location: ".$_SESSION['redirect']);
-        unset($_SESSION['redirect']);
-        exit();
-    }
-    registerError('Welcome back','success');
-    redirect("/");
-} else if(isLoggedIn()) {
-    redirect("/");
 }
 /* Server-side validation 
 if success, register user and go to homepage. */
@@ -46,29 +46,28 @@ if(isset($_POST['user-register'])) {
             'user-city' => $_POST['user-city']);
         # was there a reCAPTCHA response?
         if (isset($_POST["recaptcha_response_field"]) && $_POST["recaptcha_response_field"] != "") {
-                $resp = recaptcha_check_answer ($privatekey,
-                                                $_SERVER["REMOTE_ADDR"],
-                                                $_POST["recaptcha_challenge_field"],
-                                                $_POST["recaptcha_response_field"]);
-        
-                if ($resp->is_valid) {
-                    if (true) { //Add user
-                        if(isset($_SESSION['redirect'])) {
-                            registerError('Welcome to Hockey Gear','success');
-                            header("Location: ".$_SESSION['redirect']);
-                            unset($_SESSION['redirect']);
-                            exit();
-                        } 
-                        registerError('Registration successful. Welcome to Hockey Gear','success');
-                        header("Location: /");
+            $resp = recaptcha_check_answer ($privatekey,
+                                            $_SERVER["REMOTE_ADDR"],
+                                            $_POST["recaptcha_challenge_field"],
+                                            $_POST["recaptcha_response_field"]);
+    
+            if ($resp->is_valid) {
+                if (registerUser()) { // Add user
+                    registerError('Registration successful','success');
+                    if(isset($_SESSION['redirect'])) {
+                        header("Location: ".$_SESSION['redirect']);
+                        unset($_SESSION['redirect']);
                         exit();
-                    } else {
-                        showError("Adding user failed", "danger");
-                    }
+                    } 
+                    
+                    redirect("/");
                 } else {
-                        $error = $resp->error;
-                        showError("Incorrect captcha", "danger");
+                    showError("Registration failed. User already exists", "danger");
                 }
+            } else {
+                    $error = $resp->error;
+                    showError("Incorrect captcha", "danger");
+            }
         } else {
             showError("You need to fill in the captcha", "warning");
         }  
@@ -84,22 +83,19 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
-                <input pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="login-mail" type="email" class="form-control" placeholder="E-Mail">
+                <input required pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="login-mail" type="email" class="form-control" placeholder="E-Mail">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input name="login-password" type="password" class="form-control" placeholder="Password">
+                <input required name="login-password" type="password" class="form-control" placeholder="Password">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
           </div><!-- /.row -->
           <div class="row">
             <div class="col-lg-2">
               <button name="user-login"class="btn btn-primary btn-block btn-margin" type="submit">Login</button>
-            </div>
-            <div class="col-lg-2">
-              <button name="user-login"class="btn btn-primary btn-block btn-margin" value="admin" type="submit">Login as admin</button>
             </div>
           </div>
         </form>

@@ -21,6 +21,12 @@ function indexer() { // Function for delivering pages based on GET variables and
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-products.php"); // Otherwise load product list.
 			}
+        } else if($_GET['admin'] == "shipping"){			
+            if(isset($_GET['package'])){ 			
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-shipping-weight.php"); // Load product if user is trying to access a specific product.
+			} else { 
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-shipping.php"); // Otherwise load product list.
+			}
 		} else if($_GET['admin'] == "orders"){
 			if(isset($_GET['order'])){				
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-order.php"); // Load order if user is trying to access a specific order.	

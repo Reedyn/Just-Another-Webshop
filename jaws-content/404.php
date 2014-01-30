@@ -1,15 +1,8 @@
 <?php jaws_header(); ?>
-		<section class="wrapper">
-			<article class="main-content">
-				<?php
-				if(isset($_GET['404'])){ 
-					if(!($_GET['404'] == "")) {
-						echo $_GET['404']; 
-					}
-				} else {
-					echo "Page";
-				}
-				echo " not found."; ?>
-			</article>
-		</section><!-- .wrapper -->
+<div class="hero-unit center">
+    <h1>Page Not Found</h1>
+    <p>The page you requested could not be found. Use your browsers <b>Back</b> button to navigate to the page you have prevously come from</p>
+    <p><b>Or you could just press this neat little button:</b></p>
+    <a href="/" class="btn btn-large btn-primary">Go back</a>
+</div>
 <?php jaws_footer(); ?>

@@ -24,7 +24,7 @@
     <link href="/jaws-content/themes/default/css/carousel.css" rel="stylesheet">
     <script src="//code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/jaws-content/themes/default/js/validatr.min.js"></script>
-    <script type="text/javascript" src="/jaws-content/themes/default/js/sorttable.js"></script>
+    <script type="text/javascript" src="/jaws-content/themes/default/js/list.js"></script>
     <script type="text/javascript">
         $(function ($) {
             $('form').validatr(); 

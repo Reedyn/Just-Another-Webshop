@@ -9,8 +9,11 @@ if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']
     header('Location: '.$_SERVER['REQUEST_URI']);
     exit();
 }
+
 if(isset($_POST['currency'])){
-    $_SESSION['cart']['currency'] = intval($_POST['currency']);
+    $id = intval($_POST['currency']);
+    // $db->getCurrency();
+    setCurrency($id,"Swedish crowns","kr", "suffix",0.113082696);
     registerError("Currency changed","success");
     redirect($_SERVER['REQUEST_URI']);
     
@@ -85,7 +88,7 @@ if(isset($_POST['checkout'])){
                         <?php
                         $name = "Currency";
                         for($i = 0; $i < 5; $i++){
-                            if($i == $_SESSION['cart']['currency']){
+                            if($i == $_SESSION['currency']['id']){
                                 $selected = " selected";
                             } else {
                                 $selected = "";

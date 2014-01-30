@@ -77,6 +77,22 @@
         exit();
     }
     
+    function setCurrency($id,$name,$sign,$position,$multiplier) {
+        $_SESSION['currency']['multiplier'] = $multiplier;
+        $_SESSION['currency']['name'] = $name;
+        $_SESSION['currency']['sign'] = $sign;
+        $_SESSION['currency']['id'] = $id;
+        $_SESSION['currency']['position'] = $position;
+    }
+    
+    function showCurrency($value){
+        if(isset($_SESSION['currency']['position']) && $_SESSION['currency']['position'] != "suffix"){
+            return $_SESSION['currency']['sign'].$value*$_SESSION['currency']['multiplier'];
+        } else {
+            return $value*$_SESSION['currency']['multiplier']." ".$_SESSION['currency']['sign'];
+        }
+    }
+    
     function itemsInCart(){
         if(isset($_SESSION['cart']['items'])){
             $cartAmount = 0;
@@ -240,30 +256,37 @@
         $orders=getAllOrders();
         echo '<div class="panel panel-primary">
         <!-- Default panel contents -->
-        <div class="panel-heading ">Database orders</div>
+        <div class="panel-heading ">Orders</div>
         <div class="panel-body">
-          <table class="sortable table">
+          <table id="sortable" class="table">
             <thead>
-            <th><input type="button" class="btn btn-default" value="Order ID"></th>
-            <th><input type="button" class="btn btn-default" value="Date of purchase"></th>
-            <th><input type="button" class="btn btn-default" value="Personal number"></th>
-            <th><input type="button" class="btn btn-default" value="Total cost"></th>
-            <th>Full details</th>
-            </thead><tbody>';
+            <th><input type="button" class="sort btn btn-default" data-sort="order-id" value="Order ID"></th>
+            <th><input type="button" class="sort btn btn-default" data-sort="order-date" value="Date of purchase"></th>
+            <th><input type="button" class="sort btn btn-default" data-sort="order-ssnr" value="Personal number"></th>
+            <th><input type="button" class="sort btn btn-default" data-sort="order-value" value="Total value"></th>
+            <th><input placeholder="Search.." class="form-control search" /></th>
+            </thead><tbody class="list">';
         if($orders){
             for($i=0;$i<count($orders);$i++){
                 echo '<tr>
-                  <td>'.$orders[$i]->OrderId.'</td>
-                  <td>'.$orders[$i]->OrderDate.'</td>
-                  <td>'.$orders[$i]->SSNr.'</td>
-                  <td>'.$orders[$i]->OrderPrice.'$</td>
+                  <td class="order-id">'.$orders[$i]->OrderId.'</td>
+                  <td class="order-date">'.$orders[$i]->OrderDate.'</td>
+                  <td class="order-ssnr">'.$orders[$i]->SSNr.'</td>
+                  <td class="order-value">'.showCurrency($orders[$i]->OrderPrice).'</td>
                   <td><a href="/admin/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Edit</a></td>
                 </tr>';
             }
         }
         echo '</tbody></table>
+            </div>
         </div>
-      </div>';
+        <script>
+            var options = {
+            valueNames: [ "order-id", "order-ssnr", "order-date", "order-value" ]
+            };
+        
+            var sortable = new List("sortable", options);
+        </script>';
     }
     function listAdminSingleProduct($ProductId){
         if ($ProductId == "new"){
@@ -402,20 +425,21 @@
         echo '<div class="panel panel-primary">
             <div class="panel-heading ">Products</div>
             <div class="panel-body">
-            <table class="sortable table">
+            <table id="sortable" class="table">
             <thead>
-            <th><input type="button" class="btn btn-default" value="Name"></th>
-            <th><input type="button" class="btn btn-default" value="Product ID"></th>
-            <th><input type="button" class="btn btn-default" value="Price"></th>
-            <th><input type="button" class="btn btn-default" value="Category"></th>
-            <th></th></thead><tbody>';
+            <th><input data-sort="product-name" type="button" class="sort btn btn-default" value="Name"></th>
+            <th><input data-sort="product-id"type="button" class="sort btn btn-default" value="Product ID"></th>
+            <th><input data-sort="product-value"type="button" class="sort btn btn-default" value="Price"></th>
+            <th><input data-sort="product-category"type="button" class="sort btn btn-default" value="Category"></th>
+            <th><input placeholder="Search.." class="form-control search" /></th>
+            </thead><tbody class="list">';
         if($products){
             for($i=0;$i<count($products);$i++){
                 echo '<tr>
-              <td>'.$products[$i]->Name.'</td>
-              <td>'.$products[$i]->ProductId.'</td>
-              <td>'.$products[$i]->Price.'</td>
-              <td>'.$products[$i]->Taxanomy.'</td>
+              <td class="product-name">'.$products[$i]->Name.'</td>
+              <td class="product-id">'.$products[$i]->ProductId.'</td>
+              <td class="product-value">'.$products[$i]->Price.'</td>
+              <td class="product-category">'.$products[$i]->Taxanomy.'</td>
               <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit</a></td>
             </tr>';
             }
@@ -431,7 +455,14 @@
               </td>
             </tr></tfoot>
             </table>
-            </div></div>';
+            </div></div>
+            <script>
+            var options = {
+            valueNames: [ "product-id", "product-name", "product-category", "product-value" ]
+            };
+        
+            var sortable = new List("sortable", options);
+            </script>';
     }
     function listAdminSingleUser($SSNr){
         $user=getUser($SSNr);
@@ -515,17 +546,17 @@
               <!-- Default panel contents -->
               <div class="panel-heading ">Users</div>
               <div class="panel-body">
-                  <table class="sortable table">
+                  <table id="sortable" class="table">
                       <thead>
-                      <th><input type="button" class="btn btn-default" value="Personal Securit Number"></th>
-                      <th><input type="button" class="btn btn-default" value="Full name"></th>
-                      <th></th></thead><tbody>';
+                      <th><input data-sort="user-ssnr" type="button" class="sort btn btn-default" value="Personal Securit Number"></th>
+                      <th><input data-sort="user-name" type="button" class="sort btn btn-default" value="Full name"></th>
+                      <th><input placeholder="Search.." class="form-control search" /></th></thead><tbody class="list">';
         if($users){
 
             for($i=0;$i<count($users);$i++){
                 echo '<tr>
-                          <td>'.$users[$i]->SSNr.'</td>
-                          <td>'.$users[$i]->FirstName.' '.$users[$i]->LastName.'</td>
+                          <td class="user-ssnr">'.$users[$i]->SSNr.'</td>
+                          <td class="user-name">'.$users[$i]->FirstName.' '.$users[$i]->LastName.'</td>
                           <td><a href="/admin/users/'.$users[$i]->SSNr.'/" class="btn btn-default">Edit</a></td>
                       </tr>';
             }
@@ -539,7 +570,14 @@
 
         </div>
 
-      </div>';
+      </div>
+      <script>
+            var options = {
+            valueNames: [ "user-ssnr", "user-name" ]
+            };
+        
+            var sortable = new List("sortable", options);
+        </script>';
     }
     function listAdminTaxanomies(){
         $GLOBALS['db']->dbGetTaxanomyAll();

@@ -2,26 +2,26 @@
 <div class="panel panel-primary">
   <div class="panel-heading">Currencies</div>
   <div class="panel-body">
-    <table class="sortable table">
+    <table id="sortable" class="table">
         <thead>
-            <th><button class="btn btn-default">Currency</button></th>
-            <th><button class="btn btn-default">Value (in relation to Euro)</button></th>
-            <th></th>
+            <th><button data-sort="currency-name" class="sort btn btn-default">Currency</button></th>
+            <th><button data-sort="currency-value" class="sort btn btn-default">Value (in relation to Euro)</button></th>
+            <th><input placeholder="Search.." class="form-control search"></th>
         </thead>
-        <tbody>
+        <tbody class="list">
             <tr>
-                <th>SEK</th>
-                <th>0.113498611</th>
+                <th class="currency-name">SEK</th>
+                <th class="currency-value">0.113498611</th>
                 <th><a class="btn btn-default" href="/admin/currencies/1">View</a></th>
             </tr>
             <tr>
-                <th>Euro</th>
-                <th>1</th>
+                <th class="currency-name">Euro</th>
+                <th class="currency-value">1</th>
                 <th><a class="btn btn-default" href="/admin/currencies/2">View</a></th>
             </tr>
             <tr>
-                <th>USD</th>
-                <th>0.731314904</th>
+                <th class="currency-name">USD</th>
+                <th class="currency-value">0.731314904</th>
                 <th><a class="btn btn-default" href="/admin/currencies/3">View</a></th>
             </tr> 
         </tbody>
@@ -35,5 +35,12 @@
     </table>
   </div>
 </div>
+<script>
+    var options = {
+        valueNames: [ "currency-name", "currency-value" ]
+    };
+    var sortable = new List("sortable", options);
+</script>
+
 
 <?php jaws_footer(); ?>

@@ -341,9 +341,12 @@
               </div>
           </div>
         <div class="row">
-              <div class="col-lg-4">
+              <div class="col-lg-2">
+                  <a href="/admin/products/" class="btn btn-default btn-block">Back</a>
               </div>
-              <div class="col-lg-8">
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-4">
               <button name="product-add" class="btn btn-primary btn-block" type="submit">Add product</button>
               </div>
             </div>
@@ -404,10 +407,16 @@
               </div>
           </div>
         <div class="row">
-              <div class="col-lg-4">
-              <button name="product-delete" class="btn btn-danger btn-block" type="submit">Delete product</button>
+              <div class="col-lg-2">
+                  <a href="/admin/products/" class="btn btn-default btn-block">Back</a>
               </div>
-              <div class="col-lg-8">
+              <div class="col-lg-2">
+              </div>
+              <div class="col-lg-4">
+                  <button name="product-delete" class="btn btn-danger btn-block" type="submit">Delete product</button>
+              </div>
+              
+              <div class="col-lg-4">
               <button name="product-edit" class="btn btn-primary btn-block" type="submit">Save product</button>
               </div>
             </div>
@@ -548,8 +557,8 @@
               <div class="panel-body">
                   <table id="sortable" class="table">
                       <thead>
-                      <th><input data-sort="user-ssnr" type="button" class="sort btn btn-default" value="Personal Securit Number"></th>
-                      <th><input data-sort="user-name" type="button" class="sort btn btn-default" value="Full name"></th>
+                      <th><input data-sort="user-ssnr" type="button" class="sort btn btn-default" value="Social Security Number"></th>
+                      <th><input data-sort="user-name" type="button" class="sort btn btn-default" value="Full Name"></th>
                       <th><input placeholder="Search.." class="form-control search" /></th></thead><tbody class="list">';
         if($users){
 

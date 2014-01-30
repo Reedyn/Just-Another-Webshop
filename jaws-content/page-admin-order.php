@@ -70,7 +70,7 @@
 
           <table>
             <tr>
-              <td><a class="btn btn-primary" href="/admin/orders/">Back</a></td>
+              <td><a class="btn btn-default" href="/admin/orders/">Back</a></td>
               <td></td>
               <td></td>
               <td></td>

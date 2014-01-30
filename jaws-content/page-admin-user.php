@@ -123,7 +123,10 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-2">
+                 <a href="/admin/users/" class="btn btn-default btn-block">Back</a>
+            </div>
+            <div class="col-lg-2">
             </div>
             <div class="col-lg-4">
               <div class="input-group">
@@ -211,8 +214,10 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->
           <div class="row">
-            
-            <div class="col-lg-4">
+            <div class="col-lg-2">
+                 <a href="/admin/users/" class="btn btn-default btn-block">Back</a>
+            </div>
+            <div class="col-lg-2">
             </div>
             <div class="col-lg-4">
               <div class="input-group">

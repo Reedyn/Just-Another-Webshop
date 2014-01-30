@@ -99,7 +99,7 @@ if (!isAdmin()){
             registerError("Product deleted",'success');
             redirect("/admin/products");
         } else {
-            registerError("Product couldn't be deleted",'danger');
+            registerError("Product couldn't be deleted. Most likely is still active in some orders, delete those first",'danger');
             redirect($_SERVER['REQUEST_URI']);
         }
     }

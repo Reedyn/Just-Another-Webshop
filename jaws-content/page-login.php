@@ -11,6 +11,7 @@ if(isset($_POST['user-login'])) {
         registerError('Welcome back','success');
         redirect("/");
     } else {
+        $_SESSION['form']['login']['mail'] = $_POST['login-mail'];
         registerError("The specified email and password combination didn't match",'danger');
         redirect();
     }
@@ -83,13 +84,13 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
-                <input required pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="login-mail" type="email" class="form-control" placeholder="E-Mail">
+                <input required value="<?php fillForm("login","mail"); ?>" pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="login-mail" type="email" class="form-control" placeholder="E-Mail">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input required name="login-password" type="password" class="form-control" placeholder="Password">
+                <input id="login-mail" required name="login-password" type="password" class="form-control" placeholder="Password">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
           </div><!-- /.row -->

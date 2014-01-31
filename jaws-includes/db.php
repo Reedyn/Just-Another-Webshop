@@ -490,11 +490,12 @@
 
             $taxanomy_list=NULL;
 
-            $result=$this->query("SELECT * FROM taxanomies WHERE Taxanomy");
-            $i=0;
-            while($row=$result->fetch_assoc()){
-                $taxanomy_list[$i]=$row;
-                $i++;
+            if($result=$this->query("SELECT * FROM taxanomies")){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $taxanomy_list[$i]=$row;
+                    $i++;
+                }
             }
             return $taxanomy_list;
         }
@@ -509,6 +510,17 @@
                 $currency=$result->fetch_assoc();    
             }
             return $currency;
+        }
+        public function dbGetCurrenciesAll(){
+            $currency_list=NULL;
+            if($result=$this->query("SELECT * FROM currencies")){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $currency_list[$i]=$row;
+                    $i++;
+                }
+            }
+            return $currency_list;
         }
 
 

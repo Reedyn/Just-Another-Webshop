@@ -24,6 +24,9 @@
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/products/">Products</a></li>
+                    <?php
+                      listCurrencies();
+                    ?>
                     <?php if(isLoggedIn()) { ?>
                     <li><a href="/settings/">Settings</a></li>
                     <?php if(isAdmin()) { ?>
@@ -43,6 +46,7 @@
                     <?php } else { ?>
                     <li><a href="/login/">Login</a></li>
                     <?php } ?>
+
                   </ul>
                 </div>
               </div>

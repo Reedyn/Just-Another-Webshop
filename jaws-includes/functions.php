@@ -3,6 +3,8 @@
     include_once 'class-product.php';
     include_once 'class-order.php';
     include_once 'class-user.php';
+    include_once 'class-taxanomy.php';
+    include_once 'class-currency.php';
     include_once 'db.php';
 
     function jaws_header() {
@@ -115,7 +117,42 @@
             
         }
     }
+    function listUsersOrders(){
+        $orders=getUsersOrders($_SESSION['LoginSSNr']);
+        echo '<div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading ">Orders</div>
+            <div class="panel-body">
+              <table id="sortable" class="table">
+                <thead>
+                <th><input type="button" class="sort btn btn-default" data-sort="order-id" value="Order ID"></th>
+                <th><input type="button" class="sort btn btn-default" data-sort="order-date" value="Date of purchase"></th>
+                <th><input type="button" class="sort btn btn-default" data-sort="order-ssnr" value="Personal number"></th>
+                <th><input type="button" class="sort btn btn-default" data-sort="order-value" value="Total value"></th>
+                <th><input placeholder="Search.." class="form-control search" /></th>
+                </thead><tbody class="list">';
+        if($orders){
+            for($i=0;$i<count($orders);$i++){
+                echo '<tr>
+                      <td class="order-id">'.$orders[$i]->OrderId.'</td>
+                      <td class="order-date">'.$orders[$i]->OrderDate.'</td>
+                      <td class="order-ssnr">'.$orders[$i]->SSNr.'</td>
+                      <td class="order-value">'.showCurrency($orders[$i]->OrderPrice).'</td>
+                      <td><a href="/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Details</a></td>
+                    </tr>';
+            }
+        }
+        echo '</tbody></table>
+                </div>
+            </div>
+            <script>
+                var options = {
+                valueNames: [ "order-id", "order-ssnr", "order-date", "order-value" ]
+                };
 
+                var sortable = new List("sortable", options);
+            </script>';
+    }
     function listProductsFromTaxanomy($TaxanomyId){
         $products=NULL;
         $products=getProductsFromTaxanomy($TaxanomyId);
@@ -123,15 +160,15 @@
             echo '<div class="row">';
             for($i=0;$i<count($products);$i++){
                 echo '<div class="col-lg-4">
-                        <img class="img-circle" src="'.$products[$i]->ImgUrl.'img/helmet.jpg" alt="Generic placeholder image">
-                        <h2>'.$products[$i]->Name.'Helmets</h2>
-                        <h3>'.$products[$i]->Price.'345$</h3>
-                        <p>'.$products[$i]->Description.'</p>
-                        <p>
-                            <input type="button" class="btn btn-default" value="View details">
-                            <input type="button" class="btn btn-primary" value="Add to cart">
-                        </p>
-                    </div><!-- /.col-lg-4 -->';
+                          <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
+                          <h2>'.$products[$i]->Name.'</h2>
+                          <h3>'.showCurrency($products[$i]->Price).'</h3>
+                          <p>'.$products[$i]->Description.'</p>
+                          <p>
+                            <form method="post">             <a href="/products/1-category/'.$products[$i]->ProductId.'-'.$products[$i]->Name.'"class="btn btn-default">View details</a>
+                            <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
+                          </p>
+                    </div>';
             }
             echo '</div>';
         }
@@ -141,27 +178,282 @@
         if($product){
             echo '<div class="row">
 
-                    <div class="col-lg-2">
-                      <img class="img-thumbnail" src="'.$product->ImgUrl.'" alt="Generic placeholder image">
+        <div class="col-lg-2">
+          <img class="img-thumbnail" src="'.$product->ImgUrl.'" alt="Generic placeholder image">
 
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-lg-10">
-                          <h2 class="zeroM">'.$product->Name.'</h2>
-                          <h3>'.$product->Price.'$</h3>
-                          <p class="pID">srNr: '.$product->ProductId.'</p>
-                          <p>'.$product->Description.'</p>
-                          <p class="pID">Weight: '.$product->ProductWeight.'kg</p>
-                          <p>
-                            <input type="button" class="btn btn-default" value="Back">
-                            <input type="button" class="btn btn-primary" value="Add to cart">
-                            (currently in stock: '.$product->Stock.')
-                          </p>
-                        </div>
-                    </div>';
+        </div><!-- /.col-lg-4 -->
+         <div class="col-lg-10">
+          <h2 class="zeroM">'.$product->Name.'</h2>
+          <h3>'.$product->Price.'</h3>
+          <p class="pID">'.$product->ProductId.'</p>
+          <p>'.$product->Description.'</p>
+          <p class="pID">Weight: '.$product->ProductWeight.'kg</p>
+          <p>
+            <form method="post">             <a href="/products/1-category/"class="btn btn-default">Back</a>
+            <button class="btn btn-primary" name="add-to-cart" value="'.$product->ProductId.'" type="submit">Add to cart</button> (currently in stock: '.$product->Stock.')</form>
+
+          </p>
+        </div>
+      </div>';
         }
     }
+    function listProfile(){
+        $user=getUser($_SESSION['LoginSSNr']);
+        echo '<p>'.$user->FirstName.' '.$user->LastName.'</p>
+          <p>'.$user->StreetAddress.'</p>
+          <p>'.$user->PostAddress.' '.$user->City.'</p>
+          <p>'.$user->Mail.'</p>
+          <p>'.$user->SSNr.'</p>';
+    }
+    function listEditProfile(){
+        $user=getUser($_SESSION['LoginSSNr']);
+
+        echo '<div class="well well-lg">
+        <h2 class="form-signin-heading">Edit profile</h2>
+        <form method="post" class="form-signin" role="form">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <input readonly name="user-ssn" type="text" value="'.$user->SSNr.'" class="form-control" placeholder="Social Security Number">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-6">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
+                <input readonly name="user-mail" type="email" value="'.$user->Mail.'" class="form-control" placeholder="E-Mail">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" value="'.$user->FirstName.'" placeholder="First Name">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" value="'.$user->LastName.'" placeholder="Last Name">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
+                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" name="user-phone" type="tel" class="form-control" value="'.$user->Telephone.'" placeholder="Phone">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-street-address" type="text" class="form-control" value="'.$user->StreetAddress.'" placeholder="Street Address">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-post-address" type="text" class="form-control" value="'.$user->PostAddress.'" placeholder="Post Address">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-city" type="text" class="form-control" value="'.$user->City.'" placeholder="City">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" name="user-old-password" type="password" class="form-control" placeholder="Old Password">
+            </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" data-message="Your password needs to be at least 6 characters long." name="user-new-password" type="password" class="form-control" placeholder="New Password">
+            </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>';
+    }
     function listCart(){
-        
+        $totalCost=0;
+        echo '<form method="post">
+            <table class="table">';
+        foreach($_SESSION['cart']['items'] as $key => $value){
+            $product=getProduct($key);
+            echo    '<tr>
+                <td>'.$product->Name.'</td>
+                <td>
+                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
+                </td>
+                <td>
+                  <div class="col-lg-2">
+                   <div class="input-group">
+                    <input type="text" class="form-control" name="'.$product->ProductId.'" value="1">
+                  </div>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-default" name="cart-remove" value="'.$product->ProductId.'">Remove</button>
+              </td>
+              <td>'.showCurrency($product->Price).'</td>
+            </tr>';
+            $totalCost+=$product->Price;
+        }
+        echo '            <tfoot>
+                <tr>
+              <td></td>
+              <td></td>
+              <td>
+                    <div class="input-group">
+
+                        <select class="form-control" name="currency" onchange="this.form.submit()">';
+                        $name = "Currency";
+                        for($i = 0; $i < 5; $i++){
+                            if($i == $_SESSION['currency']['id']){
+                                $selected = " selected";
+                            } else {
+                                $selected = "";
+                            }
+                            echo '<option value="'.$i.'"'.$selected.'>'.$name.' '.$i.'</option>';
+                        }
+                        echo '</select>
+                        <noscript><input type="submit" value="Submit"></noscript>
+                    </div>
+              </td>
+              <td class="bold">Total Cost</td>
+              <td class="bold">'.showCurrency($totalCost).'</td>
+            </tr>
+
+            </tfoot>
+
+          </table>
+        </form>';
+    }
+    function listPersonalInfo(){
+        $user=getUser($_SESSION['LoginSSNr']);
+        echo '<form action="/cart/" method="post">
+          <table class="table">
+            <tr>
+              <th>Full Name</th>
+              <th>'.$user->FirstName.' '.$user->LastName.'</th>
+            </tr>
+            <tr>
+              <th>Shipping Address</th>
+              <th>Billing Address</th>
+            </tr>
+            <tr>
+              <td>
+                <div class="input-group">
+                  <span class="input-group-addon inputLeft">Street Address</span>
+                  <input required name="shipping-street-address" type="text" class="form-control" placeholder="Street Address">
+                </div>
+              </td>
+              <td><div class="input-group">
+                <span class="input-group-addon inputLeft">Street Address</span>
+                <input required name="billing-street-address" type="text" class="form-control" value="'.$user->StreetAddress.'">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">Post Address</span>
+                <input required name="shipping-post-address"type="text" class="form-control" value="'.$user->PostAddress.'">
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">Post Address</span>
+                <input required name="billing-post-address" type="text" class="form-control" value="'.$user->PostAddress.'">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">City</span>
+                <input required name="shipping-city" type="text" class="form-control" value="'.$user->City.'">
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">City</span>
+                <input required name="billing-city" type="text" class="form-control" value="'.$user->City.'">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Credit Card</th>
+          </tr>
+          <tr>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">Full Name</span>
+                <input name="card-full-name" required type="text" class="form-control" value="">
+              </div>
+            </td>
+            <td>
+              <select required name="card-expiry-month" class="btn btn-default dropdown-toggle" id="expireMM">
+                <option value="false">Month</option>
+                <option value="01">Janaury</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              <select required name="card-expiry-year" class="btn btn-default dropdown-toggle" id="expireYY">
+                <option value="false">Year</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">Card Number</span>
+                <input required pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="">
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon inputLeft">CVC</span>
+                <input name="card-cvc" pattern="^\d{3}$" required type="text" class="form-control" value="">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a class="btn btn-default" href="/cart/">&laquo; Back</a>
+              <button type="submit" class="btn btn-info" name="checkout">Review before placing order</button>
+            </td>
+            <td></td>
+          </tr>
+        </table>
+      </form>';
     }
     function listAdminSingleOrder($OrderId){
         $order=getOrder($OrderId);
@@ -594,7 +886,37 @@
     function listAdminTaxanomies(){
         $GLOBALS['db']->dbGetTaxanomyAll();
     }
+    function listTaxanomies(){
+        $taxanomies=getAllTaxanomies();
+        echo '<div class="container dropdownCat">
+                 <li class="dropdown dropdownCategory">
+                  <a id="drop4" role="button" data-toggle="dropdown" href="#">Choose Category <b class="caret"></b></a>
+                  <ul id="menu1" class="dropdown-menu dropdown-menuCategory" role="menu" aria-labelledby="drop4">';
+            for($i=0;$i<count($taxanomies);$i++){
+                echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$taxanomies[$i]->Id.'-'.$taxanomies[$i]->Name.'">'.$taxanomies[$i]->Name.'</a></li>';
+            }
+         echo      '</ul>
+                </li>
+              </div>';
+    }
+    function listCurrencies(){
+        $currencies=getAllCurrencies();
+        echo '<li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Currency<b class="caret"></b></a>
+                      <ul class="dropdown-menu">';
 
+            for($i=0;$i<count($currencies);$i++){
+                //echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$currencies[$i]->Id.'-'.$currencies[$i]->Name.'">'.$currencies[$i]->Name.'</a></li>';
+                echo '<li><a href="#">'.$currencies[$i]->Name.'</a></li>';
+            }
+
+        echo    '</ul>
+              </li>';
+
+
+
+
+    }
     function registerUser(){
         if($GLOBALS['db']->dbAddUser($_POST['user-ssn'],$_POST['user-mail'],$_POST['user-password'],$_POST['user-first-name'],$_POST['user-last-name'],$_POST['user-street-address'],$_POST['user-post-address'],$_POST['user-city'],$_POST['user-phone'])==TRUE){
             return true;
@@ -612,6 +934,7 @@
             }
             if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
                 $_SESSION['SessionKey']=$sessionkey;
+                $_SESSION['LoginSSNr']=$CurrentUser[0];
                 if($CurrentUser[1]==TRUE){
                     $_SESSION['IsAdmin']=TRUE;
                 }
@@ -708,4 +1031,50 @@
         return $orders;
     }
     // END ORDER ----------------------------------|
+
+
+    // -------------------------------------
+    //  TAXANOMY
+    // -------------------------------------
+    function getTaxanomy($TaxanomyId) { // Returns an order from the order as an Order class.
+        $data=$GLOBALS['db']->dbGetTaxanomy($TaxanomyId);
+
+        $taxanomy=NULL;
+        if($data!=NULL){
+            $taxanomy=new Taxanomy($data['TaxanomyId'],$data['TaxanomyName'],$data['TaxanomyParent']);
+        }
+        return $taxanomy;
+    }
+    function getAllTaxanomies() { // Returns an order from the order as an Order class.
+        $data=$GLOBALS['db']->dbGetTaxanomiesAll();
+        $taxanomies=NULL;
+        for($i=0;$i<count($data);$i++){
+            $taxanomies[$i]=new Taxanomy($data[$i]['TaxanomyId'],$data[$i]['TaxanomyName'],$data[$i]['TaxanomyParent']);
+        }
+        return $taxanomies;
+    }
+    // END TAXANOMY ----------------------------------|
+
+
+    // -------------------------------------
+    //  CURRENCY
+    // -------------------------------------
+    function getCurreny($CurrencyId) { // Returns an order from the order as an Order class.
+        $data=$GLOBALS['db']->dbGetCurrency($CurrencyId);
+
+        $currency=NULL;
+        if($data!=NULL){
+            $currency=new Currency($data['CurrencyId'],$data['CurrencyName'],$data['CurrencyMultiplier'],$data['CurrencySign']);
+        }
+        return $currency;
+    }
+    function getAllCurrencies() { // Returns an order from the order as an Order class.
+        $data=$GLOBALS['db']->dbGetCurrenciesAll();
+        $currencies=NULL;
+        for($i=0;$i<count($data);$i++){
+            $currencies[$i]=new Currency($data[$i]['CurrencyId'],$data[$i]['CurrencyName'],$data[$i]['CurrencyMultiplier'],$data[$i]['CurrencySign']);
+        }
+        return $currencies;
+    }
+    // END CURRENCY ----------------------------------|
 ?>

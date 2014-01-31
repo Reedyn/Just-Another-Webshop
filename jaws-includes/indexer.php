@@ -92,7 +92,12 @@ function indexer() { // Function for delivering pages based on GET variables and
 					Cart
 	*/ ######################################	
 	} else if(isset($_GET['cart'])){
-			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php");
+			if($_GET['cart'] == 'review'){
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart-review.php");
+			}else {
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php");
+			}
+			
 
 	/* ######################################
 					Home

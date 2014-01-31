@@ -7,25 +7,25 @@
     include_once 'class-currency.php';
     include_once 'db.php';
 
-    function jaws_header() {
+    function jaws_header() { // Shows the header
         include($_SERVER['DOCUMENT_ROOT']."/jaws-content/header.php");
     }
     
-    function jaws_footer() {
+    function jaws_footer() { // Shows the footer
         include($_SERVER['DOCUMENT_ROOT']."/jaws-content/footer.php");
     }
-    function jaws_navigation() {
+    function jaws_navigation() { // Shows the navigation bar
         include($_SERVER['DOCUMENT_ROOT']."/jaws-content/navigation.php");
     }
     
-    function showError($error, $type = "danger") {
+    function showError($error, $type = "danger") { // Shows an error
         echo '<div class="alert alert-'.$type.'">';
         echo '    <a class="close" data-dismiss="alert">×</a>';
         echo '    <strong>'.$error.'</strong>.';
         echo '</div>';
     }
     
-    function generatePassword($length = 8) {
+    function generatePassword($length = 8) { // Generates a secure password
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $count = mb_strlen($chars);
     
@@ -36,9 +36,9 @@
     
         return $result;
     }
-    function fillForm($form, $name) {
+    function fillForm($form, $name) { // Fill out the form with the specified value (if it exists)
         if(isset($_SESSION['form'][$form])){ 
-            echo 'value="'.$_SESSION['form'][$form][$name].'"';
+            echo $_SESSION['form'][$form][$name];
         }
     }
     
@@ -67,7 +67,6 @@
         }
         return false;  
     }
-    
     function loginPrompt($prompt){
         $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
         registerError($prompt,'warning');

@@ -108,13 +108,13 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                <input <?php fillForm("register","user-ssn"); ?> pattern="^\d{2,4}-?\d{2}-?\d{2}-?\d{4}$" required name="user-ssn" type="text" class="form-control" placeholder="Social Security Number">
+                <input value="<?php fillForm("register","user-ssn"); ?>" pattern="^\d{2,4}-?\d{2}-?\d{2}-?\d{4}$" required name="user-ssn" type="text" class="form-control" placeholder="Social Security Number">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
-                <input <?php fillForm("register","user-mail"); ?>pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" required name="user-mail" type="email" class="form-control" placeholder="E-Mail">
+                <input value="<?php fillForm("register","user-mail"); ?>" pattern="^[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$" required name="user-mail" type="email" class="form-control" placeholder="E-Mail">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
@@ -128,20 +128,20 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input <?php fillForm("register","user-first-name"); ?>pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
+                <input value="<?php fillForm("register","user-first-name"); ?>" pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input <?php fillForm("register","user-last-name"); ?>pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
+                <input value="<?php fillForm("register","user-last-name"); ?>" pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
-                <input <?php fillForm("register","user-phone"); ?>pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" required name="user-phone" type="tel" class="form-control" placeholder="Phone">
+                <input value="<?php fillForm("register","user-phone"); ?>" pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" required name="user-phone" type="tel" class="form-control" placeholder="Phone">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 --> 
             </div><!-- /.row -->
@@ -149,20 +149,20 @@ if(isset($_POST['user-register'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input <?php fillForm("register","user-street-address"); ?> name="user-street-address" required type="text" class="form-control" placeholder="Street Address">
+                <input value="<?php fillForm("register","user-street-address"); ?>" name="user-street-address" required type="text" class="form-control" placeholder="Street Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input <?php fillForm("register","user-post-address"); ?> name="user-post-address" required type="text" class="form-control" placeholder="Post Address">
+                <input value="<?php fillForm("register","user-post-address"); ?>" name="user-post-address" required type="text" class="form-control" placeholder="Post Address">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input <?php fillForm("register","user-city"); ?> name="user-city" type="text" required class="form-control" placeholder="City">
+                <input value="<?php fillForm("register","user-city"); ?>" name="user-city" type="text" required class="form-control" placeholder="City">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           </div><!-- /.row -->

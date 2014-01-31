@@ -103,7 +103,14 @@ function indexer() { // Function for delivering pages based on GET variables and
 					Home
 	*/ ######################################	
 	} else if(isset($_GET['home'])) {
-		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-home.php");
+		  require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-home.php");
+		
+	/* ######################################
+					Search
+	*/ ######################################	
+	} else if(isset($_GET['search'])) {
+		  require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-search.php");
+		
 	
 	/* ######################################
 					Login

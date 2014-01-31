@@ -30,7 +30,7 @@ RewriteRule ^settings/(\w+)/*$                                      /index.php?s
 RewriteRule ^settings/(orders)/([0-9]*)/*$                          /index.php?settings=$1&order=$2 [QSA]
 
 # Search
-RewriteRule ^search/(\s+)*/*$                                       /index.php?search=$1 [QSA]
+RewriteRule ^search/(\S+)?/*$                                       /index.php?search=$1 [QSA]
 
 # Page
 RewriteRule ^(\w+)/*$                                               /index.php?$1 [QSA]

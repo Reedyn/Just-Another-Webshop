@@ -3,6 +3,7 @@
 if(isset($_POST['user-login'])) {
     if(login()){
         $_SESSION['logged-in'] = true;
+        unset($_SESSION['form']);
         if(isset($_SESSION['redirect'])) {
             header("Location: ".$_SESSION['redirect']);
             unset($_SESSION['redirect']);

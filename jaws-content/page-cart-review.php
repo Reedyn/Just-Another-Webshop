@@ -4,18 +4,16 @@ if(!isset($_SESSION['cart'])){
     registerError("Your cart is empty, please add a product before trying to checkout", "warning");
     redirect("/");
 }
-showError("Double check your information before you place the order","warning");
       
 if(isset($_POST['place-order'])){
-    if(false){ // try to add order to database
+    if(true){ // try to add order to database
         unset($_SESSION['cart']);
         registerError("Thank you for your order! You can see your orders here","success");
         redirect("/settings/orders/");
     } else {
         registerError("Something went wrong when trying to place your order","danger");
         redirect();
-    }
-    
+    }   
 }
     ?>
       <div class="panel panel-primary">
@@ -82,12 +80,12 @@ if(isset($_POST['place-order'])){
           <td>
             <div class="input-group">
               <span class="input-group-addon inputLeft">Street Address</span>
-              <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['shipping-street-address'])){ echo $_SESSION['cart']['data']['shipping-street-address']; } ?>" readonly>
+              <input type="text" class="form-control" value="<?php fillForm("cart","shipping-street-address"); ?>" readonly>
             </div>
           </td>
           <td><div class="input-group">
             <span class="input-group-addon inputLeft">Street Address</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['billing-street-address'])){ echo $_SESSION['cart']['data']['billing-street-address']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","billing-street-address"); ?>" readonly>
           </div>
         </td>
       </tr>
@@ -95,13 +93,13 @@ if(isset($_POST['place-order'])){
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">Post Address</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['shipping-post-address'])){ echo $_SESSION['cart']['data']['shipping-post-address']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","shipping-post-address"); ?>" readonly>
           </div>
         </td>
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">Post Address</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['billing-post-address'])){ echo $_SESSION['cart']['data']['billing-post-address']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","billing-post-address"); ?>" readonly>
           </div>
         </td>
       </tr>
@@ -109,13 +107,13 @@ if(isset($_POST['place-order'])){
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">City</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['shipping-city'])){ echo $_SESSION['cart']['data']['shipping-city']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","shipping-city"); ?>" readonly>
           </div>
         </td>
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">City</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['billing-city'])){ echo $_SESSION['cart']['data']['billing-city']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","billing-city"); ?>" readonly>
           </div>
         </td>
       </tr>
@@ -126,13 +124,13 @@ if(isset($_POST['place-order'])){
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">Full Name</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['card-full-name'])){ echo $_SESSION['cart']['data']['card-full-name']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","card-full-name"); ?>" readonly>
           </div>
         </td>
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">Card Number</span>
-            <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['card-number'])){ echo $_SESSION['cart']['data']['card-number']; } ?>" readonly>
+            <input type="text" class="form-control" value="<?php fillForm("cart","card-number"); ?>" readonly>
           </div>
         </td>
       </tr>
@@ -140,13 +138,13 @@ if(isset($_POST['place-order'])){
         <td>
           <div class="input-group">
             <span class="input-group-addon inputLeft">Month</span>
-          <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['card-expiry-month'])){ echo $_SESSION['cart']['data']['card-expiry-month']; } ?>" readonly>
+          <input type="text" class="form-control" value="<?php fillForm("cart","card-expiry-month"); ?>" readonly>
           </div>
         </td>
         <td>
         <div class="input-group">
             <span class="input-group-addon inputLeft">Year</span>
-        <input type="text" class="form-control" value="<?php if(isset($_SESSION['cart']['data']['card-expiry-year'])){ echo $_SESSION['cart']['data']['card-expiry-year']; } ?>" readonly>
+        <input type="text" class="form-control" value="<?php fillForm("cart","card-expiry-year"); ?>" readonly>
         </div>
         </td>
       </tr>

@@ -1,27 +1,26 @@
 <?php jaws_header();
-if(!isset($_SESSION['cart'])){
-    registerError("Your cart is empty, please add a product before trying to checkout", "warning");
+if(!isset($_SESSION['cart']) || $_SESSION['cart']['items'].length == 0){
+    registerError("Your cart is empty", "warning");
     redirect("/");
 }
 if(!isLoggedIn()){ // Prompt user to login when trying
     loginPrompt("Please login to checkout your shopping cart", "warning");
 }
 
-if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']])){ // Remove item from cart when button is pressed.
-    unset($_SESSION['cart'][$_POST['cart-remove']]);
+if(isset($_POST['cart-remove']) && isset($_SESSION['cart']['items'][$_POST['cart-remove']])){ // Remove item from cart when button is pressed.
+    unset($_SESSION['cart']['items'][$_POST['cart-remove']]);
     registerError("Item removed from cart","success");
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit();
+    redirect();
 }
 
-if(isset($_POST['currency']) && !isset($_POST['cart-update'])){ // Set new currency when a new currency is selected.
+/*if(isset($_POST['currency']) && !isset($_POST['cart-update']) && !isset($_POST['cart-remove'])){ // Set new currency when a new currency is selected.
     $id = intval($_POST['currency']);
     // $db->getCurrency();
     setCurrency($id,"Swedish crowns","kr", "suffix",0.113082696);
     registerError("Currency changed","success");
     redirect();
     
-}
+}*/
 
 if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
     foreach($_POST as $key => $value){ 

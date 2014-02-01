@@ -393,9 +393,9 @@
             <table class="table">
             <thead>
             <th>Name</th>
-            <th></th>
+            <th>Amount</th>
             <th>Value</th>
-            <th></th>
+            <th></th><th></th>
             <th>Total</th>
             
             </thead><tbody>';
@@ -404,18 +404,14 @@
             echo    '<tr>
                 <td>'.$product->Name.'</td>
                 <td>
-                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
-                </td>
-                <td>
-                  <div class="col-lg-2">
-                   <div class="input-group">
                     <input type="text" class="form-control" name="'.$product->ProductId.'" value="'.$value.'">
-                  </div>
-                </div>
               </td>
               <td>'.showCurrency($product->Price).'</td>
               <td>
-                <button class="btn btn-default" name="cart-remove" value="'.$product->ProductId.'">Remove</button>
+                <td>
+                  <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
+                  <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$product->ProductId.'"><span class="glyphicon glyphicon-remove"></button>
+                </td>
               </td>
               <td>'.showCurrency($product->Price*$value).'</td>
             </tr>';
@@ -427,21 +423,6 @@
               <td></td>
               <td></td>
               <td>
-                    <div class="input-group">
-
-                        <select class="form-control" name="currency" onchange="this.form.submit()">';
-                        $name = "Currency";
-                        for($i = 0; $i < 5; $i++){
-                            if($i == $_SESSION['currency']['id']){
-                                $selected = " selected";
-                            } else {
-                                $selected = "";
-                            }
-                            echo '<option value="'.$i.'"'.$selected.'>'.$name.' '.$i.'</option>';
-                        }
-                        echo '</select>
-                        <noscript><input type="submit" value="Submit"></noscript>
-                    </div>
               </td>
               <td class="bold">Total Cost</td>
               <td class="bold">'.showCurrency($totalCost).'</td>

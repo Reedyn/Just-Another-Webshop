@@ -394,8 +394,8 @@
             <thead>
             <th>Name</th>
             <th>Amount</th>
+            <th></th>
             <th>Value</th>
-            <th></th><th></th>
             <th>Total</th>
             
             </thead><tbody>';
@@ -406,12 +406,12 @@
                 <td>
                     <input type="text" class="form-control" name="'.$product->ProductId.'" value="'.$value.'">
               </td>
+              <td>
+              <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
+                  <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$product->ProductId.'"><span class="glyphicon glyphicon-remove"></button>
+                  </td>
               <td>'.showCurrency($product->Price).'</td>
               <td>
-                <td>
-                  <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
-                  <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$product->ProductId.'"><span class="glyphicon glyphicon-remove"></button>
-                </td>
               </td>
               <td>'.showCurrency($product->Price*$value).'</td>
             </tr>';

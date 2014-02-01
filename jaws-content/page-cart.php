@@ -1,5 +1,5 @@
 <?php jaws_header();
-if(!isset($_SESSION['cart']) || $_SESSION['cart']['items'].length == 0){
+if(!isset($_SESSION['cart']) || count($_SESSION['cart']['items']) == 0){
     registerError("Your cart is empty", "warning");
     redirect("/");
 }
@@ -28,8 +28,8 @@ if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
             $_SESSION['cart']['items'][$key] = $value;
         }
     }
-    //registerError("Cart updated","success");
-    //redirect();
+    registerError("Cart updated","success");
+    redirect();
 }
 if(isset($_POST['review'])){ // If user is trying to checkout
     if(isset($_POST['shipping-street-address']) &&

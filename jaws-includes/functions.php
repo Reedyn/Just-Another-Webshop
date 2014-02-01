@@ -390,7 +390,15 @@
     function listCart(){
         $totalCost=0;
         echo '<form method="post">
-            <table class="table">';
+            <table class="table">
+            <thead>
+            <th>Name</th>
+            <th></th>
+            <th>Value</th>
+            <th></th>
+            <th>Total</th>
+            
+            </thead><tbody>';
         foreach($_SESSION['cart']['items'] as $key => $value){
             $product=getProduct($key);
             echo    '<tr>
@@ -405,15 +413,17 @@
                   </div>
                 </div>
               </td>
+              <td>'.showCurrency($product->Price).'</td>
               <td>
                 <button class="btn btn-default" name="cart-remove" value="'.$product->ProductId.'">Remove</button>
               </td>
-              <td>'.showCurrency($product->Price).'</td>
+              <td>'.showCurrency($product->Price*$value).'</td>
             </tr>';
-            $totalCost+=$product->Price;
+            $totalCost+=($product->Price*$value);
         }
-        echo '            <tfoot>
+        echo ' </tobdy>           <tfoot>
                 <tr>
+              <td></td>
               <td></td>
               <td></td>
               <td>

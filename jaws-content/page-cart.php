@@ -25,12 +25,12 @@ if(isset($_POST['currency']) && !isset($_POST['cart-update'])){ // Set new curre
 
 if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
     foreach($_POST as $key => $value){ 
-        if(isset($_SESSION['cart'][$key])) {
-            $_SESSION['cart'][$key] = $value;
+        if(isset($_SESSION['cart']['items'][$key])) {
+            $_SESSION['cart']['items'][$key] = $value;
         }
     }
-    registerError("Cart updated","success");
-    redirect();
+    //registerError("Cart updated","success");
+    //redirect();
 }
 if(isset($_POST['review'])){ // If user is trying to checkout
     if(isset($_POST['shipping-street-address']) &&

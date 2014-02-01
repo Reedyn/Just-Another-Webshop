@@ -38,7 +38,7 @@
     }
     function fillForm($form, $name) { // Fill out the form with the specified value (if it exists)
         if(isset($_SESSION['form'][$form])){ 
-            echo $_SESSION['form'][$form][$name];
+            return $_SESSION['form'][$form][$name];
         }
     }
     
@@ -91,9 +91,9 @@
     
     function showCurrency($value){
         if(isset($_SESSION['currency']['position']) && $_SESSION['currency']['position'] != "suffix"){
-            return $_SESSION['currency']['sign'].$value/$_SESSION['currency']['multiplier'];
+            return $_SESSION['currency']['sign'].number_format($value/$_SESSION['currency']['multiplier'], 2, '.', '');
         } else {
-            return $value*$_SESSION['currency']['multiplier']." ".$_SESSION['currency']['sign'];
+            return number_format($value/$_SESSION['currency']['multiplier'], 2, '.', '')." ".$_SESSION['currency']['sign'];
         }
     }
     
@@ -217,8 +217,8 @@
                           <td></td>
                           <td></td>
                           <td></td>
-                          <td class="bold">Moms (25%)</td>
-                          <td class="bold">'.showCurrency($GLOBALS["totalAmount"]+=$GLOBALS["totalAmount"]*(0.25)).'</td>
+                          <td class="bold">Total (with VAT 25%)</td>
+                          <td class="bold">'.showCurrency($GLOBALS['totalAmount']).' (<span title="without VAT">'.showCurrency($GLOBALS['totalAmount']*0.75).')</span> </td>
                         </tr>
                         <tr>
                           <td></td>
@@ -401,7 +401,7 @@
                 <td>
                   <div class="col-lg-2">
                    <div class="input-group">
-                    <input type="text" class="form-control" name="'.$product->ProductId.'" value="1">
+                    <input type="text" class="form-control" name="'.$product->ProductId.'" value="'.$value.'">
                   </div>
                 </div>
               </td>
@@ -444,6 +444,15 @@
     }
     function listPersonalInfo(){
         $user=getUser($_SESSION['LoginSSNr']);
+        if(!isset($_SESSION['form']['cart'])) {
+            $_SESSION['form']['cart'] = array( // Save form data in session
+                                    'shipping-street-address'   => $user->StreetAddress,
+                                    'billing-street-address'    => $user->StreetAddress,
+                                    'shipping-post-address'     => $user->PostAddress,
+                                    'billing-post-address'      => $user->PostAddress,
+                                    'shipping-city'             => $user->City,
+                                    'billing-city'              => $user->City);
+        }
         echo '<form action="/cart/" method="post">
           <table class="table">
             <tr>
@@ -458,12 +467,12 @@
               <td>
                 <div class="input-group">
                   <span class="input-group-addon inputLeft">Street Address</span>
-                  <input required name="shipping-street-address" type="text" class="form-control" placeholder="Street Address">
+                  <input required name="shipping-street-address" type="text" class="form-control" placeholder="Street Address" value="'.fillForm('cart','shipping-street-address').'">
                 </div>
               </td>
               <td><div class="input-group">
                 <span class="input-group-addon inputLeft">Street Address</span>
-                <input required name="billing-street-address" type="text" class="form-control" value="'.$user->StreetAddress.'">
+                <input required name="billing-street-address" type="text" class="form-control" value="'.fillForm('cart','billing-street-address').'">
               </div>
             </td>
           </tr>
@@ -471,13 +480,13 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input required name="shipping-post-address"type="text" class="form-control" value="'.$user->PostAddress.'">
+                <input required name="shipping-post-address"type="text" class="form-control" value="'.fillForm('cart','shipping-post-address').'">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input required name="billing-post-address" type="text" class="form-control" value="'.$user->PostAddress.'">
+                <input required name="billing-post-address" type="text" class="form-control" value="'.fillForm('cart','billing-post-address').'">
               </div>
             </td>
           </tr>
@@ -485,13 +494,13 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">City</span>
-                <input required name="shipping-city" type="text" class="form-control" value="'.$user->City.'">
+                <input required name="shipping-city" type="text" class="form-control" value="'.fillForm('cart','shipping-city').'">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">City</span>
-                <input required name="billing-city" type="text" class="form-control" value="'.$user->City.'">
+                <input required name="billing-city" type="text" class="form-control" value="'.fillForm('cart','billing-city').'">
               </div>
             </td>
           </tr>
@@ -572,7 +581,7 @@
             <th></th>
             <th></th>
             <tr>
-              <td class="bold">Costumer (ID)</td>
+              <td class="bold">Customer (ID)</td>
               <td></td>
               <td class="bold">'.$user->FirstName.' '.$user->FirstName.' ('.$order->SSNr.')</td>
               <td></td>
@@ -618,15 +627,13 @@
             }
 
             $shippingCost=20;
-            global $newTotal;
-            $newTotal=$totalAmount*(0.25);
             echo '<tr>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              <td class="bold">Moms(25%)</td>
-              <td class="bold">'.showCurrency($GLOBALS['newTotal']).'</td>
+              <td class="bold">Total (with VAT 25%)</td>
+              <td class="bold">'.showCurrency($totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.75).')</span> </td>
             </tr>
             <tr>
               <td></td>
@@ -642,7 +649,7 @@
               <td></td>
               <td></td>
               <td class="bold">Total cost, including shipping etc..</td>
-              <td class="bold">'.showCurrency($totalAmount=$GLOBALS['newTotal']+$shippingCost+$totalAmount).'</td>
+              <td class="bold">'.showCurrency($shippingCost+$totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.75+$shippingCost).')</td>
             </tr>
           </table>
           <table>

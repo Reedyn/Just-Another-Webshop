@@ -1,4 +1,6 @@
-<?php jaws_header(); ?>
+<?php jaws_header();
+    listAdminSingleTaxanomy();
+?>
 <div class="panel panel-primary">
   <div class="panel-heading">Category</div>
   <div class="panel-body">

@@ -6,26 +6,26 @@
         public $Discount;
         public $ChargedCard;
         public $OrderIP;
-        public $ProductList;
+        public $OrderList;
         public $OrderPrice;
 
-        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$ProductList) {
+        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList) {
             $this->OrderId      = $OrderId;
             $this->SSNr         = $SSNr;
             $this->OrderDate    = $OrderDate;
             $this->Discount     = $Discount;
             $this->ChargedCard  = $ChargedCard;
             $this->OrderIP      = $OrderIP;
-            $this->ProductList  = NULL;
             $this->OrderPrice   = 0;
-            if($ProductList==NULL){
+            if($OrderList==NULL){
+                $this->OrderList = NULL;
             }else{
-                for($i=0;$i<count($ProductList);$i++){
-                    $this->ProductList[$i]=new ListedProduct($ProductList[$i][0],$ProductList[$i][1],$ProductList[$i][2]);
+                for($i=0;$i<count($OrderList);$i++){
+                    $this->OrderList[$i]=new ListedProduct($OrderList[$i]['OrderId'],$OrderList[$i]['ProductId'],$OrderList[$i]['Amount']);
                 }
             }
-            for($i=0;$i<count($ProductList);$i++){
-                $this->OrderPrice   += $this->ProductList[$i]->ProductPriceTotal;
+            for($i=0;$i<count($OrderList);$i++){
+                $this->OrderPrice   += $this->OrderList[$i]->ProductPriceTotal;
             }
         }
     }
@@ -46,7 +46,7 @@
             global $db;
             $ProductInfo=$db->dbGetProduct($this->ProductId);
             $this->ProductWeight= $ProductInfo['ProductWeight'];
-            $this->ProductPrice = $ProductInfo['ProductPrice'];
+            $this->ProductPrice = $ProductInfo['Price'];
             $this->Name         = $ProductInfo['Name'];
             $this->ProductPriceTotal = $Amount*$this->ProductPrice;
         }

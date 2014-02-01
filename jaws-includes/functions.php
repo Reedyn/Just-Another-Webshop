@@ -91,7 +91,7 @@
     
     function showCurrency($value){
         if(isset($_SESSION['currency']['position']) && $_SESSION['currency']['position'] != "suffix"){
-            return $_SESSION['currency']['sign'].$value*$_SESSION['currency']['multiplier'];
+            return $_SESSION['currency']['sign'].$value/$_SESSION['currency']['multiplier'];
         } else {
             return $value*$_SESSION['currency']['multiplier']." ".$_SESSION['currency']['sign'];
         }
@@ -137,7 +137,7 @@
                       <td class="order-date">'.$orders[$i]->OrderDate.'</td>
                       <td class="order-ssnr">'.$orders[$i]->SSNr.'</td>
                       <td class="order-value">'.showCurrency($orders[$i]->OrderPrice).'</td>
-                      <td><a href="/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Details</a></td>
+                      <td><a href="/settings/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Details</a></td>
                     </tr>';
             }
         }
@@ -151,6 +151,108 @@
 
                 var sortable = new List("sortable", options);
             </script>';
+    }
+    function listUserSingleOrder(){
+        $order=getOrder($_GET['order']);
+        $user=getUser($order->SSNr);
+        echo '<div class="panel panel-primary">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading ">Order '.$order->OrderId.'</div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <th>Invoice '.$order->OrderId.'</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <tr>
+                          <td class="bold">Customer</td>
+                          <td></td>
+                          <td class="bold">'.$user->FirstName.' '.$user->LastName.'</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td class="bold">Ordernumber</td>
+                          <td></td>
+                          <td>'.$order->OrderId.'</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td class="bold">Date of purchase</td>
+                          <td></td>
+                          <td>'.$order->OrderDate.'</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td class="bold">Name</td>
+                          <td class="bold">Price</td>
+                          <td class="bold">Amount</td>
+                          <td class="bold">Reserved</td>
+                          <td class="bold">Sent</td>
+                          <td class="bold">Cost</td>
+                        </tr>';
+                        global $totalAmount;
+                        $GLOBALS['totalAmount']=0;
+                        $GLOBALS['shippingCost']=20;
+                        for($i=0;$i<count($order->OrderList);$i++){
+                            echo '<tr>
+                              <td>'.$order->OrderList[$i]->Name.'</td>
+                              <td>'.showCurrency($order->OrderList[$i]->ProductPrice).'</td>
+                              <td>'.$order->OrderList[$i]->Amount.'</td>
+                              <td>0</td>
+                              <td>'.$order->OrderList[$i]->Amount.'</td>
+                              <td class="bold">'.showCurrency($order->OrderList[$i]->Amount*$order->OrderList[$i]->ProductPrice).'</td>
+                            </tr>';
+                            $GLOBALS['totalAmount']+=$order->OrderList[$i]->Amount*$order->OrderList[$i]->ProductPrice;
+                        }
+                        echo '<tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="bold">Moms (25%)</td>
+                          <td class="bold">'.showCurrency($GLOBALS["totalAmount"]+=$GLOBALS["totalAmount"]*(0.25)).'</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="bold">Shipping cost</td>
+                          <td class="bold">'.showCurrency($GLOBALS['shippingCost']).'</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="bold">Total cost, including shipping etc..</td>
+                          <td class="bold">'.showCurrency($GLOBALS['totalAmount']+$GLOBALS['shippingCost']).'</td>
+                        </tr>
+                      </table>
+
+                      <table>
+                        <tr>
+                          <td><a href="/settings/orders/" class="btn btn-default">Back</a></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </table>
+
+
+                    </div>
+
+                  </div>';
     }
     function listProductsFromTaxanomy($TaxanomyId){
         $products=NULL;
@@ -186,7 +288,7 @@
           <h3>'.$product->Price.'</h3>
           <p class="pID">'.$product->ProductId.'</p>
           <p>'.$product->Description.'</p>
-          <p class="pID">Weight: '.$product->ProductWeight.'kg</p>
+          <p class="pID">Weight: '.$product->ProductWeight.'gram</p>
           <p>
             <form method="post">             <a href="/products/1-category/"class="btn btn-default">Back</a>
             <button class="btn btn-primary" name="add-to-cart" value="'.$product->ProductId.'" type="submit">Add to cart</button> (currently in stock: '.$product->Stock.')</form>
@@ -456,6 +558,7 @@
     }
     function listAdminSingleOrder($OrderId){
         $order=getOrder($OrderId);
+        $user=getUser($order->SSNr);
         if($order){
             echo '<div class="panel panel-primary">
         <!-- Default panel contents -->
@@ -469,15 +572,15 @@
             <th></th>
             <th></th>
             <tr>
-              <td class="bold">Costumer</td>
+              <td class="bold">Costumer (ID)</td>
               <td></td>
-              <td class="bold">Gustav Lindqvist</td>
+              <td class="bold">'.$user->FirstName.' '.$user->FirstName.' ('.$order->SSNr.')</td>
               <td></td>
               <td></td>
               <td></td>
             </tr>
             <tr>
-              <td class="bold">Ordernumber</td>
+              <td class="bold">Order Id</td>
               <td></td>
               <td>'.$order->OrderId.'</td>
               <td></td>
@@ -502,26 +605,36 @@
             </tr>';
             global $totalAmount;
             $totalAmount=0;
-            for($i=0;$i<count($order->ProductList);$i++){
+            for($i=0;$i<count($order->OrderList);$i++){
                 echo '<tr>
-                  <td>'.$order->ProductList[$i]->Name.'</td>
-                  <td>'.$order->ProductList[$i]->ProductPrice.'$</td>
-                  <td>'.$order->ProductList[$i]->Amount.'</td>
+                  <td>'.$order->OrderList[$i]->Name.'</td>
+                  <td>'.showCurrency($order->OrderList[$i]->ProductPrice).'</td>
+                  <td>'.$order->OrderList[$i]->Amount.'</td>
                   <td>0</td>
-                  <td>'.$order->ProductList[$i]->Amount.'</td>
-                  <td class="bold">'.($order->ProductList[$i]->Amount)*($order->ProductList[$i]->ProductPrice).'$</td>
+                  <td>'.$order->OrderList[$i]->Amount.'</td>
+                  <td class="bold">'.showCurrency(($order->OrderList[$i]->Amount)*($order->OrderList[$i]->ProductPrice)).'</td>
                 </tr>';
-                $totalAmount+=($order->ProductList[$i]->Amount)*($order->ProductList[$i]->ProductPrice);
+                $totalAmount+=($order->OrderList[$i]->Amount)*($order->OrderList[$i]->ProductPrice);
             }
 
             $shippingCost=20;
+            global $newTotal;
+            $newTotal=$totalAmount*(0.25);
             echo '<tr>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
+              <td class="bold">Moms(25%)</td>
+              <td class="bold">'.showCurrency($GLOBALS['newTotal']).'</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td class="bold">Shipping cost</td>
-              <td class="bold">'.$shippingCost.'$</td>
+              <td class="bold">'.showCurrency($shippingCost).'</td>
             </tr>
             <tr>
               <td></td>
@@ -529,7 +642,7 @@
               <td></td>
               <td></td>
               <td class="bold">Total cost, including shipping etc..</td>
-              <td class="bold">'.$totalAmount+=$shippingCost.'$</td>
+              <td class="bold">'.showCurrency($totalAmount=$GLOBALS['newTotal']+$shippingCost+$totalAmount).'</td>
             </tr>
           </table>
           <table>
@@ -613,7 +726,7 @@
               </div>
               <div class="col-lg-4">
                <div class="input-group">
-                <span class="input-group-addon">Weight (in gram)</span>
+                <span class="input-group-addon">Weight (in kg)</span>
                 <input pattern="^\d+$" name="product-weight" type="text" class="form-control">
               </div>
             </div>
@@ -741,7 +854,7 @@
                 echo '<tr>
               <td class="product-name">'.$products[$i]->Name.'</td>
               <td class="product-id">'.$products[$i]->ProductId.'</td>
-              <td class="product-value">'.$products[$i]->Price.'</td>
+              <td class="product-value">'.showCurrency($products[$i]->Price).'</td>
               <td class="product-category">'.$products[$i]->Taxanomy.'</td>
               <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit</a></td>
             </tr>';
@@ -770,75 +883,99 @@
     function listAdminSingleUser($SSNr){
         $user=getUser($SSNr);
         if($user){
-            echo '<div class="well well-lg">
-            <h2 class="form-signin-heading">Edit Profile</h2>
-            <form class="form-signin" role="form">
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">Social Security Number</span>
-                    <input type="text" class="form-control" value="'.$user->SSNr.'" readonly>
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">First name</span>
-                    <input type="text" class="form-control" value="'.$user->FirstName.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">Last Name</span>
-                    <input type="text" class="form-control" value="'.$user->LastName.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-              </div><!-- /.row -->
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">Street Address</span>
-                    <input type="text" class="form-control" value="'.$user->StreetAddress.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">Post Address</span>
-                    <input type="text" class="form-control" value="'.$user->PostAddress.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">City</span>
-                    <input type="text" class="form-control" value="'.$user->City.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-              </div><!-- /.row -->
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon inputLeft">Phone</span>
-                    <input type="text" class="form-control" value="'.$user->Telephone.'">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
+            echo '<div class="panel panel-primary">
+      <div class="panel-heading">Edit User</div>
+      <div class="panel-body">
+        <form method="post" class="form-signin" role="form">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <input readonly name="user-ssn" type="text" value="'.$user->SSNr.'" class="form-control" placeholder="Social Security Number">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
+                <input readonly name="user-mail" type="email" value="'.$user->Mail.'" class="form-control" placeholder="E-Mail">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
+                <input readonly name="user-password" type="password" value="justanotherwebshop" class="form-control" placeholder="Password">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" name="reset-password" type="submit">Reset</button>
+                </span>
+            </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" value="'.$user->FirstName.'" placeholder="First Name">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" value="'.$user->LastName.'" placeholder="Last Name">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
+                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" name="user-phone" type="tel" class="form-control" value="'.$user->Telephone.'" placeholder="Phone">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-street-address" type="text" class="form-control" value="'.$user->StreetAddress.'" placeholder="Street Address">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-post-address" type="text" class="form-control" value="'.$user->PostAddress.'" placeholder="Post Address">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
 
-              </div><!-- /.row -->
-
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <input type="button" class="btn btn-primary" value="New password">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-
-              </div><!-- /.row -->
-
-              <div class="row">
-                <div class="col-lg-4">
-                  <button class="btn btn-primary btn-block" type="submit">Submit changes</button>
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input name="user-city" type="text" class="form-control" value="'.$user->City.'" placeholder="City">
+              </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-2">
+                 <a href="/admin/users/" class="btn btn-default btn-block">Back</a>
+            </div>
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-4">
+              <div class="input-group">
+                  <span required class="input-group-addon">Access level</span>
+                  <select class="form-control" name="user-admin">
+                      <option selected value=false>User</option>
+                      <option value=true>Administrator</option>
+                    </select>
                 </div>
-              </div>
-            </form>
-          </div>';
+            </div>
+            <div class="col-lg-2">
+              <button name="user-delete" class="btn btn-danger btn-block" value="edit" type="submit">Delete User</button>
+            </div>
+            <div class="col-lg-2">
+              <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      </div>';
         }else{
             echo 'No user found!';
         }
@@ -883,7 +1020,64 @@
         </script>';
     }
     function listAdminTaxanomies(){
-        $GLOBALS['db']->dbGetTaxanomyAll();
+        $taxanomies=getAllTaxanomies();
+        if($taxanomies){
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Categories</div>
+                      <div class="panel-body">
+                        <ul class="list-unstyled">';
+                            for($i=0;$i<count($taxanomies);$i++){
+
+                                echo '<li>'.$taxanomies[$i]->Name.' <a href="/admin/categories/'.$taxanomies[$i]->Id.'" class="btn btn-default btn-xs">Edit</a>
+                                </li>';
+                            }
+
+                        echo '<li><a href="/admin/categories/new" class="btn btn-primary">Add category</a>
+                        </ul>
+                      </div>
+                    </div>';
+        }
+    }
+    function listAdminSingleTaxanomy(){
+        $taxanomy=getTaxanomy($_GET['category']);
+        echo '<div class="panel panel-primary">
+                  <div class="panel-heading">Category</div>
+                  <div class="panel-body">
+                    <form method="post" class="form-signin" role="form">
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="input-group">
+                                <span class="input-group-addon">Name</span>
+                                <input pattern="^\w+$" required name="taxanomy-name" value="'.$taxanomy->Name.'" type="text" class="form-control" placeholder="Category Name">
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                               <div class="input-group">
+                                <span class="input-group-addon">Parent</span>
+                                <select class="form-control" name="taxanomy-parent">
+                                  <option value="false">None</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-lg-2">
+                                  <button name="taxanomy-delete" class="btn btn-danger btn-block" type="submit" value="delete">Delete</button>
+                            </div>
+                            <div class="col-lg-2">
+                                  <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
+                            </div>
+                            </div><!-- /.row -->
+                            <div class="row">
+                                <div class="col-lg-2">
+                                      <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
+                                </div>
+                            </div>
+                        </form>
+                  </div>
+                </div>';
     }
     function listTaxanomies(){
         $taxanomies=getAllTaxanomies();
@@ -911,10 +1105,97 @@
 
         echo    '</ul>
               </li>';
+    }
+    function listAdminCurrencies(){
+        $currencies=getAllCurrencies();
+        echo '<div class="panel panel-primary">
+                  <div class="panel-heading">Currencies</div>
+                  <div class="panel-body">
+                    <table id="sortable" class="table">
+                        <thead>
+                            <th><button data-sort="currency-name" class="sort btn btn-default">Currency</button></th>
+                            <th><button data-sort="currency-value" class="sort btn btn-default">Value (in relation to Euro)</button></th>
+                            <th><input placeholder="Search.." class="form-control search"></th>
+                        </thead>
+                        <tbody class="list">';
+                for($i=0;$i<count($currencies);$i++){
+                     echo       '<tr>
+                                <th class="currency-name">'.$currencies[$i]->Name.' '.$currencies[$i]->Sign.'</th>
+                                <th class="currency-value">'.$currencies[$i]->Multiplier.'</th>
+                                <th><a class="btn btn-default" href="/admin/currencies/'.$currencies[$i]->Id.'">View</a></th>
+                            </tr>';
+                    }
+                 echo       '</tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th><a href="/admin/currencies/new/" class="btn btn-primary">Add Currency</a></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                  </div>
+                </div>';
+    }
+    function listAdminSingleCurrency(){
+        $currency=getCurreny($_GET['currency']);
+        echo '<div class="panel panel-primary">
+                  <div class="panel-heading">Currency</div>
+                  <div class="panel-body">
+                    <form method="post" class="form-signin" role="form">
+                          <div class="row">
+                            <div class="col-lg-2">
+                              <div class="input-group">
+                                <span class="input-group-addon">ID</span>
+                                <input pattern="^(\w|\s)+$" readonly name="currency-id" type="text" class="form-control" title="Automatically generated">
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                              <div class="input-group">
+                                <span class="input-group-addon">Name</span>
+                                <input pattern="^(\w|\s)+$" required name="currency-name" type="text" class="form-control" placeholder="Euro">
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-2">
+                              <div class="input-group">
+                                <span class="input-group-addon">Sign</span>
+                                <input pattern="^.{0,4}$" required name="currency-sign" type="text" class="form-control" placeholder="€">
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-2">
+                              <div class="input-group">
+                                <span class="input-group-addon">Value</span>
+                                <input pattern="^(\d|[\.])+$" required name="currency-value" type="text" class="form-control" placeholder="1.0">
+                              </div><!-- /input-group -->
+                            </div>
+                            <div class="col-lg-2">
+                               <div class="input-group">
+                                <span class="input-group-addon">Position</span>
+                                <select class="form-control" name="currency-position">
+                                  <option value="prefix">Prefix</option>
+                                  <option value="suffix">Suffix</option>
+                                </select>
+                              </div>
+                            </div>
 
+                            </div><!-- /.row -->
+                            <div class="row">
+                                <div class="col-lg-2">
+                                      <a href="/admin/currencies/" class="btn btn-default btn-block">Back</a>
+                                </div>
+                                <div class="col-lg-4">
+                                </div>
+                                <div class="col-lg-2">
+                                      <button name="currency-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
+                                </div>
+                                <div class="col-lg-4">
+                                  <button name="currency-add" class="btn btn-primary btn-block" type="submit" value="new">Add currency</button>
+                                </div>
+                            </div>
 
-
-
+                        </form>
+                  </div>
+                </div>';
     }
     function registerUser(){
         if($GLOBALS['db']->dbAddUser($_POST['user-ssn'],$_POST['user-mail'],$_POST['user-password'],$_POST['user-first-name'],$_POST['user-last-name'],$_POST['user-street-address'],$_POST['user-post-address'],$_POST['user-city'],$_POST['user-phone'])==TRUE){
@@ -1009,7 +1290,7 @@
 
         $order=NULL;
         if($data!=NULL){
-            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['ProductList']);
+            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['OrderList']);
         }
         return $order;
     }
@@ -1063,7 +1344,7 @@
 
         $currency=NULL;
         if($data!=NULL){
-            $currency=new Currency($data['CurrencyId'],$data['CurrencyName'],$data['CurrencyMultiplier'],$data['CurrencySign']);
+            $currency=new Currency($data['CurrencyId'],$data['CurrencyName'],$data['CurrencyMultiplier'],$data['CurrencySign'],$data['CurrencyLayout']);
         }
         return $currency;
     }
@@ -1071,7 +1352,7 @@
         $data=$GLOBALS['db']->dbGetCurrenciesAll();
         $currencies=NULL;
         for($i=0;$i<count($data);$i++){
-            $currencies[$i]=new Currency($data[$i]['CurrencyId'],$data[$i]['CurrencyName'],$data[$i]['CurrencyMultiplier'],$data[$i]['CurrencySign']);
+            $currencies[$i]=new Currency($data[$i]['CurrencyId'],$data[$i]['CurrencyName'],$data[$i]['CurrencyMultiplier'],$data[$i]['CurrencySign'],$data[$i]['CurrencyLayout']);
         }
         return $currencies;
     }

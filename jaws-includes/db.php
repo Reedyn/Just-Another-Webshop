@@ -208,7 +208,7 @@
                 $j=0;
                 $param[$j]=$this->insert_id;
                 $j++;
-                for($i=3;$i<$numargs;$i++){
+                for($i=4;$i<$numargs;$i++){
                     $param[$j]=$arg_list[$i];
                     $j++;
                 }

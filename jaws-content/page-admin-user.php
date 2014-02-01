@@ -56,6 +56,7 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
 ?>
 
 <?php if(isset($_GET['user']) && $_GET['user'] == 'new') { ?>
+
       <div class="panel panel-primary">
           <div class="panel-heading">Add User</div>
           <div class="panel-body">
@@ -144,98 +145,7 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
         </form>
       </div>
       </div>
-<?php } else { ?>
-     <div class="panel panel-primary">
-      <div class="panel-heading">Edit User</div>
-      <div class="panel-body">
-        <form method="post" class="form-signin" role="form">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                <input readonly name="user-ssn" type="text" value="910201-1914" class="form-control" placeholder="Social Security Number">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope" ></span></span>
-                <input readonly name="user-mail" type="email" value="gustav@glindqvist.se" class="form-control" placeholder="E-Mail">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input readonly name="user-password" type="password" value="justanotherwebshop" class="form-control" placeholder="Password">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" name="reset-password" type="submit">Reset</button>
-                </span>
-            </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->  
-            </div><!-- /.row -->
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" value="Gustav" placeholder="First Name">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" value="Lindqvist" placeholder="Last Name">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" ></span></span>
-                <input pattern="^(46|\+46|0)(-?\s?[0-9]+)+$" name="user-phone" type="tel" class="form-control" value="+46761479126" placeholder="Phone">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 --> 
-            </div><!-- /.row -->
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input name="user-street-address" type="text" class="form-control" value="Hermansvägen 104" placeholder="Street Address">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input name="user-post-address" type="text" class="form-control" value="55453" placeholder="Post Address">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->  
-          
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input name="user-city" type="text" class="form-control" value="Jönköping" placeholder="City">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-          </div><!-- /.row -->
-          <div class="row">
-            <div class="col-lg-2">
-                 <a href="/admin/users/" class="btn btn-default btn-block">Back</a>
-            </div>
-            <div class="col-lg-2">
-            </div>
-            <div class="col-lg-4">
-              <div class="input-group">
-                  <span required class="input-group-addon">Access level</span>
-                  <select class="form-control" name="user-admin">
-                      <option selected value=false>User</option>
-                      <option value=true>Administrator</option>
-                    </select>
-                </div>
-            </div>            
-            <div class="col-lg-2">
-              <button name="user-delete" class="btn btn-danger btn-block" value="edit" type="submit">Delete User</button>
-            </div>
-            <div class="col-lg-2">
-              <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      </div>
+<?php } else {
+    listAdminSingleUser($_GET['user']);
+    ?>
 <?php } jaws_footer(); ?>

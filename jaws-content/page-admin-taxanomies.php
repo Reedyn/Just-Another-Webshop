@@ -1,4 +1,6 @@
-<?php jaws_header(); ?>
+<?php jaws_header();
+    listAdminTaxanomies();
+?>
 <div class="panel panel-primary">
   <div class="panel-heading">Categories</div>
   <div class="panel-body">

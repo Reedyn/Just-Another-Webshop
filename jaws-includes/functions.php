@@ -387,7 +387,7 @@
         </form>
       </div>';
     }
-    function listCart(){
+    function listCart($page = "cart"){
         $totalCost=0;
         echo '<form method="post">
             <table class="table">
@@ -433,7 +433,8 @@
           </table>
         </form>';
     }
-    function listPersonalInfo(){
+    
+    function listPersonalInfo($page = "cart"){
         $user=getUser($_SESSION['LoginSSNr']);
         if(!isset($_SESSION['form']['cart'])) {
             $_SESSION['form']['cart'] = array( // Save form data in session
@@ -443,6 +444,10 @@
                                     'billing-post-address'      => $user->PostAddress,
                                     'shipping-city'             => $user->City,
                                     'billing-city'              => $user->City);
+        }
+        $attribute = "required";
+        if($page == "review"){
+            $attribute = "readonly";
         }
         echo '<form action="/cart/" method="post">
           <table class="table">
@@ -458,12 +463,12 @@
               <td>
                 <div class="input-group">
                   <span class="input-group-addon inputLeft">Street Address</span>
-                  <input required name="shipping-street-address" type="text" class="form-control" placeholder="Street Address" value="'.fillForm('cart','shipping-street-address').'">
+                  <input '.$attribute.' name="shipping-street-address" type="text" class="form-control" placeholder="Street Address" value="'.fillForm('cart','shipping-street-address').'">
                 </div>
               </td>
               <td><div class="input-group">
                 <span class="input-group-addon inputLeft">Street Address</span>
-                <input required name="billing-street-address" type="text" class="form-control" value="'.fillForm('cart','billing-street-address').'">
+                <input '.$attribute.' name="billing-street-address" type="text" class="form-control" value="'.fillForm('cart','billing-street-address').'">
               </div>
             </td>
           </tr>
@@ -471,13 +476,13 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input required name="shipping-post-address"type="text" class="form-control" value="'.fillForm('cart','shipping-post-address').'">
+                <input '.$attribute.' name="shipping-post-address"type="text" class="form-control" value="'.fillForm('cart','shipping-post-address').'">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Post Address</span>
-                <input required name="billing-post-address" type="text" class="form-control" value="'.fillForm('cart','billing-post-address').'">
+                <input '.$attribute.' name="billing-post-address" type="text" class="form-control" value="'.fillForm('cart','billing-post-address').'">
               </div>
             </td>
           </tr>
@@ -485,13 +490,13 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">City</span>
-                <input required name="shipping-city" type="text" class="form-control" value="'.fillForm('cart','shipping-city').'">
+                <input '.$attribute.' name="shipping-city" type="text" class="form-control" value="'.fillForm('cart','shipping-city').'">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">City</span>
-                <input required name="billing-city" type="text" class="form-control" value="'.fillForm('cart','billing-city').'">
+                <input '.$attribute.' name="billing-city" type="text" class="form-control" value="'.fillForm('cart','billing-city').'">
               </div>
             </td>
           </tr>
@@ -502,11 +507,11 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Full Name</span>
-                <input name="card-full-name" required type="text" class="form-control" value="">
+                <input '.$attribute.' name="card-full-name" required type="text" class="form-control" value="">
               </div>
             </td>
             <td>
-              <select required name="card-expiry-month" class="btn btn-default dropdown-toggle" id="expireMM">
+              <select '.$attribute.' name="card-expiry-month" class="btn btn-default dropdown-toggle" id="expireMM">
                 <option value="false">Month</option>
                 <option value="01">Janaury</option>
                 <option value="02">February</option>
@@ -521,7 +526,7 @@
                 <option value="11">November</option>
                 <option value="12">December</option>
               </select>
-              <select required name="card-expiry-year" class="btn btn-default dropdown-toggle" id="expireYY">
+              <select '.$attribute.' name="card-expiry-year" class="btn btn-default dropdown-toggle" id="expireYY">
                 <option value="false">Year</option>
                 <option value="14">14</option>
                 <option value="15">15</option>
@@ -536,20 +541,20 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Card Number</span>
-                <input required pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="">
+                <input '.$attribute.' pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">CVC</span>
-                <input name="card-cvc" pattern="^\d{3}$" required type="text" class="form-control" value="">
+                <input '.$attribute.' name="card-cvc" pattern="^\d{3}$" type="text" class="form-control" value="">
               </div>
             </td>
           </tr>
           <tr>
             <td>
               <a class="btn btn-default" href="/cart/">&laquo; Back</a>
-              <button type="submit" class="btn btn-info" name="checkout">Review before placing order</button>
+              <button '.$attribute.' type="submit" class="btn btn-info" name="review">Review before placing order</button>
             </td>
             <td></td>
           </tr>

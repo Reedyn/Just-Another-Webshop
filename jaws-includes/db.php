@@ -251,15 +251,20 @@
             $time=$this->dbGetUnixTime();
             $this->autocommit(false);
             $status=FALSE;
-            if($this->dbAddCard($ChargedCard['id'],$ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])===TRUE){
+            if($this->dbAddCard($ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])===TRUE){
                 if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',OrderIP='$OrderIP'")===TRUE){
-                    if($this->dbAddOrderList2($this->insert_id,$OrderList)){
+                    $OrderId=$this->insert_id;
+                    if($orderTotal=$this->dbAddOrderList2($OrderId,$OrderList)){
                         $status=TRUE;
+                        $this->dbEditOrder($OrderId,'OrderTotal',$orderTotal);
                         $this->commit();
+
                     }
                 }
             }
-            $this->rollback();
+            if($status==FALSE){
+                $this->rollback();
+            }
             $this->autocommit(TRUE);
             return $status;
         }
@@ -267,15 +272,18 @@
             $param="";
             $i=0;
             $listLength=count($OrderList);
+            $orderListTotal=0;
             foreach($OrderList as $id => $amount){
+                $product=$this->dbGetProduct($id);
                 $param.="($OrderId,$id,$amount)";
                 if($i!=($listLength-1)){
                     $param.=",";
                 }
+                $orderListTotal+=$product['Price'];
                 $i++;
             }
             if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
-                return true;
+                return $orderListTotal;
             }else{
                 return false;
             }

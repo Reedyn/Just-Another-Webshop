@@ -26,8 +26,8 @@ if(isset($_POST['taxanomy-delete'])){
 if(isset($_POST['taxanomy-edit'])){
     $_POST['taxanomy-parent'] = intval($_POST['taxanomy-parent']);
     if($db->dbEditTaxanomy($_POST['taxanomy-id'],"TaxanomyName",$_POST['taxanomy-name'],"TaxanomyParent",$_POST['taxanomy-parent'])){
-        //registerError("Category successfully edited","success");
-        //redirect();
+        registerError("Category successfully edited","success");
+        redirect();
     } else {
         registerError("Category couldn't be edited","danger");
         redirect();

@@ -1037,7 +1037,7 @@
               <td class="product-id">'.$products[$i]->ProductId.'</td>
               <td class="product-value">'.showCurrency($products[$i]->Price).'</td>
               <td class="product-category">'.$taxanomy->Name.' ('.$products[$i]->Taxanomy.')</td>
-              <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit</a></td>
+              <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit Product</a></td>
             </tr>';
             }
 
@@ -1507,6 +1507,122 @@
                     </div>';
         }   
     }
+    
+    function listAdminSinglePackage(){
+        if($_GET['package'] != "new"){
+            $package=$GLOBALS['db']->dbGetShipping($_GET['package']);
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Edit Package Weight</div>
+                      <div class="panel-body">
+                        <form method="post" class="form-signin" role="form">
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Max Weight (in gram)</span>
+                                    <input pattern="^\d+$" value="'.$package['MaxWeight'].'" required name="shipping-max-weight" type="text" class="form-control" placeholder="2">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Shipping Cost (in Euro)</span>
+                                    <input pattern="^\d+$" value="'.$package['Price'].'" required name="shipping-cost" type="text" class="form-control" placeholder="5">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                          <a href="/admin/shipping/" class="btn btn-default btn-block">Back</a>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-2">
+                                          <button name="shipping-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <button name="shipping-edit" class="btn btn-primary btn-block" type="submit" value="edit">Edit Package Weight</button>
+                                    </div>
+                                </div>
+                            </form>
+                      </div>
+                    </div>';
+        } else {
+        echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Add Package Weight</div>
+                      <div class="panel-body">
+                        <form method="post" class="form-signin" role="form">
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Max Weight (in gram)</span>
+                                    <input pattern="^\d+$" required name="shipping-max-weight" type="text" class="form-control" placeholder="2">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Shipping Cost (in Euro)</span>
+                                    <input pattern="^.+$" required name="shipping-cost" type="text" class="form-control" placeholder="5">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                          <a href="/admin/shipping/" class="btn btn-default btn-block">Back</a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <button name="shipping-add" class="btn btn-primary btn-block" type="submit" value="new">Add Package Weight</button>
+                                    </div>
+                                </div>
+                            </form>
+                      </div>
+                    </div>';
+        
+        }
+    }
+    
+    function listShipping(){
+        $shipping;
+        foreach ($GLOBALS['db']->dbGetShippingAll() as $key => $value){
+            $shipping[$value['MaxWeight']] = $value['Price'];
+        }
+        ksort($shipping);
+        echo '<div class="panel panel-primary">
+                  <div class="panel-heading">Shipping</div>
+                  <div class="panel-body">
+                    <table id="sortable" class="table">
+                        <thead>
+                            <th><button data-sort="shipping-max-weight" class="sort btn btn-default">Max weight</button></th>
+                            <th><button data-sort="shipping-cost" class="sort btn btn-default">Cost</button></th>
+                            <th></th>
+                        </thead>
+                        <tbody class="list">';
+        foreach($shipping as $key => $value){
+            echo    '<tr>
+                        <th class="shipping-max-weight">'.$key.'g</th>
+                        <th class="shipping-cost">'.showCurrency($value).'</th>
+                        <th><a class="btn btn-default" href="/admin/shipping/'.$key.'">View Shipping Weight</a></th>
+                    </tr>';
+            } 
+        echo '</tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th><a href="/admin/shipping/new/" class="btn btn-primary">Add Shipping Weight</a></th>
+                    </tr> 
+                </tfoot>
+            </table>
+          </div>
+        </div>
+        <script>
+            var options = {
+                valueNames: [ "shipping-max-weight", "shipping-cost" ]
+            };
+            var sortable = new List("sortable", options);
+        </script>';
+    }
+    
     function registerUser(){
         if($GLOBALS['db']->dbAddUser($_POST['user-ssn'],$_POST['user-mail'],$_POST['user-password'],$_POST['user-first-name'],$_POST['user-last-name'],$_POST['user-street-address'],$_POST['user-post-address'],$_POST['user-city'],$_POST['user-phone'])==TRUE){
             return true;

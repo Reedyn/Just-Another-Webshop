@@ -638,6 +638,37 @@
             }
         }
         
+        public function dbEditShipping($MaxWeight) { //Attempts to edit a currency and returns a boolean.
+            // Function arguments are dynamic meaning
+            // the first argument is the ID for currency (CurrencyId).
+            // The following arguments follow this pattern
+            // (...,RowToChange,ValueToChangeTo...)
+            // This works endlessly so as long as the
+            // row to change is argument number X
+            // where X%2=0 and value to change to
+            // is argument number Y=X+1.
+
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $param="";
+            for($i=1;$i<$numargs;$i++){
+                if($i==$numargs-2){
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."'";
+                }else{
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."',";
+                }
+            }
+            if($this->query("UPDATE shipping SET $param WHERE MaxWeight='$MaxWeight'")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
         public function dbDeleteShipping($MaxWeight) { // Attempts to delete currency, returns a boolean.              
             if($this->query("DELETE FROM shipping WHERE MaxWeight in ($MaxWeight)")){
                 return true;
@@ -646,9 +677,9 @@
             }
         }
         
-        public function dbGetShipping($Weight){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
+        public function dbGetShipping($MaxWeight){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
             $shipping=NULL;
-            if($result=$this->query("SELECT * FROM shipping WHERE Weight in ($Weight)")){
+            if($result=$this->query("SELECT * FROM shipping WHERE MaxWeight in ($MaxWeight)")){
                 $shipping=$result->fetch_assoc();    
             }
             return $shipping;

@@ -1228,7 +1228,7 @@
     function listCurrencies(){
         $currencies=getAllCurrencies();
         echo '<li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Currency<b class="caret"></b></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-money"></i><b class="caret"></b></a>
                       <ul class="dropdown-menu">';
 
             for($i=0;$i<count($currencies);$i++){
@@ -1472,7 +1472,7 @@
     // -------------------------------------
     //  CURRENCY
     // -------------------------------------
-    function getCurreny($CurrencyId) { // Returns an order from the order as an Order class.
+    function getCurrency($CurrencyId) { // Returns an order from the order as an Order class.
         $data=$GLOBALS['db']->dbGetCurrency($CurrencyId);
 
         $currency=NULL;

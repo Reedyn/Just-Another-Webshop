@@ -175,21 +175,24 @@ body {
 }
 
 .shoppingCart {
-height: 40px;
 position: absolute;
-right: 67px;
-top: 21px;
+right: 20px;
 list-style: none;
 }
+
+.shoppingCart .fa.fa-money {
+font-size: 24px;
+line-height: 14px;
+}
+
 .shoppingCart a {
 color: white;
 font-size: 17px;
-line-height: 40px;
+line-height: 17px;
 }
 .shoppingCart a .glyphicon.glyphicon-shopping-cart {
 font-size: 24px;
-line-height: 40px;
-vertical-align: sub;
+line-height: 17px;
 }
 
 .bold {

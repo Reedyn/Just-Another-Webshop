@@ -4,8 +4,14 @@
     
             <div class="navbar navbar-inverse navbar-static-top" role="navigation">
               <div class="container">
-                <div class="navbar-header">
-                  <li class="shoppingCart">
+                 <a class="navbar-brand" href="/">
+                    <img src="/jaws-content/themes/default/img/logotype.png">
+                  </a>
+                <div class="shoppingCart nav navbar-nav navbar-header">
+                  <?php
+                      listCurrencies();
+                        ?>
+                  <li>
                       <a href="/cart/">
                           <?php itemsInCart(); ?> <span class="glyphicon glyphicon-shopping-cart"></span>
                       </a>
@@ -16,17 +22,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="/">
-                    <img src="/jaws-content/themes/default/img/logotype.png">
-                  </a>
+                 
                 </div>
                 <div class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/products/">Products</a></li>
-                    <?php
-                      listCurrencies();
-                    ?>
+                    
                     <?php if(isLoggedIn()) { ?>
                     <li><a href="/settings/">Settings</a></li>
                     <?php if(isAdmin()) { ?>

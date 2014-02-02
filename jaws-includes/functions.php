@@ -683,7 +683,7 @@
               '.$_SESSION['form']['cart']['card-number'].'
             </td>
             <td>
-              '.$_SESSION['form']['cart']['card-cvc'].'
+              ***
             </td>
           </tr>
           <tr>

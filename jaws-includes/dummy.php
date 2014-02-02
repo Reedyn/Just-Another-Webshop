@@ -12,6 +12,6 @@
 
     //$db->dbAddOrder(621955621955,0,1,$ip,9,3,8,2,7,1);
     //var_dump(getOrder(4));
-    var_dump($db->dbGetOrder(4));
+    var_dump($GLOBALS['db']->dbGetOrdersAll());
 
 ?>

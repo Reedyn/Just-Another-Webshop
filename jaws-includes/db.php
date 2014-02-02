@@ -265,7 +265,7 @@
                     }
                 }
             }
-            if($status==FALSE){
+            if($status!=3){
                 $this->rollback();
             }
             $this->autocommit(TRUE);
@@ -278,14 +278,16 @@
             $orderListTotal=0;
             foreach($OrderList as $id => $amount){
                 $product=$this->dbGetProduct($id);
-                $param.="($OrderId,$id,$amount)";
+                $orderListPrice=$product['Price']*$amount;
+                $param.="($OrderId,$id,$amount,$orderListPrice)";
                 if($i!=($listLength-1)){
                     $param.=",";
                 }
-                $orderListTotal+=$product['Price'];
+
+                $orderListTotal+=$product['Price']*$amount;
                 $i++;
             }
-            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")){
+            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount,OrderListTotal) VALUES $param")){
                 return $orderListTotal;
             }else{
                 return false;

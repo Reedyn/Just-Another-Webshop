@@ -9,23 +9,20 @@
         public $OrderList;
         public $OrderPrice;
 
-        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList) {
+        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList,$OrderTotal) {
             $this->OrderId      = $OrderId;
             $this->SSNr         = $SSNr;
             $this->OrderDate    = $OrderDate;
             $this->Discount     = $Discount;
             $this->ChargedCard  = $ChargedCard;
             $this->OrderIP      = $OrderIP;
-            $this->OrderPrice   = 0;
+            $this->OrderPrice   = $OrderTotal;
             if($OrderList==NULL){
                 $this->OrderList = NULL;
             }else{
                 for($i=0;$i<count($OrderList);$i++){
                     $this->OrderList[$i]=new ListedProduct($OrderList[$i]['OrderId'],$OrderList[$i]['ProductId'],$OrderList[$i]['Amount']);
                 }
-            }
-            for($i=0;$i<count($OrderList);$i++){
-                $this->OrderPrice   += $this->OrderList[$i]->ProductPriceTotal;
             }
         }
     }

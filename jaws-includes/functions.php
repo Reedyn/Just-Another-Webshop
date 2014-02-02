@@ -1424,7 +1424,7 @@
 
         $order=NULL;
         if($data!=NULL){
-            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['OrderList']);
+            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['OrderList'],$data['OrderTotal']);
         }
         return $order;
     }
@@ -1432,7 +1432,7 @@
         $data=$GLOBALS['db']->dbGetOrdersAll();
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
-            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL);
+            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal']);
         }
         return $orders;
     }
@@ -1440,7 +1440,7 @@
         $data=$GLOBALS['db']->dbGetUsersOrders($SSNr);
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
-            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL);
+            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal']);
         }
         return $orders;
     }

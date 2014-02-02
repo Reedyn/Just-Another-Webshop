@@ -145,7 +145,7 @@
             // Adds one card to the cards table.
             // Arguments states what needs to be
             // put in.
-             if ($this->query("INSERT INTO cards SET CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'") === TRUE) {
+             if ($this->query("INSERT INTO cards SET CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'")) {
                  return $this->insert_id;
              }else{
                 return false;
@@ -250,12 +250,15 @@
         public function dbAddOrder2($ChargedCard,$SSNr,$OrderIP,$OrderList){
             $time=$this->dbGetUnixTime();
             $this->autocommit(false);
-            $status=FALSE;
-            if($this->dbAddCard($ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])===TRUE){
-                if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',OrderIP='$OrderIP'")===TRUE){
+            $status=0;
+            if($this->dbAddCard($ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])){
+                $status=1;
+                $CardId=$this->insert_id;
+                if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',OrderIP='$OrderIP',ChargedCard='$CardId'")){
+                    $status=2;
                     $OrderId=$this->insert_id;
                     if($orderTotal=$this->dbAddOrderList2($OrderId,$OrderList)){
-                        $status=TRUE;
+                        $status=3;
                         $this->dbEditOrder($OrderId,'OrderTotal',$orderTotal);
                         $this->commit();
 
@@ -282,7 +285,7 @@
                 $orderListTotal+=$product['Price'];
                 $i++;
             }
-            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
+            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")){
                 return $orderListTotal;
             }else{
                 return false;

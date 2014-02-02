@@ -979,11 +979,10 @@
                 $taxanomies=getAllTaxanomies();
                 for($i=0;$i<count($taxanomies);$i++){
                     if($taxanomies[$i]->Id==$product->Taxanomy){
-                        echo '<option selected>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        echo '<option value="'.$taxanomies[$i]->Id.'" selected>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
                     }else{
-                        echo '<option>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
                     }
-
                 }
                 echo '</select>
               </div>
@@ -1244,12 +1243,16 @@
                                <div class="input-group">
                                 <span class="input-group-addon">Parent</span>
                                 <select class="form-control" name="taxanomy-parent">
-                                  <option value="false">None</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
-                                </select>
+                                    <option value="FALSE">No parent</option>';
+                                $taxanomies=getAllTaxanomies();
+                                for($i=0;$i<count($taxanomies);$i++){
+                                    if($taxanomies[$i]->Id==$taxanomy->Parent){
+                                        echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                    }else{
+                                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                    }
+                                }
+                                echo '</select>
                               </div>
                             </div>
                             <div class="col-lg-2">

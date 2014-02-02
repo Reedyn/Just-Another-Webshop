@@ -400,6 +400,7 @@
             <th>Total</th>
             
             </thead><tbody>';
+        $totalWeight=0;
         foreach($_SESSION['cart']['items'] as $key => $value){
             $product=getProduct($key);
             $_SESSION['cart']['items'][$key]['id'] = $product->ProductId;
@@ -419,6 +420,11 @@
                         <td><strong>'.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']).'</strong> ('.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']*0.8).')</td>
                     </tr>';
             $totalCost+=($_SESSION['cart']['items'][$key]['price']*$value['amount']);
+            $totalWeight+=$product->ProductWeight;
+        }
+
+        if($totalWeight<2000){
+
         }
         $shippingCost = 20;
         echo '  </tbody>

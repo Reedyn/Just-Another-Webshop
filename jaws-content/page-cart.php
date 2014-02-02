@@ -45,32 +45,30 @@ if(isset($_POST['review-order'])){ // If user is trying to checkout
        isset($_POST['card-cvc']) &&  preg_match("$\d{3}$", $_POST['card-cvc'])){
         $remove = array("-", " ");
         $_POST['card-number'] = str_replace($remove, "", $_POST['card-number']);
-        $_SESSION['form']['cart'] = array( // Save form data in session
-                                    'shipping-street-address'   => $_POST['shipping-street-address'],
-                                    'billing-street-address'    => $_POST['billing-street-address'],
-                                    'shipping-post-address'     => $_POST['shipping-post-address'],
-                                    'billing-post-address'      => $_POST['billing-post-address'],
-                                    'shipping-city'             => $_POST['shipping-city'],
-                                    'billing-city'              => $_POST['billing-city'],
-                                    'card-full-name'            => $_POST['card-full-name'],
-                                    'card-expiry-month'         => $_POST['card-expiry-month'],
-                                    'card-expiry-year'          => $_POST['card-expiry-year'],
-                                    'card-number'               => $_POST['card-number'],
-                                    'card-cvc'                  => $_POST['card-cvc']);
+        $_SESSION['form']['cart']['shipping-street-address'] = $_POST['shipping-street-address'];
+        $_SESSION['form']['cart']['billing-street-address' ] = $_POST['billing-street-address'];
+        $_SESSION['form']['cart']['shipping-post-address' ] = $_POST['shipping-post-address'];
+        $_SESSION['form']['cart']['billing-post-address' ] = $_POST['billing-post-address'];
+        $_SESSION['form']['cart']['shipping-city' ] = $_POST['shipping-city'];
+        $_SESSION['form']['cart']['billing-city' ] = $_POST['billing-city'];
+        $_SESSION['form']['cart']['card-full-name' ] = $_POST['card-full-name'];
+        $_SESSION['form']['cart']['card-expiry-month' ] = $_POST['card-expiry-month'];
+        $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
+        $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
+        $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
         redirect("/cart/review/");
     } else {
-        $_SESSION['form']['cart'] = array( // Save form data in session
-                                    'shipping-street-address'   => $_POST['shipping-street-address'],
-                                    'billing-street-address'    => $_POST['billing-street-address'],
-                                    'shipping-post-address'     => $_POST['shipping-post-address'],
-                                    'billing-post-address'      => $_POST['billing-post-address'],
-                                    'shipping-city'             => $_POST['shipping-city'],
-                                    'billing-city'              => $_POST['billing-city'],
-                                    'card-full-name'            => $_POST['card-full-name'],
-                                    'card-expiry-month'         => $_POST['card-expiry-month'],
-                                    'card-expiry-year'          => $_POST['card-expiry-year'],
-                                    'card-number'               => $_POST['card-number'],
-                                    'card-cvc'                  => $_POST['card-cvc']);
+        $_SESSION['form']['cart']['shipping-street-address'] = $_POST['shipping-street-address'];
+        $_SESSION['form']['cart']['billing-street-address' ] = $_POST['billing-street-address'];
+        $_SESSION['form']['cart']['shipping-post-address' ] = $_POST['shipping-post-address'];
+        $_SESSION['form']['cart']['billing-post-address' ] = $_POST['billing-post-address'];
+        $_SESSION['form']['cart']['shipping-city' ] = $_POST['shipping-city'];
+        $_SESSION['form']['cart']['billing-city' ] = $_POST['billing-city'];
+        $_SESSION['form']['cart']['card-full-name' ] = $_POST['card-full-name'];
+        $_SESSION['form']['cart']['card-expiry-month' ] = $_POST['card-expiry-month'];
+        $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
+        $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
+        $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
         registerError("You need to fill in all fields to continue","warning");
         redirect();
     }

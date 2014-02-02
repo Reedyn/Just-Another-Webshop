@@ -141,12 +141,12 @@
             Cards
         */  ###################################################################################################
 
-        public function dbAddCard($CardId,$CardNr,$CardName,$ExpiryMonth,$ExpiryYear) { // Attempts to add a card, returns a boolean.
+        public function dbAddCard($CardNr,$CardName,$ExpiryMonth,$ExpiryYear) { // Attempts to add a card, returns a boolean.
             // Adds one card to the cards table.
             // Arguments states what needs to be
             // put in.
-             if ($this->query("INSERT INTO cards SET CardId='$CardId',CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'") === TRUE) {
-                 return true;
+             if ($this->query("INSERT INTO cards SET CardNr='$CardNr',CardName='$CardName',ExpiryMonth='$ExpiryMonth', ExpiryYear='$ExpiryYear'") === TRUE) {
+                 return $this->insert_id;
              }else{
                 return false;
             }
@@ -185,10 +185,10 @@
             Orders
         */  ###################################################################################################
 
-        public function dbAddOrder($SSNr,$Discount,$ChargedCard,$OrderIP) { // Attempts to add an order to the database, returns a boolean.
+        public function dbAddOrder($SSNr,$Discount,$ChargedCard) { // Attempts to add an order to the database, returns a boolean.
             // Function arguments have dynamic amount, meaning
             // the first argument is the ID for User (SSNr),
-            // the second is discount (Discount) and third is
+            // the second is discount (Discount) and third is the id for
             // charged card (ChargedCard).
             // The following arguments follow this pattern
             // (...,ProductId,ProductAmount...)
@@ -202,9 +202,9 @@
             $arg_list=func_get_args();
             $param=NULL;
             $time = $this->dbGetUnixTime(); // Get unixtime
-
+            $OrderIP = $_SERVER['REMOTE_ADDR'];
             $this->autocommit(false);
-            if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard',OrderIP='$OrderIP'")===TRUE){
+            if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',Discount='$Discount',ChargedCard='$ChargedCard',OrderIP='$OrderIP'")){
                 $j=0;
                 $param[$j]=$this->insert_id;
                 $j++;

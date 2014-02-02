@@ -568,6 +568,14 @@
       </form>';
     }
     
+    function argumentsFromCart(){
+        $array = array();
+        foreach($_SESSION['cart']['items'] as $key => $value){
+            array_push($array, $_SESSION['cart']['items'][$key]['id'], $_SESSION['cart']['items'][$key]['amount']);
+        }
+        return $array;
+    }
+    
     function listReview(){
         $totalCost=0;
         echo '<table class="table">
@@ -672,9 +680,11 @@
             </td>
           </tr>
           <tr>
-            <td>
+            <td><form action="/cart/review/" method="post">
               <a class="btn btn-default" href="/cart/">&laquo; Back</a>
+              
               <button type="submit" class="btn btn-info" name="place-order">Place order</button>
+              </form>
             </td>
             <td></td>
           </tr>

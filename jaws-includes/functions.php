@@ -77,23 +77,27 @@
     }
     
     function isAdmin() {
-        try {
-            $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
-        } catch (Exception $ex) {
-            //
-        } if($array['SessionKey'] == $_SESSION['SessionKey'] && $array['IsAdmin'] == 1) {
-            return true;
+        if (isset($_SESSION['LoginSSNr']) && isset($_SESSION['LoginSSNr'])){
+            try {
+                $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
+            } catch (Exception $ex) {
+                //
+            } if($array['SessionKey'] == $_SESSION['SessionKey'] && $array['IsAdmin'] == 1) {
+                return true;
+            }
         }
         return false;  
     }
     
     function isLoggedIn() {
-        try {
-            $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
-        } catch (Exception $ex) {
-            //
-        } if($array['SessionKey'] == $_SESSION['SessionKey']) {
-            return true;
+        if (isset($_SESSION['LoginSSNr']) && isset($_SESSION['LoginSSNr'])){
+            try {
+                $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
+            } catch (Exception $ex) {
+                //
+            } if($array['SessionKey'] == $_SESSION['SessionKey']) {
+                return true;
+            }
         }
         return false;  
     }

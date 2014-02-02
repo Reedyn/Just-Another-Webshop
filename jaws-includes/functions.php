@@ -572,7 +572,7 @@
     function shoppingCart(){
         $array = array();
         foreach($_SESSION['cart']['items'] as $key => $value){
-            array_push($array, $_SESSION['cart']['items'][$key]['id'], $_SESSION['cart']['items'][$key]['amount']);
+            $array[$_SESSION['cart']['items'][$key]['id']] = $_SESSION['cart']['items'][$key]['amount'];
         }
         return $array;
     }

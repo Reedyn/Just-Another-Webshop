@@ -13,8 +13,9 @@ if(isset($_POST['place-order'])){
     }
     if($card){
             //  dbAddOrder($SSNr,$Discount,$ChargedCard)
-        if($db->dbAddOrder($_SESSION['loginSSNr'],0,$card,8,3,9,1)){ // try to add order to database
+        if($db->dbAddOrder($_SESSION['loginSSNr'],0,$card,shoppingCart())){ // try to add order to database
             unset($_SESSION['cart']);
+            unset($_SESSION['form']);
             registerError("Thank you for your order! You can see your orders here","success");
             redirect("/settings/orders/");
         } else {

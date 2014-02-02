@@ -25,6 +25,28 @@
         echo '</div>';
     }
     
+    function calculateShippingCost(){
+        if(isset($_SESSION['cart']['items'])){
+            $totalWeight = 0;
+            foreach ($_SESSION['cart']['items'] as $key => $value){
+                if(isset($value['amount']) && isset($value['weight'])){
+                    $totalWeight += ($value['amount']*$value['weight']);
+                }
+            }
+            $shipping;
+            foreach ($GLOBALS['db']->dbGetShippingAll() as $key => $value){
+                $shipping[$value['MaxWeight']] = $value['Price'];
+            }
+            ksort($shipping);
+            foreach ($shipping as $key => $value){
+                if($key >= $totalWeight){
+                    $_SESSION['cart']['shipping-cost'] = $value;
+                    return $value;
+                }
+            }            
+        }
+    }
+    
     function generatePassword($length = 8) { // Generates a secure password
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $count = mb_strlen($chars);
@@ -866,7 +888,7 @@
               </div>
               <div class="col-lg-4">
                <div class="input-group">
-                <span class="input-group-addon">Weight (in kg)</span>
+                <span class="input-group-addon">Weight (in gram)</span>
                 <input pattern="^\d+$" name="product-weight" type="text" class="form-control">
               </div>
             </div>

@@ -933,13 +933,17 @@
               <div class="col-lg-4">
                <div class="input-group">
                 <span class="input-group-addon">Category</span>
-                <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">
-                  <option value="false">None</option>
-                  <option>2</option>
-                  <option selected>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+                <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">';
+                $taxanomies=getAllTaxanomies();
+                for($i=0;$i<count($taxanomies);$i++){
+                    if($taxanomies[$i]->Id==$product->Taxanomy){
+                        echo '<option selected>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                    }else{
+                        echo '<option>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                    }
+
+                }
+                echo '</select>
               </div>
             </div>
               <div class="col-lg-4">
@@ -985,11 +989,12 @@
             </thead><tbody class="list">';
         if($products){
             for($i=0;$i<count($products);$i++){
+                $taxanomy=getTaxanomy($products[$i]->Taxanomy);
                 echo '<tr>
               <td class="product-name">'.$products[$i]->Name.'</td>
               <td class="product-id">'.$products[$i]->ProductId.'</td>
               <td class="product-value">'.showCurrency($products[$i]->Price).'</td>
-              <td class="product-category">'.$products[$i]->Taxanomy.'</td>
+              <td class="product-category">'.$taxanomy->Name.' ('.$products[$i]->Taxanomy.')</td>
               <td><a href="/admin/products/'.$products[$i]->ProductId.'/" class="btn btn-default">Edit</a></td>
             </tr>';
             }

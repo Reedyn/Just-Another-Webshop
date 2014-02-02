@@ -45,12 +45,12 @@
         header('Location: '.$_SERVER['REQUEST_URI']);
         exit; 
     }
-    
+    /*
     if(isset($_GET['currency'])){ // Set new currency when a new currency is selected.
         $id = intval($_GET['currency']);
         setCurrency($_GET['currency']);
         registerError("Currency changed","success");
         redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
-    
+    */
     ?>

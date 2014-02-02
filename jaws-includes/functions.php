@@ -37,7 +37,7 @@
         return $result;
     }
     function fillForm($form, $name) { // Fill out the form with the specified value (if it exists)
-        if(isset($_SESSION['form'][$form])){ 
+        if(isset($_SESSION['form'][$form]) & isset($_SESSION['form'][$form][$name])){ 
             return $_SESSION['form'][$form][$name];
         }
     }
@@ -451,8 +451,6 @@
     
     function listPersonalInfo(){
         $user=getUser($_SESSION['LoginSSNr']);
-        $_SESSION['form']['cart']['first-name'] = $user->FirstName;
-        $_SESSION['form']['cart']['last-name'] = $user->LastName;
         if(!isset($_SESSION['form']['cart'])) {
             $_SESSION['form']['cart'] = array( // Save form data in session
                                     'first-name'                => $user->FirstName,
@@ -464,6 +462,8 @@
                                     'shipping-city'             => $user->City,
                                     'billing-city'              => $user->City);
         }
+        $_SESSION['form']['cart']['first-name'] = $user->FirstName;
+        $_SESSION['form']['cart']['last-name'] = $user->LastName;
         $attribute = "required";
         echo '<form action="/cart/" method="post">
           <table class="table">

@@ -28,7 +28,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/recaptchalib.php');
 $publickey = "6Lcevu0SAAAAALVA9IWHanPReEOxtSDz5YiNnqkE";
 $privatekey = "6Lcevu0SAAAAACPAZ5dGYqK1yvoFVPTfnpX6PKl8";
 
-if(isset($_POST['user-register'])) {
+if(isset($_POST['user-register'])) { // If user has clicked register button
+    // Check if validation is correct
     if (isset($_POST['user-ssn']) && preg_match("$\d{2,4}-?\d{2}-?\d{2}-?\d{4}$", $_POST['user-ssn']) &&
         isset($_POST['user-mail']) && preg_match("$[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$", $_POST['user-mail']) &&
         isset($_POST['user-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-password']) &&
@@ -37,7 +38,9 @@ if(isset($_POST['user-register'])) {
         isset($_POST['user-post-address'])&&
         isset($_POST['user-street-address'])&&
         isset($_POST['user-city'])) {
-        $_SESSION['form']['register'] = array(
+        $remove = array("-", " ");
+        $_POST['user-ssn'] = str_replace($remove, "", $_POST['user-ssn']);
+        $_SESSION['form']['register'] = array( // Save form data in session to prefill the form in case something goes wrong
             'user-ssn' => $_POST['user-ssn'],
             'user-mail' => $_POST['user-mail'],
             'user-first-name' => $_POST['user-first-name'],
@@ -61,7 +64,6 @@ if(isset($_POST['user-register'])) {
                         unset($_SESSION['redirect']);
                         exit();
                     } 
-                    
                     redirect("/");
                 } else {
                     showError("Registration failed. User already exists", "danger");

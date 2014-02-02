@@ -42,8 +42,7 @@
     }
     if (isset($_POST['add-to-cart'])){
         addToCart($_POST['add-to-cart']);
-        header('Location: '.$_SERVER['REQUEST_URI']);
-        exit; 
+        redirect(); 
     }
     if(isset($_GET['setcurrency'])){ // Set new currency when a new currency is selected.
         $id = intval($_GET['setcurrency']);

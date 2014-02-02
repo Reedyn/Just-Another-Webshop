@@ -1,43 +1,37 @@
 <?php jaws_header();
-    listAdminSingleTaxanomy();
-?>
-<div class="panel panel-primary">
-  <div class="panel-heading">Category</div>
-  <div class="panel-body">
-    <form method="post" class="form-signin" role="form">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="input-group">
-                <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="taxanomy-name" type="text" class="form-control" placeholder="Category Name">
-              </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-               <div class="input-group">
-                <span class="input-group-addon">Parent</span>
-                <select class="form-control" name="taxanomy-parent">
-                  <option value="false">None</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-lg-2">
-                  <button name="taxanomy-delete" class="btn btn-danger btn-block" type="submit" value="delete">Delete</button>
-            </div>
-            <div class="col-lg-2">
-                  <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
-            </div>
-            </div><!-- /.row -->
-            <div class="row">
-                <div class="col-lg-2">
-                      <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
-                </div>
-            </div>
-        </form>
-  </div>
-</div>
+
+if(isset($_POST['taxanomy-add'])){
+    if($db->dbAddTaxanomy($_POST['taxanomy-name'],$_POST['taxanomy-parent'])){
+        registerError("Category added","success");
+        redirect();
+    } else {
+        registerError("Category couldn't be added","danger");
+        redirect();
+    }
+}
+
+if(isset($_POST['taxanomy-delete'])){
+    if($db->dbAddTaxanomy($_GET['category'])){
+        registerError("Category deleted","success");
+        redirect("/admin/categories/");
+    } else {
+        registerError("Category couldn't be deleted","danger");
+        redirect();
+    }
+}
+
+if(isset($_POST['taxanomy-edit'])){
+    if($db->dbEditTaxanomy($_POST['taxanomy-id'],"CurrencyMultiplier",$_POST['currency-value'],"CurrencyName",$_POST['currency-name'],"CurrencySign",$_POST['currency-sign'],"CurrencyLayout",$_POST['currency-position'])){
+        registerError("Category successfully edited","success");
+        redirect();
+    } else {
+        registerError("Category couldn't be edited","danger");
+        redirect();
+    }
+} ?>
+
+
+<?php listAdminSingleTaxanomy(); ?>
+
 
 <?php jaws_footer(); ?>

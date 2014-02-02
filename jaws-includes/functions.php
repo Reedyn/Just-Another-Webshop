@@ -77,14 +77,22 @@
     }
     
     function isAdmin() {
-        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true && isset($_SESSION['is-admin']) && $_SESSION['is-admin'] == true) {
+        try {
+            $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
+        } catch (Exception $ex) {
+            //
+        } if($array['SessionKey'] == $_SESSION['SessionKey'] && $array['IsAdmin'] == 1) {
             return true;
         }
-        return true;    
+        return false;  
     }
     
     function isLoggedIn() {
-        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in'] == true) {
+        try {
+            $array = $GLOBALS['db']->dbMatchSessionKey($_SESSION['LoginSSNr'],$_SESSION['SessionKey']);
+        } catch (Exception $ex) {
+            //
+        } if($array['SessionKey'] == $_SESSION['SessionKey']) {
             return true;
         }
         return false;  
@@ -582,7 +590,7 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">CVC</span>
-                <input '.$attribute.' placeholder="The security code is located on the back of your <card></card>" name="card-cvc" pattern="^\d{3}$" type="password" class="form-control" value="">
+                <input '.$attribute.' placeholder="The security code is located on the back of your card" name="card-cvc" pattern="^\d{3}$" type="password" class="form-control" value="">
               </div>
             </td>
           </tr>
@@ -729,14 +737,8 @@
         <div class="panel-heading ">Order</div>
         <div class="panel-body">
           <table class="sortable table">
-            <th>Invoice</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
             <tr>
-              <td class="bold">Customer (ID)</td>
+              <td class="bold">Customer</td>
               <td></td>
               <td class="bold">'.$user->FirstName.' '.$user->LastName.' ('.$order->SSNr.')</td>
               <td></td>
@@ -755,6 +757,14 @@
               <td class="bold">Date of purchase</td>
               <td></td>
               <td>'.$order->OrderDate.'</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="bold">IP-Address</td>
+              <td></td>
+              <td>'.$order->OrderIP.'</td>
               <td></td>
               <td></td>
               <td></td>
@@ -1213,9 +1223,10 @@
         }
     }
     function listAdminSingleTaxanomy(){
+        if($_GET['category'] != "new"){
         $taxanomy=getTaxanomy($_GET['category']);
         echo '<div class="panel panel-primary">
-                  <div class="panel-heading">Category</div>
+                  <div class="panel-heading">Edit Category</div>
                   <div class="panel-body">
                     <form method="post" class="form-signin" role="form">
                           <div class="row">
@@ -1241,7 +1252,7 @@
                                   <button name="taxanomy-delete" class="btn btn-danger btn-block" type="submit" value="delete">Delete</button>
                             </div>
                             <div class="col-lg-2">
-                                  <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
+                                  <button name="taxanomy-edit" class="btn btn-primary btn-block" type="submit" value="new">Edit Category</button>
                             </div>
                             </div><!-- /.row -->
                             <div class="row">
@@ -1252,6 +1263,43 @@
                         </form>
                   </div>
                 </div>';
+        } else {
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Add Category</div>
+                      <div class="panel-body">
+                        <form method="post" class="form-signin" role="form">
+                              <div class="row">
+                                <div class="col-lg-4">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Name</span>
+                                    <input pattern="^\w+$" required name="taxanomy-name" type="text" class="form-control" placeholder="Category Name">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-4">
+                                   <div class="input-group">
+                                    <span class="input-group-addon">Parent</span>
+                                    <select class="form-control" name="taxanomy-parent">
+                                      <option value="false">None</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4">
+                                      <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
+                                </div>
+                                </div><!-- /.row -->
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                          <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
+                                    </div>
+                                </div>
+                            </form>
+                      </div>
+                    </div>';
+        }
     }
     function listTaxanomies(){
         $taxanomies=getAllTaxanomies();
@@ -1453,15 +1501,13 @@
             if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
                 $_SESSION['SessionKey']=$sessionkey;
                 $_SESSION['LoginSSNr']=$CurrentUser[0];
-                if($CurrentUser[1]==TRUE){
-                    $_SESSION['IsAdmin']=TRUE;
-                }
                 return true;
             }
         }else{
             return false;
         }
     }
+    
     // -------------------------------------
     //  USER START
     // -------------------------------------

@@ -12,7 +12,7 @@
             Users
         */  ###################################################################################################
 
-        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$IsAdmin = false) { // Attempts to add a user and returns a boolean.
+        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$IsAdmin = 0) { // Attempts to add a user and returns a boolean.
             // Adds one user to the users table.
             // Arguments states what needs to be
             // put in.
@@ -131,10 +131,13 @@
                 return false;
             }
         }
-
-        public function login($email,$password){
-
-            // SAVE SESSIONKEY TO USER IN TABLE
+        
+        public function dbMatchSessionKey($SSNr, $SessionKey){
+            if($result=$this->query("SELECT SessionKey,IsAdmin FROM users WHERE SSNr='$SSNr'")){
+                return $result->fetch_assoc();
+            }else{
+                return false;
+            }
         }
 
         /*  ###################################################################################################

@@ -12,9 +12,9 @@ if(isset($_POST['user-submit'])) {
             isset($_POST['user-post-address']) && isset($_POST['user-street-address']) && isset($_POST['user-city'])) {
             $password = generatePassword(20);
             if($_POST['user-admin'] == "false"){
-                $_POST['user-admin'] = false;
+                $_POST['user-admin'] = 0;
             } elseif ($_POST['user-admin'] == "true"){
-                $_POST['user-admin'] = true;
+                $_POST['user-admin'] = 1;
             }
             $remove = array("-", " ");
             $_POST['user-ssn'] = str_replace($remove, "", $_POST['user-ssn']);
@@ -31,7 +31,7 @@ if(isset($_POST['user-submit'])) {
                     $_POST['user-admin'])) {
                     
                 // Send registration email to user
-                $message = 'Your account has been created</br>Your password is: '.$password;
+                $message = 'Your account has been created</br>Your password is: '.$password.'</br>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a>';
                 $message = wordwrap($message, 70, "\r\n"); 
                 $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
                 $subject = '[Hockey Gear] Account created';

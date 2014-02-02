@@ -18,8 +18,6 @@ if(isset($_POST['place-order'])){
         "expmonth" => $_SESSION['form']['cart']['card-expiry-year'],
         "expyear" => $_SESSION['form']['cart']['card-expiry-month']
     );
-    var_dump($card);
-    var_dump(shoppingCart());
     if($db->dbAddOrder2($card, $_SESSION['LoginSSNr'],$_SERVER['REMOTE_ADDR'],shoppingCart())){ // try to add order to database
         unset($_SESSION['cart']);
         unset($_SESSION['form']);

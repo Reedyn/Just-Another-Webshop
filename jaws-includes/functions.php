@@ -38,8 +38,9 @@
                 $shipping[$value['MaxWeight']] = $value['Price'];
             }
             ksort($shipping);
+            $i = count($shipping);
             foreach ($shipping as $key => $value){
-                if($key >= $totalWeight){
+                if($key >= $totalWeight || $last_iteration = !(--$i)){
                     $_SESSION['cart']['shipping-cost'] = $value;
                     return $value;
                 }
@@ -1235,6 +1236,12 @@
                           <div class="row">
                             <div class="col-lg-4">
                               <div class="input-group">
+                                <span class="input-group-addon">Id</span>
+                                <input readonly name="taxanomy-id" value="'.$taxanomy->Id.'" type="text" class="form-control" placeholder="Automatically generated">
+                              </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="col-lg-4">
+                              <div class="input-group">
                                 <span class="input-group-addon">Name</span>
                                 <input pattern="^\w+$" required name="taxanomy-name" value="'.$taxanomy->Name.'" type="text" class="form-control" placeholder="Category Name">
                               </div><!-- /input-group -->
@@ -1255,16 +1262,18 @@
                                 echo '</select>
                               </div>
                             </div>
-                            <div class="col-lg-2">
-                                  <button name="taxanomy-delete" class="btn btn-danger btn-block" type="submit" value="delete">Delete</button>
-                            </div>
-                            <div class="col-lg-2">
-                                  <button name="taxanomy-edit" class="btn btn-primary btn-block" type="submit" value="new">Edit Category</button>
-                            </div>
                             </div><!-- /.row -->
                             <div class="row">
                                 <div class="col-lg-2">
                                       <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+                                <div class="col-lg-2">
+                                  <button name="taxanomy-delete" class="btn btn-danger btn-block" type="submit" value="delete">Delete</button>
+                                </div>
+                                <div class="col-lg-2">
+                                      <button name="taxanomy-edit" class="btn btn-primary btn-block" type="submit" value="new">Edit Category</button>
                                 </div>
                             </div>
                         </form>
@@ -1276,6 +1285,12 @@
                       <div class="panel-body">
                         <form method="post" class="form-signin" role="form">
                               <div class="row">
+                                <div class="col-lg-4">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Id</span>
+                                    <input readonly name="taxanomy-id" type="text" class="form-control" placeholder="Automatically generated">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
                                 <div class="col-lg-4">
                                   <div class="input-group">
                                     <span class="input-group-addon">Name</span>
@@ -1294,15 +1309,17 @@
                                     </select>
                                   </div>
                                 </div>
-                                <div class="col-lg-4">
-                                      <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add category</button>
-                                </div>
                                 </div><!-- /.row -->
                                 <div class="row">
-                                    <div class="col-lg-2">
-                                          <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
-                                    </div>
+                                <div class="col-lg-2">
+                                      <a href="/admin/categories/" class="btn btn-default btn-block">Back</a>
                                 </div>
+                                <div class="col-lg-6">
+                                </div>
+                                <div class="col-lg-4">
+                                      <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Edit Category</button>
+                                </div>
+                            </div>
                             </form>
                       </div>
                     </div>';

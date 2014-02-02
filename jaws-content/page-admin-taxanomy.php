@@ -1,6 +1,9 @@
 <?php jaws_header();
 
 if(isset($_POST['taxanomy-add'])){
+    if($_POST['taxanomy-parent'] == "false"){
+        $_POST['taxanomy-parent'] = 1;
+    }
     if($db->dbAddTaxanomy($_POST['taxanomy-name'],$_POST['taxanomy-parent'])){
         registerError("Category added","success");
         redirect();
@@ -11,7 +14,7 @@ if(isset($_POST['taxanomy-add'])){
 }
 
 if(isset($_POST['taxanomy-delete'])){
-    if($db->dbAddTaxanomy($_GET['category'])){
+    if($db->dbDeleteTaxanomy($_GET['category'])){
         registerError("Category deleted","success");
         redirect("/admin/categories/");
     } else {
@@ -21,9 +24,10 @@ if(isset($_POST['taxanomy-delete'])){
 }
 
 if(isset($_POST['taxanomy-edit'])){
-    if($db->dbEditTaxanomy($_POST['taxanomy-id'],"CurrencyMultiplier",$_POST['currency-value'],"CurrencyName",$_POST['currency-name'],"CurrencySign",$_POST['currency-sign'],"CurrencyLayout",$_POST['currency-position'])){
-        registerError("Category successfully edited","success");
-        redirect();
+    $_POST['taxanomy-parent'] = intval($_POST['taxanomy-parent']);
+    if($db->dbEditTaxanomy($_POST['taxanomy-id'],"TaxanomyName",$_POST['taxanomy-name'],"TaxanomyParent",$_POST['taxanomy-parent'])){
+        //registerError("Category successfully edited","success");
+        //redirect();
     } else {
         registerError("Category couldn't be edited","danger");
         redirect();

@@ -1,7 +1,4 @@
-<?php jaws_header();
-
-
-?>
+<?php jaws_header(); ?>
 <div class="panel panel-primary">
   <div class="panel-heading">Shipping</div>
   <div class="panel-body">

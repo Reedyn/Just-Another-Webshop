@@ -18,20 +18,12 @@ if(isset($_POST['place-order'])){
     ?>
 
 <div class="panel panel-primary">
-    <div class="panel-heading ">Check your cart</div>
+    <div class="panel-heading ">Review your information before placing order</div>
     <div class="panel-body">
     <?php
-        listCart("review");
+        listReview();
     ?>
     
-    </div>
-    <div id="div1">
-        <div class="panel-heading">Personal information</div>
-        <div class="panel-body">
-        <?php
-            listPersonalInfo("review");
-        ?>
-        </div>
     </div>
 </div>
 

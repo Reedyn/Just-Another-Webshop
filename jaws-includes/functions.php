@@ -44,9 +44,9 @@
     
     function addToCart($productId) {
         if(isset($_SESSION['cart']['items'][$productId])){
-            $_SESSION['cart']['items'][$productId] += 1;
+            $_SESSION['cart']['items'][$productId]['amount'] += 1;
         } else {
-            $_SESSION['cart']['items'][$productId] = 1;
+            $_SESSION['cart']['items'][$productId]['amount'] = 1;
         } 
     }
     
@@ -102,7 +102,7 @@
             $cartAmount = 0;
             $suffix = "item";
             foreach ($_SESSION['cart']['items'] as $key => $value){
-                $cartAmount += $value;
+                $cartAmount += $value['amount'];
             }
             
             if($cartAmount != 1){
@@ -218,7 +218,7 @@
                           <td></td>
                           <td></td>
                           <td class="bold">Total (with VAT 25%)</td>
-                          <td class="bold">'.showCurrency($GLOBALS['totalAmount']).' (<span title="without VAT">'.showCurrency($GLOBALS['totalAmount']*0.75).')</span> </td>
+                          <td class="bold">'.showCurrency($GLOBALS['totalAmount']).' (<span title="without VAT">'.showCurrency($GLOBALS['totalAmount']*0.8).')</span> </td>
                         </tr>
                         <tr>
                           <td></td>
@@ -387,7 +387,7 @@
         </form>
       </div>';
     }
-    function listCart($page = "cart"){
+    function listCart(){
         $totalCost=0;
         echo '<form method="post">
             <table class="table">
@@ -401,43 +401,62 @@
             </thead><tbody>';
         foreach($_SESSION['cart']['items'] as $key => $value){
             $product=getProduct($key);
+            $_SESSION['cart']['items'][$key]['id'] = $product->ProductId;
+            $_SESSION['cart']['items'][$key]['name'] = $product->Name;
+            $_SESSION['cart']['items'][$key]['price'] = $product->Price;
+            $_SESSION['cart']['items'][$key]['weight'] = $product->ProductWeight;
             echo    '<tr>
-                <td>'.$product->Name.'</td>
-                <td>
-                    <input type="text" class="form-control" name="'.$product->ProductId.'" value="'.$value.'">
-              </td>
-              <td>
-              <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
-                  <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$product->ProductId.'"><span class="glyphicon glyphicon-remove"></button>
-                  </td>
-              <td>'.showCurrency($product->Price).'</td>
-              <td>
-              </td>
-              <td>'.showCurrency($product->Price*$value).'</td>
-            </tr>';
-            $totalCost+=($product->Price*$value);
+                        <td>'.$product->Name.'</td>
+                        <td>
+                            <input type="text" class="form-control" name="'.$_SESSION['cart']['items'][$key]['id'].'" value="'.$value['amount'].'">
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
+                            <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$_SESSION['cart']['items'][$key]['id'].'"><span class="glyphicon glyphicon-remove"></button>
+                        </td>
+                        <td>'.showCurrency($_SESSION['cart']['items'][$key]['price']).'</td>
+                        <td>'.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']).'</td>
+                    </tr>';
+            $totalCost+=($_SESSION['cart']['items'][$key]['price']*$value['amount']);
         }
-        echo ' </tobdy>           <tfoot>
-                <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-              </td>
-              <td class="bold">Total Cost</td>
-              <td class="bold">'.showCurrency($totalCost).'</td>
-            </tr>
-
-            </tfoot>
+        $shippingCost = 20;
+        echo '  </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Total (with VAT 25%)</td>
+                        <td><strong>'.showCurrency($totalCost).'</strong> ('.showCurrency($totalCost*0.8).')</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Shipping Cost</td>
+                        <td><strong>'.showCurrency($shippingCost).'</strong></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Total including shipping</td>
+                        <td><strong>'.showCurrency($totalCost+$shippingCost).'</strong> ('.showCurrency($totalCost*0.8+$shippingCost).')</td>
+                    </tr>
+                </tfoot>
 
           </table>
         </form>';
     }
     
-    function listPersonalInfo($page = "cart"){
+    function listPersonalInfo(){
         $user=getUser($_SESSION['LoginSSNr']);
+        $_SESSION['form']['cart']['first-name'] = $user->FirstName;
+        $_SESSION['form']['cart']['last-name'] = $user->LastName;
         if(!isset($_SESSION['form']['cart'])) {
             $_SESSION['form']['cart'] = array( // Save form data in session
+                                    'first-name'                => $user->FirstName,
+                                    'last-name'                 => $user->LastName,
                                     'shipping-street-address'   => $user->StreetAddress,
                                     'billing-street-address'    => $user->StreetAddress,
                                     'shipping-post-address'     => $user->PostAddress,
@@ -446,14 +465,11 @@
                                     'billing-city'              => $user->City);
         }
         $attribute = "required";
-        if($page == "review"){
-            $attribute = "readonly";
-        }
         echo '<form action="/cart/" method="post">
           <table class="table">
             <tr>
               <th>Full Name</th>
-              <th>'.$user->FirstName.' '.$user->LastName.'</th>
+              <th>'.$_SESSION['form']['cart']['first-name'].' '.$_SESSION['form']['cart']['last-name'].'</th>
             </tr>
             <tr>
               <th>Shipping Address</th>
@@ -502,6 +518,7 @@
           </tr>
           <tr>
             <th>Credit Card</th>
+            <th></th>
           </tr>
           <tr>
             <td>
@@ -513,27 +530,27 @@
             <td>
               <select '.$attribute.' name="card-expiry-month" class="btn btn-default dropdown-toggle" id="expireMM">
                 <option value="false">Month</option>
-                <option value="01">Janaury</option>
-                <option value="02">February</option>
-                <option value="03">March</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">August</option>
-                <option value="09">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
               </select>
               <select '.$attribute.' name="card-expiry-year" class="btn btn-default dropdown-toggle" id="expireYY">
                 <option value="false">Year</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
+                <option value="14">2014</option>
+                <option value="15">2015</option>
+                <option value="16">2016</option>
+                <option value="17">2017</option>
+                <option value="18">2018</option>
+                <option value="19">2019</option>
               </select>
             </td>
           </tr>
@@ -554,12 +571,126 @@
           <tr>
             <td>
               <a class="btn btn-default" href="/cart/">&laquo; Back</a>
-              <button '.$attribute.' type="submit" class="btn btn-info" name="review">Review before placing order</button>
+              <button '.$attribute.' type="submit" class="btn btn-info" name="review-order">Review before placing order</button>
             </td>
             <td></td>
           </tr>
         </table>
       </form>';
+    }
+    
+    function listReview(){
+        $totalCost=0;
+        echo '<table class="table">
+            <thead>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Value</th>
+            <th>Total</th>
+            
+            </thead><tbody>';
+        foreach($_SESSION['cart']['items'] as $key => $value){
+            
+            echo '<tr>
+                    <td>'.$value['name'].'</td>
+                    <td>
+                        '.$value['amount'].'
+                    </td>
+                    <td>'.showCurrency($value['price']).'</td>
+                    <td>'.showCurrency($value['price']*$value['amount']).'</td>
+                </tr>';
+            $totalCost+=($value['price']*$value['amount']);
+        }
+        $shippingCost = 20;
+        echo '  </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Total (with VAT 25%)</td>
+                        <td><strong>'.showCurrency($totalCost).'</strong> ('.showCurrency($totalCost*0.8).')</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Shipping Cost</td>
+                        <td><strong>'.showCurrency($shippingCost).'</strong></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="bold">Total including shipping</td>
+                        <td><strong>'.showCurrency($totalCost+$shippingCost).'</strong> ('.showCurrency($totalCost*0.8+$shippingCost).')</td>
+                    </tr>
+                </tfoot>
+        
+          </table>
+          <table class="table">
+            <tr>
+              <th>Full Name</th>
+              <th>'.$_SESSION['form']['cart']['first-name'].' '.$_SESSION['form']['cart']['last-name'].'</th>
+            </tr>
+            <tr>
+              <th>Shipping Address</th>
+              <th>Billing Address</th>
+            </tr>
+            <tr>
+              <td>
+                  '.$_SESSION['form']['cart']['shipping-street-address'].'
+              </td>
+              <td>
+                '.$_SESSION['form']['cart']['billing-street-address'].'
+            </td>
+          </tr>
+          <tr>
+            <td>
+                '.$_SESSION['form']['cart']['shipping-post-address'].'
+            </td>
+            <td>
+              '.$_SESSION['form']['cart']['billing-post-address'].'
+            </td>
+          </tr>
+          <tr>
+            <td>
+              '.$_SESSION['form']['cart']['shipping-city'].'
+            </td>
+            <td>
+              '.$_SESSION['form']['cart']['billing-city'].'
+            </td>
+          </tr></table>
+          <table class="table">
+          <thead>
+          <tr>
+            <th>Credit Card</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              '.$_SESSION['form']['cart']['card-full-name'].'
+            </td>
+            <td>
+              '.$_SESSION['form']['cart']['card-expiry-month'].'/'.$_SESSION['form']['cart']['card-expiry-year'].'
+            </td>
+          </tr>
+          <tr>
+            <td>
+              '.$_SESSION['form']['cart']['card-number'].'
+            </td>
+            <td>
+              '.$_SESSION['form']['cart']['card-cvc'].'
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a class="btn btn-default" href="/cart/">&laquo; Back</a>
+              <button type="submit" class="btn btn-info" name="place-order">Place order</button>
+            </td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>';
     }
     function listAdminSingleOrder($OrderId){
         $order=getOrder($OrderId);
@@ -629,7 +760,7 @@
               <td></td>
               <td></td>
               <td class="bold">Total (with VAT 25%)</td>
-              <td class="bold">'.showCurrency($totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.75).')</span> </td>
+              <td class="bold">'.showCurrency($totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.8).')</span> </td>
             </tr>
             <tr>
               <td></td>
@@ -645,7 +776,7 @@
               <td></td>
               <td></td>
               <td class="bold">Total cost, including shipping etc..</td>
-              <td class="bold">'.showCurrency($shippingCost+$totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.75+$shippingCost).')</td>
+              <td class="bold">'.showCurrency($shippingCost+$totalAmount).' (<span title="without VAT">'.showCurrency($totalAmount*0.8+$shippingCost).')</td>
             </tr>
           </table>
           <table>

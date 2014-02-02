@@ -1,5 +1,7 @@
 
       <?php
+    echo '<h4>Cart (Items)</h4>';
+    var_dump($_SESSION['cart']);
     echo '<h4>Session</h4>';
     var_dump($_SESSION);
     echo '<h4>Get</h4>';

@@ -46,7 +46,7 @@
         exit; 
     }
     
-    if(isset($_GET['currency']) && $_GET['currency'] != $_SESSION['currency']['id']){ // Set new currency when a new currency is selected.
+    if(isset($_GET['currency'])){ // Set new currency when a new currency is selected.
         $id = intval($_GET['currency']);
         setCurrency($_GET['currency']);
         registerError("Currency changed","success");

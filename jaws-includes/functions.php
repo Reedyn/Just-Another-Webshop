@@ -710,7 +710,7 @@
             <tr>
               <td class="bold">Customer (ID)</td>
               <td></td>
-              <td class="bold">'.$user->FirstName.' '.$user->FirstName.' ('.$order->SSNr.')</td>
+              <td class="bold">'.$user->FirstName.' '.$user->LastName.' ('.$order->SSNr.')</td>
               <td></td>
               <td></td>
               <td></td>

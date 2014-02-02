@@ -27,7 +27,7 @@ if(isset($_POST['place-order'])){
         redirect("/settings/orders/");
     } else { // If order couldn't be placed, reload the page with an error.
         registerError("Something went wrong when trying to place your order","danger");
-        //redirect();
+        redirect();
     }     
 }
     ?>

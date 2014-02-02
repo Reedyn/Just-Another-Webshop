@@ -1,4 +1,15 @@
-<?php jaws_header(); ?>
+<?php jaws_header(); 
+if(isset($_POST['shipping-add'])){//dbAddShipping($MaxWeight,$Price)
+    if($GLOBALS['db']->dbAddShipping($_POST['shipping-max-weight'],$_POST['shipping-cost'])){
+        registerError("Shipping weight successfully added","success");
+        redirect();
+    } else {
+        registerError("Error adding weight","success");
+        redirect();
+    }
+}
+
+?>
 <div class="panel panel-primary">
   <div class="panel-heading">Currency</div>
   <div class="panel-body">
@@ -6,7 +17,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="input-group">
-                <span class="input-group-addon">Max weight (in kg)</span>
+                <span class="input-group-addon">Max weight (in gram)</span>
                 <input pattern="^(\w|\s)+$" required name="shipping-max-weight" type="text" class="form-control" placeholder="2">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
@@ -24,10 +35,10 @@
                 <div class="col-lg-4">
                 </div>
                 <div class="col-lg-2">
-                      <button name="currency-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
+                      <button name="shipping-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
                 </div>
                 <div class="col-lg-4">
-                  <button name="currency-add" class="btn btn-primary btn-block" type="submit" value="new">Add weight</button>
+                  <button name="shipping-add" class="btn btn-primary btn-block" type="submit" value="new">Add weight</button>
                 </div>
             </div>
         </form>

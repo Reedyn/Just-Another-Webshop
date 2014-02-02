@@ -12,14 +12,14 @@
             Users
         */  ###################################################################################################
 
-        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone) { // Attempts to add a user and returns a boolean.
+        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$IsAdmin = 0) { // Attempts to add a user and returns a boolean.
             // Adds one user to the users table.
             // Arguments states what needs to be
             // put in.
             $salt=$this->AddPasswordSalt();
 
             $hashedPassword=$this->PasswordHash($salt,$Password);
-            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$salt')") === TRUE) {
+            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,IsAdmin,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$IsAdmin','$salt')")) {
                 return true;
             }else{
                 return false;
@@ -131,10 +131,13 @@
                 return false;
             }
         }
-
-        public function login($email,$password){
-
-            // SAVE SESSIONKEY TO USER IN TABLE
+        
+        public function dbMatchSessionKey($SSNr, $SessionKey){
+            if($result=$this->query("SELECT SessionKey,IsAdmin FROM users WHERE SSNr='$SSNr'")){
+                return $result->fetch_assoc();
+            }else{
+                return false;
+            }
         }
 
         /*  ###################################################################################################
@@ -153,7 +156,7 @@
         }
 
         public function dbDeleteCard($CardId) { // Attempts to remove a card, returns a boolean.
-            if($this->query("DELETE FROM cards WHERE CardId in ($CardId)")===TRUE){
+            if($this->query("DELETE FROM cards WHERE CardId in ($CardId)")){
                 return true;
             }else{
                 return false;
@@ -240,7 +243,7 @@
                     $param.="($OrderId,$arg_list[$i],$arg_list[$k]),";
                 }
             }
-            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
+            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")){
                 return true;
             }else{
                return false;
@@ -318,7 +321,7 @@
                     $param.=$arg_list[$i]."',";
                 }
             }
-            if($this->query("UPDATE orders SET $param WHERE OrderId='$OrderId'")===TRUE){
+            if($this->query("UPDATE orders SET $param WHERE OrderId='$OrderId'")){
                 return true;
             }else{
                 return false;
@@ -328,8 +331,8 @@
         public function dbDeleteOrder($OrderId) { // Attempts to removes an order and associated ordered items (orderList), returns a boolean.
             
             $this->autocommit(false);
-            if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")===TRUE){
-                if($this->query("DELETE FROM orders WHERE OrderId in ($OrderId)")===TRUE){
+            if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")){
+                if($this->query("DELETE FROM orders WHERE OrderId in ($OrderId)")){
                     $this->autocommit(true);
                     return true;
                 }else{
@@ -390,7 +393,7 @@
             // Adds one product to the products table.
             // Arguments states what needs to be
             // put in.
-            if($this->query("INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock',ProductWeight='$ProductWeight'")===TRUE){
+            if($this->query("INSERT INTO products SET Name='$Name',Description='$Description',ImgUrl='$ImgUrl',Taxanomy='$Taxanomy',Price='$Price',Stock='$Stock',ProductWeight='$ProductWeight'")){
                 return true;
             }else{
                 return false;
@@ -421,7 +424,7 @@
                     $param.=$arg_list[$i]."',";
                 }
             }
-            if($this->query("UPDATE products SET $param WHERE ProductId='$ProductId'")===TRUE){
+            if($this->query("UPDATE products SET $param WHERE ProductId='$ProductId'")){
                 return true;
             }else{
                 return false;
@@ -429,7 +432,7 @@
         }
 
         public function dbDeleteProduct($ProductId) { // Attempts to delete products, returns a boolean.
-            if($this->query("DELETE FROM products WHERE ProductId in ($ProductId)")===TRUE){
+            if($this->query("DELETE FROM products WHERE ProductId in ($ProductId)")){
                 return true;
             }else{
                 return false;
@@ -467,7 +470,7 @@
             // Adds one product to the products table.
             // Arguments states what needs to be
             // put in.
-            if($this->query("INSERT INTO taxanomies SET TaxanomyName='$TaxanomyName',TaxanomyParent='$TaxanomyParent'")===TRUE){
+            if($this->query("INSERT INTO taxanomies SET TaxanomyName='$TaxanomyName',TaxanomyParent='$TaxanomyParent'")){
                 return true;
             }else{
                 return false;
@@ -498,7 +501,7 @@
                     $param.=$arg_list[$i]."',";
                 }
             }
-            if($this->query("UPDATE taxanomies SET $param WHERE TaxanomyId='$TaxanomyId'")===TRUE){
+            if($this->query("UPDATE taxanomies SET $param WHERE TaxanomyId='$TaxanomyId'")){
                 return true;
             }else{
                 return false;
@@ -507,7 +510,7 @@
 
         public function dbDeleteTaxanomy($TaxanomyId) { // Attempts to delete taxanomies, returns a boolean.
                 
-            if($this->query("DELETE FROM taxanomies WHERE TaxanomyId in ($TaxanomyId)")===TRUE){
+            if($this->query("DELETE FROM taxanomies WHERE TaxanomyId in ($TaxanomyId)")){
                 return true;
             }else{
                 return false;
@@ -550,6 +553,56 @@
         /*  ###################################################################################################
             Currency
         */  ###################################################################################################
+        
+        public function dbAddCurrency($CurrencyName,$CurrencyMultiplier,$CurrencySign,$CurrencyLayout) { //Attempts to add a currency, returns a boolean.
+            // Adds one currency to the table.
+            // Arguments states what needs to be
+            // put in.
+            if($this->query("INSERT INTO currencies SET CurrencyName='$CurrencyName',CurrencyMultiplier='$CurrencyMultiplier',CurrencySign='$CurrencySign',CurrencyLayout='$CurrencyLayout'")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        public function dbEditCurrency($CurrencyId) { //Attempts to edit a currency and returns a boolean.
+            // Function arguments are dynamic meaning
+            // the first argument is the ID for currency (CurrencyId).
+            // The following arguments follow this pattern
+            // (...,RowToChange,ValueToChangeTo...)
+            // This works endlessly so as long as the
+            // row to change is argument number X
+            // where X%2=0 and value to change to
+            // is argument number Y=X+1.
+
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $param="";
+            for($i=1;$i<$numargs;$i++){
+                if($i==$numargs-2){
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."'";
+                }else{
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."',";
+                }
+            }
+            if($this->query("UPDATE currencies SET $param WHERE CurrencyId='$CurrencyId'")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        public function dbDeleteCurrency($CurrencyId) { // Attempts to delete currency, returns a boolean.              
+            if($this->query("DELETE FROM currencies WHERE CurrencyId in ($CurrencyId)")){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
         public function dbGetCurrency($CurrencyId){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
             $currency=NULL;
@@ -568,6 +621,48 @@
                 }
             }
             return $currency_list;
+        }
+        
+        /*  ###################################################################################################
+            Shipping
+        */  ###################################################################################################
+
+        public function dbAddShipping($MaxWeight,$Price) { //Attempts to add a currency, returns a boolean.
+            // Adds one product to the products table.
+            // Arguments states what needs to be
+            // put in.
+            if($this->query("INSERT INTO shipping SET MaxWeight='$MaxWeight',Price='$Price'")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        public function dbDeleteShipping($MaxWeight) { // Attempts to delete currency, returns a boolean.              
+            if($this->query("DELETE FROM shipping WHERE MaxWeight in ($MaxWeight)")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        public function dbGetShipping($Weight){ // Attempts to get currencies, returns an array of currency arrays. NULL if failure
+            $shipping=NULL;
+            if($result=$this->query("SELECT * FROM shipping WHERE Weight in ($Weight)")){
+                $shipping=$result->fetch_assoc();    
+            }
+            return $shipping;
+        }
+        public function dbGetShippingAll(){
+            $shipping_list=NULL;
+            if($result=$this->query("SELECT * FROM shipping")){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $shipping_list[$i]=$row;
+                    $i++;
+                }
+            }
+            return $shipping_list;
         }
 
 

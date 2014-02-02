@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="/jaws-content/themes/default/img/favicon.ico">
 
@@ -45,4 +45,12 @@
         header('Location: '.$_SERVER['REQUEST_URI']);
         exit; 
     }
+    
+    if(isset($_GET['currency']) && $_GET['currency'] != $_SESSION['currency']['id']){ // Set new currency when a new currency is selected.
+        $id = intval($_GET['currency']);
+        setCurrency($_GET['currency']);
+        registerError("Currency changed","success");
+        redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    }
+    
     ?>

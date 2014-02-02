@@ -81,12 +81,13 @@
         exit();
     }
     
-    function setCurrency($id,$name,$sign,$position,$multiplier) {
-        $_SESSION['currency']['multiplier'] = $multiplier;
-        $_SESSION['currency']['name'] = $name;
-        $_SESSION['currency']['sign'] = $sign;
-        $_SESSION['currency']['id'] = $id;
-        $_SESSION['currency']['position'] = $position;
+    function setCurrency($id) {
+        $array = $GLOBALS['db']->dbGetCurrency($id);
+        $_SESSION['currency']['multiplier'] = $array['CurrencyMultiplier'];
+        $_SESSION['currency']['name'] = $array['CurrencyName'];
+        $_SESSION['currency']['sign'] = $array['CurrencySign'];
+        $_SESSION['currency']['id'] = $array['CurrencyId'];
+        $_SESSION['currency']['position'] = $array['CurrencyLayout'];
     }
     
     function showCurrency($value){
@@ -414,8 +415,8 @@
                             <button type="submit" class="btn btn-primary" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
                             <button type="submit" class="btn btn-danger" name="cart-remove" value="'.$_SESSION['cart']['items'][$key]['id'].'"><span class="glyphicon glyphicon-remove"></button>
                         </td>
-                        <td>'.showCurrency($_SESSION['cart']['items'][$key]['price']).'</td>
-                        <td>'.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']).'</td>
+                        <td><strong>'.showCurrency($_SESSION['cart']['items'][$key]['price']).'</strong> ('.showCurrency($_SESSION['cart']['items'][$key]['price']*0.8).')</td>
+                        <td><strong>'.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']).'</strong> ('.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']*0.8).')</td>
                     </tr>';
             $totalCost+=($_SESSION['cart']['items'][$key]['price']*$value['amount']);
         }
@@ -524,7 +525,7 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Full Name</span>
-                <input '.$attribute.' name="card-full-name" required type="text" class="form-control" value="'.fillForm('cart','card-full-name').'">
+                <input '.$attribute.' name="card-full-name" placeholder="Full Name as it appears on the card" required type="text" class="form-control" value="'.fillForm('cart','card-full-name').'">
               </div>
             </td>
             <td></td>
@@ -547,13 +548,13 @@
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">Card Number</span>
-                <input '.$attribute.' pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="'.fillForm('cart','card-number').'">
+                <input '.$attribute.' placeholder="4012 8888 8888 1881" pattern="^((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$" name="card-number" type="text" class="form-control" value="'.fillForm('cart','card-number').'">
               </div>
             </td>
             <td>
               <div class="input-group">
                 <span class="input-group-addon inputLeft">CVC</span>
-                <input '.$attribute.' name="card-cvc" pattern="^\d{3}$" type="password" class="form-control" value="">
+                <input '.$attribute.' placeholder="The security code is located on the back of your <card></card>" name="card-cvc" pattern="^\d{3}$" type="password" class="form-control" value="">
               </div>
             </td>
           </tr>
@@ -1233,7 +1234,7 @@
 
             for($i=0;$i<count($currencies);$i++){
                 //echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$currencies[$i]->Id.'-'.$currencies[$i]->Name.'">'.$currencies[$i]->Name.'</a></li>';
-                echo '<li><a href="#">'.$currencies[$i]->Name.'</a></li>';
+                echo '<li><a href="?currency='.($i+1).'">'.$currencies[$i]->Name.'</a></li>';
             }
 
         echo    '</ul>

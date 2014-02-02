@@ -13,15 +13,6 @@ if(isset($_POST['cart-remove']) && isset($_SESSION['cart']['items'][$_POST['cart
     redirect();
 }
 
-/*if(isset($_POST['currency']) && !isset($_POST['cart-update']) && !isset($_POST['cart-remove'])){ // Set new currency when a new currency is selected.
-    $id = intval($_POST['currency']);
-    // $db->getCurrency();
-    setCurrency($id,"Swedish crowns","kr", "suffix",0.113082696);
-    registerError("Currency changed","success");
-    redirect();
-    
-}*/
-
 if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
     foreach($_POST as $key => $value){ 
         if(isset($_SESSION['cart']['items'][$key])) {

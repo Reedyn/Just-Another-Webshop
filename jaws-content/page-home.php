@@ -1,4 +1,4 @@
-<?php jaws_header(); ?>
+<?php jaws_header();?>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">

@@ -246,6 +246,40 @@
                return false;
             }
         }
+        
+        public function dbAddOrder2($ChargedCard,$SSNr,$OrderIP,$OrderList){
+            $time=$this->dbGetUnixTime();
+            $this->autocommit(false);
+            $status=FALSE;
+            if($this->dbAddCard($ChargedCard['id'],$ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])===TRUE){
+                if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',OrderIP='$OrderIP'")===TRUE){
+                    if($this->dbAddOrderList2($this->insert_id,$OrderList)){
+                        $status=TRUE;
+                        $this->commit();
+                    }
+                }
+            }
+            $this->rollback();
+            $this->autocommit(TRUE);
+            return $status;
+        }
+        private function dbAddOrderList2($OrderId,$OrderList){
+            $param="";
+            $i=0;
+            $listLength=count($OrderList);
+            foreach($OrderList as $id => $amount){
+                $param.="($OrderId,$id,$amount)";
+                if($i!=($listLength-1)){
+                    $param.=",";
+                }
+                $i++;
+            }
+            if($this->query("INSERT INTO order_lists (OrderId,ProductId,Amount) VALUES $param")===TRUE){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
         public function dbEditOrder($OrderId) { // Attempts to edit an order, returns a boolean.
             // Function arguments are dynamic meaning

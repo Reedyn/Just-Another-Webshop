@@ -12,14 +12,14 @@
             Users
         */  ###################################################################################################
 
-        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone) { // Attempts to add a user and returns a boolean.
+        public function dbAddUser($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$IsAdmin = false) { // Attempts to add a user and returns a boolean.
             // Adds one user to the users table.
             // Arguments states what needs to be
             // put in.
             $salt=$this->AddPasswordSalt();
 
             $hashedPassword=$this->PasswordHash($salt,$Password);
-            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$salt')")) {
+            if ($this->query("INSERT INTO users (SSNr,Mail,Password,FirstName,LastName,StreetAddress,PostAddress,City,Telephone,IsAdmin,PwSalt) VALUES ('$SSNr','$Mail','$hashedPassword','$FirstName','$LastName','$StreetAddress','$PostAddress','$City','$Telephone','$IsAdmin','$salt')")) {
                 return true;
             }else{
                 return false;
@@ -552,10 +552,41 @@
         */  ###################################################################################################
         
         public function dbAddCurrency($CurrencyName,$CurrencyMultiplier,$CurrencySign,$CurrencyLayout) { //Attempts to add a currency, returns a boolean.
-            // Adds one product to the products table.
+            // Adds one currency to the table.
             // Arguments states what needs to be
             // put in.
-            if($this->query("INSERT INTO taxanomies SET CurrencyName='$CurrencyName',CurrencyMultiplier='$CurrencyMultiplier',CurrencySign='$CurrencySign',CurrencyLayout='$CurrencyLayout'")){
+            if($this->query("INSERT INTO currencies SET CurrencyName='$CurrencyName',CurrencyMultiplier='$CurrencyMultiplier',CurrencySign='$CurrencySign',CurrencyLayout='$CurrencyLayout'")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        public function dbEditCurrency($CurrencyId) { //Attempts to edit a currency and returns a boolean.
+            // Function arguments are dynamic meaning
+            // the first argument is the ID for currency (CurrencyId).
+            // The following arguments follow this pattern
+            // (...,RowToChange,ValueToChangeTo...)
+            // This works endlessly so as long as the
+            // row to change is argument number X
+            // where X%2=0 and value to change to
+            // is argument number Y=X+1.
+
+            $numargs=func_num_args();
+            $arg_list=func_get_args();
+            $param="";
+            for($i=1;$i<$numargs;$i++){
+                if($i==$numargs-2){
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."'";
+                }else{
+                    $param.=$arg_list[$i]."='";
+                    $i++;
+                    $param.=$arg_list[$i]."',";
+                }
+            }
+            if($this->query("UPDATE currencies SET $param WHERE CurrencyId='$CurrencyId'")){
                 return true;
             }else{
                 return false;

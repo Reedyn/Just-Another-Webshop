@@ -6,15 +6,42 @@ if(isset($_POST['user-submit'])) {
     if($_POST['user-submit'] == 'new') {
         if (isset($_POST['user-ssn']) && preg_match("$\d{2,4}-?\d{2}-?\d{2}-?\d{4}$", $_POST['user-ssn']) &&
             isset($_POST['user-mail']) && preg_match("$[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$", $_POST['user-mail']) &&
-            isset($_POST['user-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-password']) &&
             isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
             isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
-            isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
+            isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone']) &&
+            isset($_POST['user-post-address']) && isset($_POST['user-street-address']) && isset($_POST['user-city'])) {
+            $password = generatePassword(20);
+            if($_POST['user-admin'] == "false"){
+                $_POST['user-admin'] = false;
+            } elseif ($_POST['user-admin'] == "true"){
+                $_POST['user-admin'] = true;
+            }
+            $remove = array("-", " ");
+            $_POST['user-ssn'] = str_replace($remove, "", $_POST['user-ssn']);
             // Add user to database if successful do
-            if (true) {
+            if ($db->dbAddUser($_POST['user-ssn'],
+                    $_POST['user-mail'],
+                    $password,
+                    $_POST['user-first-name'],
+                    $_POST['user-last-name'],
+                    $_POST['user-street-address'],
+                    $_POST['user-post-address'],
+                    $_POST['user-city'],
+                    $_POST['user-phone'],
+                    $_POST['user-admin'])) {
+                    
+                // Send registration email to user
+                $message = 'Your account has been created</br>Your password is: '.$password;
+                $message = wordwrap($message, 70, "\r\n"); 
+                $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
+                $subject = '[Hockey Gear] Account created';
+                $headers = 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n" .
+                'Reply-To: webmaster@hockeygear.com' . "\r\n" .
+                'X-Mailer: PHP/' . phpversion();
+                mail($to, $subject, $message, $headers);
+                    
                 registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' added','success');
-                header('Location: '.$_SERVER['REQUEST_URI']);
-                exit(); 
+                redirect();
             } else {
                 showError("Adding user failed", "danger");
             }
@@ -25,32 +52,59 @@ if(isset($_POST['user-submit'])) {
         if (isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
             isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
             isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
-            // Add user to database if successful do
-            if (true) {
+            if($_POST['user-admin'] == "false"){
+                $_POST['user-admin'] = false;
+            } elseif ($_POST['user-admin'] == "true"){
+                $_POST['user-admin'] = true;
+            }
+            if ($db->dbEditUser($_POST['user-ssn'],
+                    "FirstName",$_POST['user-first-name'],
+                    "LastName",$_POST['user-last-name'],
+                    "Telephone",$_POST['user-phone'],
+                    "StreetAddress",$_POST['user-street-address'],
+                    "PostAddress",$_POST['user-post-address'],
+                    "City",$_POST['user-city'],
+                    "IsAdmin",$_POST['user-admin'])) {
                 registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' edited','success');
-                //header('Location: '.$_SERVER['REQUEST_URI']);
-                //exit(); 
+                redirect();
             } else {
-                showError("Edit failed!!.", "danger");
+                registerError("User couldn't be saved to the database", "danger");
+                redirect();
             }
         } else {
-            showError("Edit failed.", "danger");
+            registerError("Validation of user failed", "danger");
+            redirect();
         }
     }
     
 }
-if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {  
-    $message = 'Passwords is reset</br>Your new password is: '.generatePassword();
-    $message = wordwrap($message, 70, "\r\n"); 
-    $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
-    $subject = '[Hockey Gear] Password reset';
-    $headers = 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n" .
-    'Reply-To: webmaster@hockeygear.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
-    mail($to, $subject, $message, $headers);
-    registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].'´s password has been reset','success');
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit();
+if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
+    $password = generatePassword();
+    if ($db->dbEditUser($_POST['user-ssn'],"Password",$password)) {
+        registerError($_POST['user-first-name'].' '.$_POST['user-last-name']."'s password has been reset",'success');
+        $message = 'Passwords is reset</br>Your new password is: '.$password;
+        $message = wordwrap($message, 70, "\r\n"); 
+        $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
+        $subject = '[Hockey Gear] Password reset';
+        $headers = 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n" .
+        'Reply-To: webmaster@hockeygear.com' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+        mail($to, $subject, $message, $headers);
+        redirect();
+    } else {
+        registerError("Password couldn't be reset", "danger");
+        redirect();
+    }
+}
+
+if(isset($_POST['user-delete'])) {
+    if($db->dbDeleteUser($_POST['user-delete'])){
+        registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' has been deleted','success');
+        redirect('/admin/users/');
+    } else {
+        registerError($_POST['user-first-name'].' '.$_POST['user-last-name']." couldn't be deleted. There is probably orders for this user still existing",'danger');
+        redirect();
+    }
 }
 
 ?>

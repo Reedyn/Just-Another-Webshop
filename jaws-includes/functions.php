@@ -448,7 +448,7 @@
         if($totalWeight<2000){
 
         }
-        $shippingCost = 20;
+        $shippingCost = calculateShippingCost();
         echo '  </tbody>
                 <tfoot>
                     <tr>
@@ -809,8 +809,8 @@
           </table>
           <table>
             <tr>
-              <td><input type="button" class="btn btn-default" value="Back"></td>
-              <td></td>
+              <td><a href="/admin/orders/" class="btn btn-default">Back</a></td>
+              <td><form method="post"><button name="order-delete" value="'.$order->OrderId.'" class="btn btn-danger" type="submit">Delete</button></form></td>
               <td></td>
               <td></td>
               <td></td>
@@ -842,7 +842,7 @@
                   <td class="order-date">'.$orders[$i]->OrderDate.'</td>
                   <td class="order-ssnr">'.$orders[$i]->SSNr.'</td>
                   <td class="order-value">'.showCurrency($orders[$i]->OrderPrice).'</td>
-                  <td><a href="/admin/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">Edit</a></td>
+                  <td><a href="/admin/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">View Order</a></td>
                 </tr>';
             }
         }
@@ -1049,6 +1049,13 @@
     }
     function listAdminSingleUser($SSNr){
         $user=getUser($SSNr);
+        if($user->IsAdmin) {
+            $admin = "selected";
+            $noAdmin = ""; 
+        } else {
+            $admin = "";
+            $noAdmin = "selected";
+        }
         if($user){
             echo '<div class="panel panel-primary">
       <div class="panel-heading">Edit User</div>
@@ -1128,13 +1135,13 @@
               <div class="input-group">
                   <span required class="input-group-addon">Access level</span>
                   <select class="form-control" name="user-admin">
-                      <option selected value=false>User</option>
-                      <option value=true>Administrator</option>
+                      <option '.$noAdmin.' value=false>User</option>
+                      <option '.$admin.' value=true>Administrator</option>
                     </select>
                 </div>
             </div>
             <div class="col-lg-2">
-              <button name="user-delete" class="btn btn-danger btn-block" value="edit" type="submit">Delete User</button>
+              <button name="user-delete" class="btn btn-danger btn-block" value="'.$user->SSNr.'" type="submit">Delete User</button>
             </div>
             <div class="col-lg-2">
               <button name="user-submit" class="btn btn-primary btn-block" value="edit" type="submit">Save changes</button>
@@ -1164,7 +1171,7 @@
                 echo '<tr>
                           <td class="user-ssnr">'.$users[$i]->SSNr.'</td>
                           <td class="user-name">'.$users[$i]->FirstName.' '.$users[$i]->LastName.'</td>
-                          <td><a href="/admin/users/'.$users[$i]->SSNr.'/" class="btn btn-default">Edit</a></td>
+                          <td><a href="/admin/users/'.$users[$i]->SSNr.'/" class="btn btn-default">Edit User</a></td>
                       </tr>';
             }
         }
@@ -1267,7 +1274,7 @@
 
             for($i=0;$i<count($currencies);$i++){
                 //echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$currencies[$i]->Id.'-'.$currencies[$i]->Name.'">'.$currencies[$i]->Name.'</a></li>';
-                echo '<li><a href="?currency='.($i+1).'">'.$currencies[$i]->Name.'</a></li>';
+                echo '<li><a href="?setcurrency='.($i+1).'">'.$currencies[$i]->Name.'</a></li>';
             }
 
         echo    '</ul>
@@ -1289,7 +1296,7 @@
                      echo       '<tr>
                                 <th class="currency-name">'.$currencies[$i]->Name.' '.$currencies[$i]->Sign.'</th>
                                 <th class="currency-value">'.$currencies[$i]->Multiplier.'</th>
-                                <th><a class="btn btn-default" href="/admin/currencies/'.$currencies[$i]->Id.'">View</a></th>
+                                <th><a class="btn btn-default" href="/admin/currencies/'.$currencies[$i]->Id.'">Edit Currency</a></th>
                             </tr>';
                     }
                  echo       '</tbody>
@@ -1305,64 +1312,128 @@
                 </div>';
     }
     function listAdminSingleCurrency(){
-        $currency=getCurreny($_GET['currency']);
-        echo '<div class="panel panel-primary">
-                  <div class="panel-heading">Currency</div>
-                  <div class="panel-body">
-                    <form method="post" class="form-signin" role="form">
-                          <div class="row">
-                            <div class="col-lg-2">
-                              <div class="input-group">
-                                <span class="input-group-addon">ID</span>
-                                <input pattern="^(\w|\s)+$" readonly name="currency-id" type="text" class="form-control" title="Automatically generated">
-                              </div><!-- /input-group -->
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-lg-4">
-                              <div class="input-group">
-                                <span class="input-group-addon">Name</span>
-                                <input pattern="^(\w|\s)+$" required name="currency-name" type="text" class="form-control" placeholder="Euro">
-                              </div><!-- /input-group -->
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-lg-2">
-                              <div class="input-group">
-                                <span class="input-group-addon">Sign</span>
-                                <input pattern="^.{0,4}$" required name="currency-sign" type="text" class="form-control" placeholder="€">
-                              </div><!-- /input-group -->
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-lg-2">
-                              <div class="input-group">
-                                <span class="input-group-addon">Value</span>
-                                <input pattern="^(\d|[\.])+$" required name="currency-value" type="text" class="form-control" placeholder="1.0">
-                              </div><!-- /input-group -->
-                            </div>
-                            <div class="col-lg-2">
-                               <div class="input-group">
-                                <span class="input-group-addon">Position</span>
-                                <select class="form-control" name="currency-position">
-                                  <option value="prefix">Prefix</option>
-                                  <option value="suffix">Suffix</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            </div><!-- /.row -->
-                            <div class="row">
+        if($_GET['currency'] != "new"){
+            $currency=getCurrency($_GET['currency']);
+            if($currency->Layout == "suffix"){
+                $suffix = "selected";
+                $prefix = "";
+            } else {
+                $prefix = "selected";
+                $suffix = "";
+            }
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Edit Currency</div>
+                      <div class="panel-body">
+                        <form method="post" class="form-signin" role="form">
+                              <div class="row">
                                 <div class="col-lg-2">
-                                      <a href="/admin/currencies/" class="btn btn-default btn-block">Back</a>
-                                </div>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">ID</span>
+                                    <input pattern="^(\w|\s)+$" readonly name="currency-id" type="text" class="form-control" value="'.$currency->Id.'">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
                                 <div class="col-lg-4">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Name</span>
+                                    <input pattern="^(\w|\s)+$" required name="currency-name" type="text" class="form-control" placeholder="Euro" value="'.$currency->Name.'">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-2">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Sign</span>
+                                    <input pattern="^.{0,4}$" required name="currency-sign" type="text" class="form-control" placeholder="€" value="'.$currency->Sign.'">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-2">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Value</span>
+                                    <input pattern="^(\d|[\.])+$" required name="currency-value" type="text" class="form-control" placeholder="1.0" value="'.$currency->Multiplier.'">
+                                  </div><!-- /input-group -->
                                 </div>
                                 <div class="col-lg-2">
-                                      <button name="currency-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
+                                   <div class="input-group">
+                                    <span class="input-group-addon">Position</span>
+                                    <select class="form-control" name="currency-position">
+                                      <option '.$prefix.' value="prefix">Prefix</option>
+                                      <option '.$suffix.' value="suffix">Suffix</option>
+                                    </select>
+                                  </div>
                                 </div>
+                                
+                                </div><!-- /.row -->
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                          <a href="/admin/currencies/" class="btn btn-default btn-block">Back</a>
+                                    </div>
+                                    <div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-2">
+                                          <button name="currency-delete" class="btn btn-danger btn-block" type="submit" value="new">Delete</button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <button name="currency-edit" class="btn btn-primary btn-block" type="submit" value="edit">Edit Currency</button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                      </div>
+                    </div>';
+        } else {
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Add Currency</div>
+                      <div class="panel-body">
+                        <form method="post" class="form-signin" role="form">
+                              <div class="row">
+                                <div class="col-lg-2">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">ID</span>
+                                    <input pattern="^(\w|\s)+$" readonly name="currency-id" type="text" class="form-control">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
                                 <div class="col-lg-4">
-                                  <button name="currency-add" class="btn btn-primary btn-block" type="submit" value="new">Add currency</button>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Name</span>
+                                    <input pattern="^(\w|\s)+$" required name="currency-name" type="text" class="form-control" placeholder="Euro">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-2">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Sign</span>
+                                    <input pattern="^.{0,4}$" required name="currency-sign" type="text" class="form-control" placeholder="€">
+                                  </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-2">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Value</span>
+                                    <input pattern="^(\d|[\.])+$" required name="currency-value" type="text" class="form-control" placeholder="1.0">
+                                  </div><!-- /input-group -->
                                 </div>
-                            </div>
-
-                        </form>
-                  </div>
-                </div>';
+                                <div class="col-lg-2">
+                                   <div class="input-group">
+                                    <span class="input-group-addon">Position</span>
+                                    <select class="form-control" name="currency-position">
+                                      <option selected value="prefix">Prefix</option>
+                                      <option value="suffix">Suffix</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                
+                                </div><!-- /.row -->
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                          <a href="/admin/currencies/" class="btn btn-default btn-block">Back</a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <button name="currency-add" class="btn btn-primary btn-block" type="submit" value="new">Add Currency</button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                      </div>
+                    </div>';
+        }   
     }
     function registerUser(){
         if($GLOBALS['db']->dbAddUser($_POST['user-ssn'],$_POST['user-mail'],$_POST['user-password'],$_POST['user-first-name'],$_POST['user-last-name'],$_POST['user-street-address'],$_POST['user-post-address'],$_POST['user-city'],$_POST['user-phone'])==TRUE){

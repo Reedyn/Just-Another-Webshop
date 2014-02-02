@@ -285,8 +285,8 @@
         </div><!-- /.col-lg-4 -->
          <div class="col-lg-10">
           <h2 class="zeroM">'.$product->Name.'</h2>
-          <h3>'.$product->Price.'</h3>
-          <p class="pID">'.$product->ProductId.'</p>
+          <h3>'.showCurrency($product->Price).'</h3>
+          <p class="pID">ProductId: '.$product->ProductId.'</p>
           <p>'.$product->Description.'</p>
           <p class="pID">Weight: '.$product->ProductWeight.'gram</p>
           <p>

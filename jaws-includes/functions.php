@@ -1319,7 +1319,7 @@
                                 <div class="col-lg-6">
                                 </div>
                                 <div class="col-lg-4">
-                                      <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Edit Category</button>
+                                      <button name="taxanomy-add" class="btn btn-primary btn-block" type="submit" value="new">Add Category</button>
                                 </div>
                             </div>
                             </form>

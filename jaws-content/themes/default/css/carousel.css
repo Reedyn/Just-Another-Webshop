@@ -77,6 +77,11 @@ body {
   margin-bottom: 20px;
   height: auto; 
 }
+.marketing .col-lg-6 {
+  text-align: center;
+  margin-bottom: 20px;
+  height: auto; 
+}
 .marketing h2 {
   font-weight: normal;
 }
@@ -98,6 +103,23 @@ body {
   font-weight: 300;
   line-height: 1;
   letter-spacing: -1px;
+}
+
+.shopping-cart {
+    font-size:26px;
+    line-height:18px;
+} 
+
+.currencies {
+line-height: 18px;
+font-size: 24px;
+}
+
+@media (min-width: 768px){
+    .mobile {
+        display: none;
+    }
+    
 }
 
 
@@ -170,29 +192,28 @@ body {
 }
 
 .shoppingCart {
-height: 40px;
 position: absolute;
-right: 67px;
-top: 21px;
+right: 20px;
 list-style: none;
 }
+
+.shoppingCart .fa.fa-money {
+font-size: 24px;
+line-height: 14px;
+}
+
 .shoppingCart a {
 color: white;
 font-size: 17px;
-line-height: 40px;
+line-height: 17px;
 }
 .shoppingCart a .glyphicon.glyphicon-shopping-cart {
 font-size: 24px;
-line-height: 40px;
-vertical-align: sub;
+line-height: 17px;
 }
 
 .bold {
   font-weight: bold;
-}
-
-#div1 {
-  display: none;
 }
 
   .center {text-align: center; margin-left: auto; margin-right: auto; margin-bottom: auto; margin-top: auto;}

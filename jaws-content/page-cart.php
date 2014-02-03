@@ -1,211 +1,91 @@
-<?php jaws_header();
-if(!isLoggedIn()){
-    loginPrompt("Please login to checkout your shopping cart");
+<?php
+if(!isset($_SESSION['cart']) || count($_SESSION['cart']['items']) == 0){
+    registerError("Your cart is empty", "warning");
+    redirect("/");
+}
+if(!isLoggedIn()){ // Prompt user to login when trying
+    loginPrompt("Please login to checkout your shopping cart", "warning");
 }
 
-if(isset($_POST['cart-remove']) && isset($_SESSION['cart'][$_POST['cart-remove']])){
-    unset($_SESSION['cart'][$_POST['cart-remove']]);
+if(isset($_POST['cart-remove']) && isset($_SESSION['cart']['items'][$_POST['cart-remove']])){ // Remove item from cart when button is pressed.
+    unset($_SESSION['cart']['items'][$_POST['cart-remove']]);
     registerError("Item removed from cart","success");
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit();
+    redirect();
 }
-if(isset($_POST['cart-update'])){
+
+if(isset($_POST['cart-update'])){ // Update cart when button is pressed.
     foreach($_POST as $key => $value){ 
-        if(isset($_SESSION['cart'][$key])) {
-            $_SESSION['cart'][$key] = $value;
+        if(isset($_SESSION['cart']['items'][$key])) {
+            $_SESSION['cart']['items'][$key]['amount'] = $value;
         }
     }
     registerError("Cart updated","success");
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit();
+    redirect();
 }
-                  
+if(isset($_POST['review-order'])){ // If user is trying to checkout
+    if(isset($_POST['shipping-street-address']) &&
+       isset($_POST['billing-street-address']) &&
+       isset($_POST['shipping-post-address']) &&
+       isset($_POST['billing-post-address']) &&
+       isset($_POST['shipping-city']) &&
+       isset($_POST['billing-city']) &&
+       isset($_POST['card-full-name']) &&
+       isset($_POST['card-expiry-month']) && $_POST['card-expiry-month'] != "false" &&
+       isset($_POST['card-expiry-year']) && $_POST['card-expiry-year'] != "false" &&
+       isset($_POST['card-number']) && preg_match("$((4\d{3})|(5[1-5]\d{2})|(6011))-?\s?\d{4}-?\s?\d{4}-?\s?\d{4}|3[4,7]\d{13}$", $_POST['card-number']) &&
+       isset($_POST['card-cvc']) &&  preg_match("$\d{3}$", $_POST['card-cvc'])){
+        $remove = array("-", " ");
+        $_POST['card-number'] = str_replace($remove, "", $_POST['card-number']);
+        $_SESSION['form']['cart']['shipping-street-address'] = $_POST['shipping-street-address'];
+        $_SESSION['form']['cart']['billing-street-address' ] = $_POST['billing-street-address'];
+        $_SESSION['form']['cart']['shipping-post-address' ] = $_POST['shipping-post-address'];
+        $_SESSION['form']['cart']['billing-post-address' ] = $_POST['billing-post-address'];
+        $_SESSION['form']['cart']['shipping-city' ] = $_POST['shipping-city'];
+        $_SESSION['form']['cart']['billing-city' ] = $_POST['billing-city'];
+        $_SESSION['form']['cart']['card-full-name' ] = $_POST['card-full-name'];
+        $_SESSION['form']['cart']['card-expiry-month' ] = $_POST['card-expiry-month'];
+        $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
+        $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
+        $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
+        $_SESSION['form']['cart']['shipping-cost'] = calculateShippingCost();
+        redirect("/cart/review/");
+    } else {
+        $_SESSION['form']['cart']['shipping-street-address'] = $_POST['shipping-street-address'];
+        $_SESSION['form']['cart']['billing-street-address' ] = $_POST['billing-street-address'];
+        $_SESSION['form']['cart']['shipping-post-address' ] = $_POST['shipping-post-address'];
+        $_SESSION['form']['cart']['billing-post-address' ] = $_POST['billing-post-address'];
+        $_SESSION['form']['cart']['shipping-city' ] = $_POST['shipping-city'];
+        $_SESSION['form']['cart']['billing-city' ] = $_POST['billing-city'];
+        $_SESSION['form']['cart']['card-full-name' ] = $_POST['card-full-name'];
+        $_SESSION['form']['cart']['card-expiry-month' ] = $_POST['card-expiry-month'];
+        $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
+        $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
+        $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
+        $_SESSION['form']['cart']['shipping-cost'] = calculateShippingCost();
+        registerError("You need to fill in all fields to continue","warning");
+        redirect();
+    }
+    
+                     
+}
+jaws_header();                  
 ?>
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing">
-
-      <div class="panel panel-primary">
-        <!-- Default panel contents -->
-        <div class="panel-heading ">Step 1 - Check your cart</div>
-        <div class="panel-body">
-
-          <form method="post">
-            <table class="table">
-              <tr>
-                <td>Bauer Skates</td>
-                <td>
-                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
-                </td>
-                <td>
-                  <div class="col-lg-2">
-                   <div class="input-group">
-                    <input type="text" class="form-control" name="555" value="1">
-                  </div>
-                </div>
-              </td>
-              <td>
-                <button class="btn btn-default" name="cart-remove" value="555">Remove</button>
-              </td>
-              <td>800$</td>
-            </tr>
-            <tr>
-                <td>Bauer Skates</td>
-                <td>
-                  <button type="submit" class="btn btn-default" name="cart-update"> <span class="glyphicon glyphicon-refresh"></span></button>
-                </td>
-                <td>
-                  <div class="col-lg-2">
-                   <div class="input-group">
-                    <input type="text" class="form-control" name="666" value="1">
-                  </div>
-                </div>
-              </td>
-              <td>
-                <button class="btn btn-default" name="cart-remove" value="666">Remove</button>
-              </td>
-              <td>800$</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="bold">Total Cost</td>
-              <td class="bold">900$</td>
-            </tr>
-
-          </table>
-        </form>
-
-
-      </div>
-      <div class="panel-heading ">Step 2 - Payment method</div>
-      <div class="panel-body">
-       <input type="radio" name="c1" onclick="showMe('div1')">Credit Card
-
-     </div>
-     <div id="div1">
-       <div class="panel-heading">Step 3 - Personal information</div>
-       <div class="panel-body">
-         <form action="/cart/" method="post">
-          <table class="table">
-            <tr>
-              <th>Full Name</th>
-              <th>Gustav Lindqvist</th>
-            </tr>
-            <tr>
-              <th>Shipping Address</th>
-              <th>Billing Address</th>
-            </tr>
-            <tr>
-              <td>
-                <div class="input-group">
-                  <span class="input-group-addon inputLeft">Street Address</span>
-                  <input name="shipping-street-address" type="text" class="form-control" value="Hemreiaj13">
-                </div>
-              </td>
-              <td><div class="input-group">
-                <span class="input-group-addon inputLeft">Street Address</span>
-                <input name="billing-street-address" type="text" class="form-control" value="Hemreiaj13">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="input-group">
-                <span class="input-group-addon inputLeft">Post Address</span>
-                <input name="shipping-post-address"type="text" class="form-control" value="postadressi">
-              </div>
-            </td>
-            <td>
-              <div class="input-group">
-                <span class="input-group-addon inputLeft">Post Address</span>
-                <input name="billing-post-address" type="text" class="form-control" value="postadressi">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="input-group">
-                <span name="shipping-city" class="input-group-addon inputLeft">City</span>
-                <input type="text" class="form-control" value="city">
-              </div>
-            </td>
-            <td>
-              <div class="input-group">
-                <span class="input-group-addon inputLeft">City</span>
-                <input name="billing-city"type="text" class="form-control" value="city">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Credit Card</th>
-          </tr>
-          <tr>
-            <td>
-              <div class="input-group">
-                <span name="card-full-name"class="input-group-addon inputLeft">Full Name</span>
-                <input type="text" class="form-control" value="">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="input-group">
-                <span name="card-number"class="input-group-addon inputLeft">Card Number</span>
-                <input type="text" class="form-control" value="">
-              </div>
-            </td>
-            <td>
-              <div class="input-group">
-                <span name="card-cvc"class="input-group-addon inputLeft">cvc</span>
-                <input type="text" class="form-control" value="">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="card-expiry-month" class="btn btn-default dropdown-toggle" id='expireMM'>
-                <option value=''>Month</option>
-                <option value='01'>Janaury</option>
-                <option value='02'>February</option>
-                <option value='03'>March</option>
-                <option value='04'>April</option>
-                <option value='05'>May</option>
-                <option value='06'>June</option>
-                <option value='07'>July</option>
-                <option value='08'>August</option>
-                <option value='09'>September</option>
-                <option value='10'>October</option>
-                <option value='11'>November</option>
-                <option value='12'>December</option>
-              </select> 
-              <select name="card-expiry-year" class="btn btn-default dropdown-toggle" id='expireYY'>
-                <option value=''>Year</option>
-                <option value='10'>14</option>
-                <option value='11'>15</option>
-                <option value='12'>16</option>
-                <option value='12'>17</option>
-                <option value='12'>18</option>
-                <option value='12'>19</option>
-              </select> 
-            </td>
-            <td>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a class="btn btn-default" href="page-product.php" role="button">&laquo; Back</a>
-              <button type="submit" class="btn btn-info">Review before placing order</button>
-            </td>
-            <td></td>
-          </tr>
-        </table>
-      </form>
+<div class="panel panel-primary">
+    <div class="panel-heading ">Check your cart</div>
+    <div class="panel-body">
+    <?php
+        listCart();
+    ?>
+    
     </div>
-  </div>
+    <div id="div1">
+        <div class="panel-heading">Personal information</div>
+        <div class="panel-body">
+        <?php
+            listPersonalInfo();
+        ?>
+        </div>
+    </div>
 </div>
 
 

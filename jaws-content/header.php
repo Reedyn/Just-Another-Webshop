@@ -1,8 +1,17 @@
-<!DOCTYPE html>
+<?php if (isset($_POST['add-to-cart'])){
+        addToCart($_POST['add-to-cart']);
+        redirect(); 
+    }
+    if(isset($_GET['setcurrency'])){ // Set new currency when a new currency is selected.
+        $id = intval($_GET['setcurrency']);
+        setCurrency($_GET['setcurrency']);
+        redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    }
+?><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="/jaws-content/themes/default/img/favicon.ico">
 
@@ -10,6 +19,7 @@
 
   <!-- Bootstrap core CSS -->
   <link href="/jaws-content/themes/default/css/bootstrap.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
   <!-- Just for debugging purposes. Don't actually copy this line! -->
   <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -24,6 +34,7 @@
     <link href="/jaws-content/themes/default/css/carousel.css" rel="stylesheet">
     <script src="//code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/jaws-content/themes/default/js/validatr.min.js"></script>
+    <script type="text/javascript" src="/jaws-content/themes/default/js/list.js"></script>
     <script type="text/javascript">
         $(function ($) {
             $('form').validatr(); 
@@ -33,14 +44,9 @@
     <?php jaws_navigation(); ?>
     <div class="container marketing">
     
-    <?php 
+    <?php
     if(isset($_SESSION['error'])) {
         showError($_SESSION['error']['message'], $_SESSION['error']['type']);
         unset($_SESSION['error']);
-    }
-    if (isset($_POST['add-to-cart'])){
-        addToCart($_POST['add-to-cart']);
-        header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-        exit; 
     }
     ?>

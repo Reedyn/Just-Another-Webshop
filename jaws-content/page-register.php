@@ -84,6 +84,13 @@ if(isset($_POST['user-submit'])) {
           </div><!-- /.row -->
           <div class="row">
             <div class="col-lg-2">
+                <?php
+                  require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/recaptchalib.php');
+                  $publickey = "6Lcevu0SAAAAALVA9IWHanPReEOxtSDz5YiNnqkE";
+                  echo recaptcha_get_html($publickey);
+                ?>
+            </div>
+            <div class="col-lg-2">
               <button name="user-submit" class="btn btn-primary btn-block" type="submit">Sign up</button>
             </div>
           </div>

@@ -1,6 +1,4 @@
-<?php jaws_header(); ?>
-		<!-- Carousel
-    ================================================== -->
+<?php jaws_header();?>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">
@@ -12,8 +10,8 @@
           <img src="img/test.jpg" alt="First slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>15% Off Your First Purchase</h1>
-              <p>As a new costumer we give you 15% off your first purchase, regarding any equipment.</p>
+              <h1>We have every equipment you might need!</h1>
+              <p>As our customer you will have access to all equipment you might ever need.</p>
               <p><a class="btn btn-lg btn-primary" href="/register/" role="button">Sign up today</a></p>
             </div>
           </div>

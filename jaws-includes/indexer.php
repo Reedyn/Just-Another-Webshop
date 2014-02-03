@@ -1,21 +1,31 @@
 <?php
 
-function indexer() { // Function for delivering pages based on GET variables and building website title.
+function router() { // Function for delivering pages based on GET variables and building website title.
 	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
-	$title = "Just Another Webshop";
-	$separator = " / ";
+	if(!isset($_SESSION['currency']) || (!isset($_SESSION['currency']['multiplier']) && $_SESSION['currency']['multiplier'] == null)){ 
+        setCurrency(1,"Euro","€", "prefix",1); //Set to the default currency;
+    };
+    
 	if(isset($_GET['logout'])){ // Check if user is trying to logout
 	    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-logout.php");
 	/* ######################################
 					Admin
 	*/ ######################################
     } else if(isset($_GET['admin'])){ // Check if user is trying to access admin
-		$subpage = ucfirst($_GET['admin']).$separator."Admin".$separator;
+        if (!isAdmin()){
+            loginPrompt("You need to be an administrator to access this page.");
+        }
 		if($_GET['admin'] == "products"){
 			if(isset($_GET['product'])){ 			
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-product.php"); // Load product if user is trying to access a specific product.
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-products.php"); // Otherwise load product list.
+			}
+        } else if($_GET['admin'] == "shipping"){			
+            if(isset($_GET['package'])){ 			
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-shipping-weight.php"); // Load product if user is trying to access a specific product.
+			} else { 
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-shipping.php"); // Otherwise load product list.
 			}
 		} else if($_GET['admin'] == "orders"){
 			if(isset($_GET['order'])){				
@@ -35,6 +45,12 @@ function indexer() { // Function for delivering pages based on GET variables and
 			} else { 
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-taxanomies.php"); // Otherwise load product list.
 			}
+		} else if($_GET['admin'] == "currencies"){
+			if(isset($_GET['currency'])){ 				
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-currency.php"); // Load product if user is trying to access a specific product.	
+			} else { 
+				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin-currencies.php"); // Otherwise load product list.
+			}
 		} else if($_GET['admin'] == ""){
 			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-admin.php"); // If sub-page isn't defined load admin page.
 		} else {
@@ -44,7 +60,9 @@ function indexer() { // Function for delivering pages based on GET variables and
 					Settings
 	*/ ######################################
 	} else if(isset($_GET['settings'])){ // Check if user is trying to access admin
-		$subpage = $_GET['settings'].$separator."Settings".$separator;
+		if (!isLoggedIn()){
+            loginPrompt("You need to be logged in to access this page.");
+        }
 		if($_GET['settings'] == "orders"){
 			if(isset($_GET['order'])){ 			
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-settings-order.php"); // Load product if user is trying to access a specific product.
@@ -64,15 +82,14 @@ function indexer() { // Function for delivering pages based on GET variables and
 	*/ ######################################	
 	} else if(isset($_GET['products'])){ 
 		if(isset($_GET['product'])){
-			$subpage = ucfirst($_GET['product-name']).$separator.ucfirst($_GET['category-name']).$separator;
 			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-product.php"); // If user is trying to access a specific product load product.
 		} else {
-			if (isset($_GET['category-name'])) {
-			    $subpage = ucfirst($_GET['category-name']).$separator;
+			if (isset($_GET['category'])) {
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 			} else {
-			    $subpage = "Products".$separator;
+			    $_GET['category'] = 1;
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 			}
-			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 		}
 	
 	
@@ -80,21 +97,30 @@ function indexer() { // Function for delivering pages based on GET variables and
 					Cart
 	*/ ######################################	
 	} else if(isset($_GET['cart'])){
-			$subpage = "Shopping Cart".$separator;
-			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php");
+			if($_GET['cart'] == 'review'){
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart-review.php");
+			}else {
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-cart.php");
+			}
+			
 
 	/* ######################################
 					Home
 	*/ ######################################	
 	} else if(isset($_GET['home'])) {
-		$subpage = "";
-		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-home.php");
+		  require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-home.php");
+		
+	/* ######################################
+					Search
+	*/ ######################################	
+	} else if(isset($_GET['search'])) {
+		  require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-search.php");
+		
 	
 	/* ######################################
 					Login
 	*/ ######################################	
 	} else if(isset($_GET['login'])) {
-		$subpage = "Login".$separator;
 		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-login.php");
 		
 	/* ######################################

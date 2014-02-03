@@ -1,4 +1,4 @@
-<?php jaws_header(); 
+<?php 
 if(isset($_POST['shipping-add'])){//dbAddShipping($MaxWeight,$Price)
     if($GLOBALS['db']->dbAddShipping($_POST['shipping-max-weight'],$_POST['shipping-cost'])){
         registerError("Shipping weight successfully added","success");
@@ -28,8 +28,8 @@ if(isset($_POST['shipping-edit'])){//dbAddShipping($MaxWeight,$Price)
         redirect();
     }
 }
+jaws_header(); ?>
 
-?>
 <?php listAdminSinglePackage(); ?>
 
 <?php jaws_footer(); ?>

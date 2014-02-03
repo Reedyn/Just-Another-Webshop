@@ -1,5 +1,4 @@
-<?php jaws_header();
-
+<?php 
 if(isset($_POST['taxanomy-add'])){
     if($_POST['taxanomy-parent'] == "false"){
         $_POST['taxanomy-parent'] = 1;
@@ -32,7 +31,8 @@ if(isset($_POST['taxanomy-edit'])){
         registerError("Category couldn't be edited","danger");
         redirect();
     }
-} ?>
+}
+jaws_header();?>
 
 
 <?php listAdminSingleTaxanomy(); ?>

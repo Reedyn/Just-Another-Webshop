@@ -1,13 +1,12 @@
-<?php jaws_header(); 
-
+<?php 
 /* Server-side validation 
 if success, register user and go to homepage. */
 if(isset($_POST['user-submit'])) {
     if($_POST['user-submit'] == 'new') {
         if (isset($_POST['user-ssn']) && preg_match("$\d{2,4}-?\d{2}-?\d{2}-?\d{4}$", $_POST['user-ssn']) &&
             isset($_POST['user-mail']) && preg_match("$[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$", $_POST['user-mail']) &&
-            isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
-            isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
+            isset($_POST['user-first-name']) && preg_match("$.+$", $_POST['user-first-name']) &&
+            isset($_POST['user-last-name']) && preg_match("$.+$", $_POST['user-last-name']) &&
             isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone']) &&
             isset($_POST['user-post-address']) && isset($_POST['user-street-address']) && isset($_POST['user-city'])) {
             $password = generatePassword(20);
@@ -16,7 +15,7 @@ if(isset($_POST['user-submit'])) {
             } elseif ($_POST['user-admin'] == "true"){
                 $_POST['user-admin'] = 1;
             }
-            $remove = array("-", " ");
+            $remove = array("-",);
             $_POST['user-ssn'] = str_replace($remove, "", $_POST['user-ssn']);
             // Add user to database if successful do
             if ($db->dbAddUser($_POST['user-ssn'],
@@ -31,26 +30,40 @@ if(isset($_POST['user-submit'])) {
                     $_POST['user-admin'])) {
                     
                 // Send registration email to user
-                $message = 'Your account has been created</br>Your password is: '.$password.'</br>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a>';
+                $message = '<html>
+                                <head>
+                                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                    <title>[Hockey Gear] Account created</title>
+                                <head>
+                                <body>
+                                    <p>Your account has been created</p>
+                                    <p>Your password is: '.$password.'</p>
+                                    <p>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a></p>
+                                </body>
+                            </html>';
                 $message = wordwrap($message, 70, "\r\n"); 
                 $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
                 $subject = '[Hockey Gear] Account created';
-                $headers = 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n" .
-                'Reply-To: webmaster@hockeygear.com' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
+                $headers  = 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
+                $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
+                $headers .= 'X-Mailer: PHP/' . phpversion();
                 mail($to, $subject, $message, $headers);
                     
                 registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' added','success');
-                redirect();
+                redirect("/admin/users/".$_POST['user-ssn']);
             } else {
-                showError("Adding user failed", "danger");
+                registerError("Adding user failed", "danger");
+                redirect();
             }
         } else {
-            showError("Adding user failed", "danger");
+            registerError("Adding user failed", "danger");
+            redirect();
         }
     } else {
-        if (isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
-            isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
+        if (isset($_POST['user-first-name']) && preg_match("$.+$", $_POST['user-first-name']) &&
+            isset($_POST['user-last-name']) && preg_match("$.+$", $_POST['user-last-name']) &&
             isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
             if($_POST['user-admin'] == "false"){
                 $_POST['user-admin'] = false;
@@ -79,16 +92,29 @@ if(isset($_POST['user-submit'])) {
     
 }
 if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
-    $password = generatePassword();
+    $password = generatePassword(20);
     if ($db->dbEditUser($_POST['user-ssn'],"Password",$password)) {
         registerError($_POST['user-first-name'].' '.$_POST['user-last-name']."'s password has been reset",'success');
-        $message = 'Passwords is reset</br>Your new password is: '.$password;
+        $message = '<html>
+                        <head>
+                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                            <title>[Hockey Gear] Your password has been reset</title>
+                        <head>
+                        <body>
+                            <p>Your password has been reset.</p>
+                            <p>Your new password is: '.$password.'</p>
+                            <p>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a> and then change your password under settings.</p>
+                        </body>
+                    </html>';
         $message = wordwrap($message, 70, "\r\n"); 
         $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
         $subject = '[Hockey Gear] Password reset';
-        $headers = 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n" .
-        'Reply-To: webmaster@hockeygear.com' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
+        $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
+        $headers .= 'X-Mailer: PHP/' . phpversion();
+        
         mail($to, $subject, $message, $headers);
         redirect();
     } else {
@@ -106,7 +132,7 @@ if(isset($_POST['user-delete'])) {
         redirect();
     }
 }
-
+jaws_header(); 
 ?>
 
 <?php if(isset($_GET['user']) && $_GET['user'] == 'new') { ?>
@@ -139,14 +165,14 @@ if(isset($_POST['user-delete'])) {
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
+                <input pattern="^.+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
+                <input pattern="^.+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">

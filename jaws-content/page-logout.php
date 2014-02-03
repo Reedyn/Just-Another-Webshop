@@ -1,2 +1,2 @@
-<?php jaws_header(); session_unset(); registerError("You have been logged out","success"); header("Location: /"); exit(); ?>
+<?php session_unset(); registerError("You have been logged out","success"); redirect("/"); jaws_header(); ?>
 <?php jaws_footer(); ?>

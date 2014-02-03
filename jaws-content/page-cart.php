@@ -1,4 +1,4 @@
-<?php jaws_header();
+<?php
 if(!isset($_SESSION['cart']) || count($_SESSION['cart']['items']) == 0){
     registerError("Your cart is empty", "warning");
     redirect("/");
@@ -66,7 +66,7 @@ if(isset($_POST['review-order'])){ // If user is trying to checkout
     
                      
 }
-                  
+jaws_header();                  
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading ">Check your cart</div>

@@ -1,4 +1,4 @@
-<?php jaws_header(); 
+<?php
 
 if(!isset($_SESSION['cart'])){
     registerError("Your cart is empty, please add a product before trying to checkout", "warning");
@@ -28,7 +28,7 @@ if(isset($_POST['place-order'])){
         redirect();
     }     
 }
-    ?>
+jaws_header();     ?>
 
 <div class="panel panel-primary">
     <div class="panel-heading ">Review your information before placing order</div>

@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php if (isset($_POST['add-to-cart'])){
+        addToCart($_POST['add-to-cart']);
+        redirect(); 
+    }
+    if(isset($_GET['setcurrency'])){ // Set new currency when a new currency is selected.
+        $id = intval($_GET['setcurrency']);
+        setCurrency($_GET['setcurrency']);
+        registerError("Currency changed","success");
+        redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    }
+?><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -39,15 +49,5 @@
     if(isset($_SESSION['error'])) {
         showError($_SESSION['error']['message'], $_SESSION['error']['type']);
         unset($_SESSION['error']);
-    }
-    if (isset($_POST['add-to-cart'])){
-        addToCart($_POST['add-to-cart']);
-        redirect(); 
-    }
-    if(isset($_GET['setcurrency'])){ // Set new currency when a new currency is selected.
-        $id = intval($_GET['setcurrency']);
-        setCurrency($_GET['setcurrency']);
-        registerError("Currency changed","success");
-        redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
     ?>

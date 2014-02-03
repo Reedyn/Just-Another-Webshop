@@ -1,4 +1,4 @@
-<?php jaws_header();
+<?php 
     if (isset($_POST['product-add'])){
         if (isset($_POST['product-name']) && preg_match("$.+$", $_POST['product-name']) &&
             isset($_POST['product-description']) && preg_match("$.+$", $_POST['product-description']) &&
@@ -100,7 +100,7 @@
             redirect($_SERVER['REQUEST_URI']);
         }
     }
-    ?>
+    jaws_header(); ?>
 <?php listAdminSingleProduct($_GET['product']); ?>      
 
 <?php jaws_footer(); ?>

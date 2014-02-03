@@ -1,4 +1,4 @@
-<?php jaws_header(); 
+<?php 
 if(isset($_POST['currency-add'])){
     if($db->dbAddCurrency($_POST['currency-name'],$_POST['currency-value'],$_POST['currency-sign'],$_POST['currency-position'])){
         registerError("Currency added","success");
@@ -29,7 +29,7 @@ if(isset($_POST['currency-edit'])){
     }
 }
 
-?>
+jaws_header();?>
 
 <?php listAdminSingleCurrency(); ?>
 

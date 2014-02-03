@@ -1,4 +1,4 @@
-<?php jaws_header();
+<?php 
 
 if(isset($_POST['user-login'])) {
     if(login()){
@@ -9,7 +9,7 @@ if(isset($_POST['user-login'])) {
             unset($_SESSION['redirect']);
             exit();
         }
-        registerError('Welcome back','success');
+        registerError('Welcome','success');
         redirect("/");
     } else {
         $_SESSION['form']['login']['mail'] = $_POST['login-mail'];
@@ -78,7 +78,9 @@ if(isset($_POST['user-register'])) { // If user has clicked register button
     } else {
         showError("Registration failed.", "danger");
     }
-}?>
+}
+jaws_header();
+?>
 
       <div class="well well-lg">
         <h2 class="form-signin-heading">Login with an existing account</h2>

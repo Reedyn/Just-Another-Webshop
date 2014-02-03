@@ -18,7 +18,7 @@ if(isset($_POST['place-order'])){
         "expmonth" => $_SESSION['form']['cart']['card-expiry-year'],
         "expyear" => $_SESSION['form']['cart']['card-expiry-month']
     );
-    if($db->dbAddOrder2($card, $_SESSION['LoginSSNr'],$_SERVER['REMOTE_ADDR'],shoppingCart())){ // try to add order to database
+    if($db->dbAddOrder2($card, $_SESSION['LoginSSNr'],$_SERVER['REMOTE_ADDR'],$_SESSION['form']['cart']['shipping-cost'],shoppingCart())){ // try to add order to database
         unset($_SESSION['cart']);
         unset($_SESSION['form']);
         registerError("Thank you for your order! You can see your orders here","success");

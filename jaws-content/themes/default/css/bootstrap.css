@@ -5645,6 +5645,10 @@ a.list-group-item.active:focus .list-group-item-text {
   line-height: 1.3;
 }
 
+.fa {
+    vertical-align: text-top;  
+}
+
 .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -5655,6 +5659,7 @@ a.list-group-item.active:focus .list-group-item-text {
 }
 
 .panel-body {
+    overflow-x:auto;
   padding: 15px;
 }
 

@@ -25,15 +25,15 @@
                     redirect("/admin/products/");
                 }else{
                     registerError("Product couldn't be saved to database",'danger');
-                    redirect($_SERVER[HTTP_REQUEST_URl]);
+                    redirect();
                 }
             } else {
-                showError('Problem while uploading file',"danger");
+                registerError('Problem while uploading file',"danger");
+                redirect();
             }       
         } else {
-            showError('Adding product failed',"danger");
-            var_dump($_FILES);
-            var_dump($_POST);
+            registerError('Adding product failed',"danger");
+            redirect();
         }
     } else if (isset($_POST['product-edit'])){
         if (isset($_POST['product-name']) && preg_match("$.+$", $_POST['product-name']) &&
@@ -63,13 +63,14 @@
                         "ProductWeight",$_POST['product-weight'])) {
                         
                         registerError('Product edited successfully','success');
-                        redirect($_SERVER['REQUEST_URI']);
+                        redirect();
                     }else{
                         registerError("Product couldn't be saved to database",'danger');
-                        redirect($_SERVER['REQUEST_URI']);
+                        redirect();
                     }
                 } else {
-                    showError('Problem while uploading file',"danger");
+                    registerError('Problem while uploading file',"danger");
+                    redirect();
                 }
             } else {
                 if($db->dbEditProduct($_POST['product-id'],
@@ -80,16 +81,15 @@
                         "Stock",$_POST['product-stock'],
                         "ProductWeight",$_POST['product-weight'])) {
                     registerError('Product edited successfully','success');
-                    redirect($_SERVER['REQUEST_URI']);
+                    redirect();
                 }else{
                     registerError("Product couldn't be saved to database",'danger');
-                    //redirect($_SERVER['REQUEST_URI']);
+                    redirect();
                 }
             }  
         } else {
-            showError('Product save failed',"danger");
-            var_dump($_FILES);
-            var_dump($_POST);
+            registerError('Product save failed',"danger");
+            redirect();
         }
     }else if (isset($_POST['product-delete'])){
         if($db->dbDeleteProduct($_POST['product-id'])){
@@ -97,10 +97,11 @@
             redirect("/admin/products");
         } else {
             registerError("Product couldn't be deleted. Most likely is still active in some orders, delete those first",'danger');
-            redirect($_SERVER['REQUEST_URI']);
+            redirect();
         }
     }
     jaws_header(); ?>
+    
 <?php listAdminSingleProduct($_GET['product']); ?>      
 
 <?php jaws_footer(); ?>

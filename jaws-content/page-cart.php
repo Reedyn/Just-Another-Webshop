@@ -47,6 +47,7 @@ if(isset($_POST['review-order'])){ // If user is trying to checkout
         $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
         $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
         $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
+        $_SESSION['form']['cart']['shipping-cost'] = calculateShippingCost();
         redirect("/cart/review/");
     } else {
         $_SESSION['form']['cart']['shipping-street-address'] = $_POST['shipping-street-address'];
@@ -60,6 +61,7 @@ if(isset($_POST['review-order'])){ // If user is trying to checkout
         $_SESSION['form']['cart']['card-expiry-year' ] = $_POST['card-expiry-year'];
         $_SESSION['form']['cart']['card-number' ] = $_POST['card-number'];
         $_SESSION['form']['cart']['card-cvc' ] = $_POST['card-cvc'];
+        $_SESSION['form']['cart']['shipping-cost'] = calculateShippingCost();
         registerError("You need to fill in all fields to continue","warning");
         redirect();
     }

@@ -250,14 +250,14 @@
             }
         }
         
-        public function dbAddOrder2($ChargedCard,$SSNr,$OrderIP,$OrderList){
+        public function dbAddOrder2($ChargedCard,$SSNr,$OrderIP,$ShippingCost,$OrderList){
             $time=$this->dbGetUnixTime();
             $this->autocommit(false);
             $status=0;
             if($this->dbAddCard($ChargedCard['nr'],$ChargedCard['fullname'],$ChargedCard['expmonth'],$ChargedCard['expyear'])){
                 $status=1;
                 $CardId=$this->insert_id;
-                if($this->query("INSERT INTO orders SET SSNr='$SSNr', OrderDate='$time',OrderIP='$OrderIP',ChargedCard='$CardId'")){
+                if($this->query("INSERT INTO orders SET SSNr='$SSNr', ShippingCost='$ShippingCost', OrderDate='$time',OrderIP='$OrderIP',ChargedCard='$CardId'")){
                     $status=2;
                     $OrderId=$this->insert_id;
                     if($orderTotal=$this->dbAddOrderList2($OrderId,$OrderList)){

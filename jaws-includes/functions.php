@@ -238,7 +238,7 @@
                         </tr>';
                         global $totalAmount;
                         $GLOBALS['totalAmount']=0;
-                        $GLOBALS['shippingCost']=20;
+                        $GLOBALS['shippingCost']=$order->ShippingCost;
                         for($i=0;$i<count($order->OrderList);$i++){
                             echo '<tr>
                               <td>'.$order->OrderList[$i]->Name.'</td>
@@ -642,7 +642,7 @@
                 </tr>';
             $totalCost+=($value['price']*$value['amount']);
         }
-        $shippingCost = 20;
+        $shippingCost = $_SESSION['form']['cart']['shipping-cost'];
         echo '  </tbody>
                 <tfoot>
                     <tr>
@@ -1715,7 +1715,7 @@
 
         $order=NULL;
         if($data!=NULL){
-            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['OrderList'],$data['OrderTotal']);
+            $order=new Order($data['OrderId'],$data['SSNr'],$data['OrderDate'],$data['Discount'],$data['ChargedCard'],$data['OrderIP'],$data['OrderList'],$data['OrderTotal'],$data['ShippingCost']);
         }
         return $order;
     }
@@ -1723,7 +1723,7 @@
         $data=$GLOBALS['db']->dbGetOrdersAll();
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
-            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal']);
+            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal'],$data[$i]['ShippingCost']);
         }
         return $orders;
     }
@@ -1731,7 +1731,7 @@
         $data=$GLOBALS['db']->dbGetUsersOrders($SSNr);
         $orders=NULL;
         for($i=0;$i<count($data);$i++){
-            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal']);
+            $orders[$i]=new Order($data[$i]['OrderId'],$data[$i]['SSNr'],$data[$i]['OrderDate'],$data[$i]['Discount'],$data[$i]['ChargedCard'],$data[$i]['OrderIP'],NULL,$data[$i]['OrderTotal'],$data[$i]['ShippingCost']);
         }
         return $orders;
     }

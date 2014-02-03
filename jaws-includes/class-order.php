@@ -8,8 +8,9 @@
         public $OrderIP;
         public $OrderList;
         public $OrderPrice;
+        public $ShippingCost
 
-        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList,$OrderTotal) {
+        public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList,$OrderTotal,$ShippingCost) {
             $this->OrderId      = $OrderId;
             $this->SSNr         = $SSNr;
             $this->OrderDate    = $OrderDate;
@@ -17,6 +18,7 @@
             $this->ChargedCard  = $ChargedCard;
             $this->OrderIP      = $OrderIP;
             $this->OrderPrice   = $OrderTotal;
+            $this->ShippingCost = $ShippingCost;
             if($OrderList==NULL){
                 $this->OrderList = NULL;
             }else{

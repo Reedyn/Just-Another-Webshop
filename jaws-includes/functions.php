@@ -168,7 +168,6 @@
             } else {
                 echo "<span>(".$cartAmount." ".$suffix.")</span>";
             }
-            
         }
     }
     function listUsersOrders(){

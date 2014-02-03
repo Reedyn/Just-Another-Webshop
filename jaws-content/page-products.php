@@ -9,7 +9,6 @@
             if(isset($_GET['category'])){
                 listProductsFromTaxanomy($_GET['category']);
             }
-          ?>
-        
-      </div><!-- /.row -->
+          ?>        
+      </div>
 <?php jaws_footer(); ?>

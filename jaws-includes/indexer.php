@@ -60,7 +60,7 @@ function router() { // Function for delivering pages based on GET variables and 
 					Settings
 	*/ ######################################
 	} else if(isset($_GET['settings'])){ // Check if user is trying to access admin
-		if (!isLogged()){
+		if (!isLoggedIn()){
             loginPrompt("You need to be logged in to access this page.");
         }
 		if($_GET['settings'] == "orders"){

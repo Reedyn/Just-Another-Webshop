@@ -132,15 +132,15 @@
     }
     
     function setCurrency($id) {
-        if (isset($_SESSION['currency'])){
-            registerError("Currency changed to ".$array['CurrencyName'],"success");
-        }
         $array = $GLOBALS['db']->dbGetCurrency($id);
         $_SESSION['currency']['multiplier'] = $array['CurrencyMultiplier'];
         $_SESSION['currency']['name'] = $array['CurrencyName'];
         $_SESSION['currency']['sign'] = $array['CurrencySign'];
         $_SESSION['currency']['id'] = $array['CurrencyId'];
         $_SESSION['currency']['position'] = $array['CurrencyLayout'];
+        if (isset($_SESSION['currency'])){
+            registerError("Currency changed to ".$array['CurrencyName'],"success");
+        }
         
     }
     
@@ -1568,7 +1568,7 @@
                                 <div class="col-lg-6">
                                   <div class="input-group">
                                     <span class="input-group-addon">Max Weight (in gram)</span>
-                                    <input pattern="^\d+$" value="'.$package['MaxWeight'].'" required name="shipping-max-weight" type="text" class="form-control" placeholder="2">
+                                    <input pattern="^\d+$" value="'.$package['MaxWeight'].'" readonly name="shipping-max-weight" type="text" class="form-control" placeholder="2">
                                   </div><!-- /input-group -->
                                 </div><!-- /.col-lg-6 -->
                                 <div class="col-lg-6">

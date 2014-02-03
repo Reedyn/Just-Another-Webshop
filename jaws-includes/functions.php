@@ -25,6 +25,19 @@
         echo '</div>';
     }
     
+    function toAscii($str, $replace=array(), $delimiter='-') {
+        if( !empty($replace) ) {
+            $str = str_replace((array)$replace, ' ', $str);
+        }
+    
+        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+    
+        return $clean;
+    }
+    
     function calculateShippingCost(){
         if(isset($_SESSION['cart']['items'])){
             $totalWeight = 0;
@@ -304,7 +317,7 @@
                           <h3>'.showCurrency($products[$i]->Price).'</h3>
                           <p>'.$products[$i]->Description.'</p>
                           <p>
-                            <form method="post">             <a href="/products/1-category/'.$products[$i]->ProductId.'-'.$products[$i]->Name.'"class="btn btn-default">View details</a>
+                            <form method="post">             <a href="/products/'.$_GET['category'].'-'.toAscii($_GET['category-name']).'/'.$products[$i]->ProductId.'-'.toAscii($products[$i]->Name).'"class="btn btn-default">View details</a>
                             <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
                           </p>
                     </div>';
@@ -328,7 +341,7 @@
           <p>'.$product->Description.'</p>
           <p class="pID">Weight: '.$product->ProductWeight.'gram</p>
           <p>
-            <form method="post">             <a href="/products/1-category/"class="btn btn-default">Back</a>
+            <form method="post">             <a href="/products/'.$_GET['category'].'-'.toAscii($_GET['category-name']).'/"class="btn btn-default">Back</a>
             <button class="btn btn-primary" name="add-to-cart" value="'.$product->ProductId.'" type="submit">Add to cart</button> (currently in stock: '.$product->Stock.')</form>
 
           </p>
@@ -798,7 +811,7 @@
                 $totalAmount+=($order->OrderList[$i]->Amount)*($order->OrderList[$i]->ProductPrice);
             }
 
-            $shippingCost=20;
+            $shippingCost=$order->ShippingCost;
             echo '<tr>
               <td></td>
               <td></td>
@@ -858,7 +871,7 @@
                   <td class="order-id">'.$orders[$i]->OrderId.'</td>
                   <td class="order-date">'.$orders[$i]->OrderDate.'</td>
                   <td class="order-ssnr">'.$orders[$i]->SSNr.'</td>
-                  <td class="order-value">'.showCurrency($orders[$i]->OrderPrice).'</td>
+                  <td class="order-value">'.showCurrency($orders[$i]->OrderPrice+$orders[$i]->ShippingCost).'</td>
                   <td><a href="/admin/orders/'.$orders[$i]->OrderId.'/" class="btn btn-default">View Order</a></td>
                 </tr>';
             }
@@ -915,7 +928,19 @@
                 <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">';
                 $taxanomies=getAllTaxanomies();
                 for($i=0;$i<count($taxanomies);$i++){
-                    echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                    if($taxanomies[$i]->Id == 1){ // Check if we are on parent category
+                        if($taxanomies[$i]->Id == $product->Id){
+                            echo '<option selected value="'.$taxanomies[$i]->Id.'">No category</option>';
+                        } else {
+                            echo '<option value="'.$taxanomies[$i]->Id.'">No category</option>';
+                        }
+                    } else {
+                        if($taxanomies[$i]->Id == $product->Id){
+                            echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        } else {
+                            echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        }
+                    }                    
                 }
                 echo '</select>
               </div>
@@ -980,11 +1005,19 @@
                 <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">';
                 $taxanomies=getAllTaxanomies();
                 for($i=0;$i<count($taxanomies);$i++){
-                    if($taxanomies[$i]->Id==$product->Taxanomy){
-                        echo '<option value="'.$taxanomies[$i]->Id.'" selected>'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                    }else{
-                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                    }
+                    if($taxanomies[$i]->Id == 1){ // Check if we are on parent category
+                        if($taxanomies[$i]->Id == $product->ProductId){
+                            echo '<option selected value="'.$taxanomies[$i]->Id.'">No category</option>';
+                        } else {
+                            echo '<option value="'.$taxanomies[$i]->Id.'">No category</option>';
+                        }
+                    } else {
+                        if($taxanomies[$i]->Id == $product->ProductId){
+                            echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        } else {
+                            echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                        }
+                    }                    
                 }
                 echo '</select>
               </div>
@@ -1250,15 +1283,23 @@
                             <div class="col-lg-4">
                                <div class="input-group">
                                 <span class="input-group-addon">Parent</span>
-                                <select class="form-control" name="taxanomy-parent">
-                                    <option value="FALSE">No parent</option>';
+                                <select class="form-control" name="taxanomy-parent">';
                                 $taxanomies=getAllTaxanomies();
                                 for($i=0;$i<count($taxanomies);$i++){
-                                    if($taxanomies[$i]->Id==$taxanomy->Parent){
-                                        echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                                    }else{
-                                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                    if($taxanomies[$i]->Id == 1){
+                                        if($taxanomies[$i]->Id==$taxanomy->Parent){
+                                            echo '<option selected value="'.$taxanomies[$i]->Id.'">No parent</option>';
+                                        }else{
+                                            echo '<option value="'.$taxanomies[$i]->Id.'">No parent</option>';
+                                        }
+                                    } else {
+                                        if($taxanomies[$i]->Id==$taxanomy->Parent){
+                                            echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                        }else{
+                                            echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                        }
                                     }
+                                    
                                 }
                                 echo '</select>
                               </div>
@@ -1333,7 +1374,10 @@
                   <a id="drop4" role="button" data-toggle="dropdown" href="#">Choose Category <b class="caret"></b></a>
                   <ul id="menu1" class="dropdown-menu dropdown-menuCategory" role="menu" aria-labelledby="drop4">';
             for($i=0;$i<count($taxanomies);$i++){
-                echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$taxanomies[$i]->Id.'-'.$taxanomies[$i]->Name.'">'.$taxanomies[$i]->Name.'</a></li>';
+                if($taxanomies[$i]->Id != 1) {
+                    echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$taxanomies[$i]->Id.'-'.toAscii($taxanomies[$i]->Name).'">'.$taxanomies[$i]->Name.'</a></li>';
+                }
+                
             }
          echo      '</ul>
                 </li>

@@ -1,14 +1,3 @@
-
-      <?php
-    echo '<h4>Session</h4>';
-    var_dump($_SESSION);
-    echo '<h4>Get</h4>';
-    var_dump($_GET);
-    echo '<h4>Post & Files</h4>';
-    var_dump($_POST);
-    var_dump($_FILES);
-
-      ?>
       <hr class="featurette-divider">
       <!-- FOOTER -->
       <footer>

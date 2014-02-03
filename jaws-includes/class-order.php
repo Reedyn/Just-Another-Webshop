@@ -8,7 +8,7 @@
         public $OrderIP;
         public $OrderList;
         public $OrderPrice;
-        public $ShippingCost
+        public $ShippingCost;
 
         public function __construct($OrderId,$SSNr,$OrderDate,$Discount,$ChargedCard,$OrderIP,$OrderList,$OrderTotal,$ShippingCost) {
             $this->OrderId      = $OrderId;

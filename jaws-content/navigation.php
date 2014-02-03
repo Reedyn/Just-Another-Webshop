@@ -1,35 +1,20 @@
     <body>
-        <div class="navbar-wrapper">
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
           <div class="container">
-    
-            <div class="navbar navbar-inverse navbar-static-top" role="navigation">
-              <div class="container">
-                 <a class="navbar-brand" href="/">
-                    <img src="/jaws-content/themes/default/img/logotype.png">
-                  </a>
-                <div class="shoppingCart nav navbar-nav navbar-header">
-                  <?php
-                      listCurrencies();
-                        ?>
-                  <li>
-                      <a href="/cart/">
-                          <?php itemsInCart(); ?> <span class="glyphicon glyphicon-shopping-cart"></span>
-                      </a>
-                    </li>
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                 
-                </div>
-                <div class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/products/">Products</a></li>
-                    
-                    <?php if(isLoggedIn()) { ?>
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/"><img src="/jaws-content/themes/default/img/logotype.png" alt="Hockey Gear"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/products/">Products</a></li>
+                <?php if(isLoggedIn()) { ?>
                     <li><a href="/settings/">Settings</a></li>
                     <?php if(isAdmin()) { ?>
                     <li class="dropdown">
@@ -43,16 +28,16 @@
                         <li><a href="/admin/shipping/">Shipping</a></li>
                       </ul>
                     </li>
-                    <?php } ?>
-                    <li><a href="/logout/">Logout</a></li>
-                    <?php } else { ?>
-                    <li><a href="/login/">Login</a></li>
-                    <?php } ?>
-
-                  </ul>
-                </div>
-              </div>
-            </div>
-    
+                <?php } ?>
+                <li><a href="/logout/">Logout</a></li>
+                <?php } else { ?>
+                <li><a href="/login/">Login</a></li>
+                <?php } ?>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <?php listCurrencies(); ?>
+                <li><a href="/cart/"><span class="mobile">Shopping Cart </span><?php itemsInCart(); ?> <i class="shopping-cart fa fa-shopping-cart"></i></a></li>
+              </ul>
+            </div>  
           </div>
         </div>

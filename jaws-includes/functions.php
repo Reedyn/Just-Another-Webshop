@@ -132,13 +132,16 @@
     }
     
     function setCurrency($id) {
+        if (isset($_SESSION['currency'])){
+            registerError("Currency changed to ".$array['CurrencyName'],"success");
+        }
         $array = $GLOBALS['db']->dbGetCurrency($id);
         $_SESSION['currency']['multiplier'] = $array['CurrencyMultiplier'];
         $_SESSION['currency']['name'] = $array['CurrencyName'];
         $_SESSION['currency']['sign'] = $array['CurrencySign'];
         $_SESSION['currency']['id'] = $array['CurrencyId'];
         $_SESSION['currency']['position'] = $array['CurrencyLayout'];
-        registerError("Currency changed to ".$array['CurrencyName'],"success");
+        
     }
     
     function showCurrency($value){
@@ -1387,7 +1390,7 @@
     function listCurrencies(){
         $currencies=getAllCurrencies();
         echo '<li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-money"></i><b class="caret"></b></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="mobile">Currencies  </span><i class="fa fa-money currencies"></i></a>
                       <ul class="dropdown-menu">';
 
             for($i=0;$i<count($currencies);$i++){

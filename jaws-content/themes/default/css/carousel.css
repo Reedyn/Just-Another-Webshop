@@ -105,6 +105,23 @@ body {
   letter-spacing: -1px;
 }
 
+.shopping-cart {
+    font-size:26px;
+    line-height:18px;
+} 
+
+.currencies {
+line-height: 18px;
+font-size: 24px;
+}
+
+@media (min-width: 768px){
+    .mobile {
+        display: none;
+    }
+    
+}
+
 
 
 /* RESPONSIVE CSS

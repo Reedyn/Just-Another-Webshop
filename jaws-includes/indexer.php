@@ -60,6 +60,9 @@ function router() { // Function for delivering pages based on GET variables and 
 					Settings
 	*/ ######################################
 	} else if(isset($_GET['settings'])){ // Check if user is trying to access admin
+		if (!isLogged()){
+            loginPrompt("You need to be logged in to access this page.");
+        }
 		if($_GET['settings'] == "orders"){
 			if(isset($_GET['order'])){ 			
 				require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-settings-order.php"); // Load product if user is trying to access a specific product.

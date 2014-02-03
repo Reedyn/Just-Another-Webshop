@@ -38,7 +38,7 @@ if(isset($_POST['user-submit'])) {
                                 <body>
                                     <p>Your account has been created</p>
                                     <p>Your password is: '.$password.'</p>
-                                    <p>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a></p>
+                                    <p>You can login at http://hockeygear.lindqvist.io/login/</p>
                                 </body>
                             </html>';
                 $message = wordwrap($message, 70, "\r\n"); 
@@ -103,7 +103,7 @@ if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
                         <body>
                             <p>Your password has been reset.</p>
                             <p>Your new password is: '.$password.'</p>
-                            <p>You can login at <a href="http://hockeygear.lindqvist.io/login/>Hockey Gear</a> and then change your password under settings.</p>
+                            <p>You can login at http://hockeygear.lindqvist.io/login/ and then change your password under settings.</p>
                         </body>
                     </html>';
         $message = wordwrap($message, 70, "\r\n"); 

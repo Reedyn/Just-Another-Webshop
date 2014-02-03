@@ -1,6 +1,6 @@
 <?php
 
-function indexer() { // Function for delivering pages based on GET variables and building website title.
+function router() { // Function for delivering pages based on GET variables and building website title.
 	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
 	if(!isset($_SESSION['currency']) || (!isset($_SESSION['currency']['multiplier']) && $_SESSION['currency']['multiplier'] == null)){ 
         setCurrency(1,"Euro","€", "prefix",1); //Set to the default currency;
@@ -81,10 +81,12 @@ function indexer() { // Function for delivering pages based on GET variables and
 		if(isset($_GET['product'])){
 			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-product.php"); // If user is trying to access a specific product load product.
 		} else {
-			if (isset($_GET['category-name'])) {
+			if (isset($_GET['category'])) {
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 			} else {
+			    $_GET['category'] = 1;
+			    require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 			}
-			require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-products.php"); // Otherwise load list of products.
 		}
 	
 	

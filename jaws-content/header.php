@@ -5,7 +5,6 @@
     if(isset($_GET['setcurrency'])){ // Set new currency when a new currency is selected.
         $id = intval($_GET['setcurrency']);
         setCurrency($_GET['setcurrency']);
-        registerError("Currency changed","success");
         redirect(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 ?><!DOCTYPE html>

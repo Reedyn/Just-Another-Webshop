@@ -138,6 +138,7 @@
         $_SESSION['currency']['sign'] = $array['CurrencySign'];
         $_SESSION['currency']['id'] = $array['CurrencyId'];
         $_SESSION['currency']['position'] = $array['CurrencyLayout'];
+        registerError("Currency changed to ".$array['CurrencyName'],"success");
     }
     
     function showCurrency($value){
@@ -1391,7 +1392,7 @@
 
             for($i=0;$i<count($currencies);$i++){
                 //echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$currencies[$i]->Id.'-'.$currencies[$i]->Name.'">'.$currencies[$i]->Name.'</a></li>';
-                echo '<li><a href="?setcurrency='.($i+1).'">'.$currencies[$i]->Name.'</a></li>';
+                echo '<li><a href="?setcurrency='.($currencies[$i]->Id).'">'.$currencies[$i]->Name.'</a></li>';
             }
 
         echo    '</ul>

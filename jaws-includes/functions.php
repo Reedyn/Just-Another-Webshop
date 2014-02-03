@@ -133,14 +133,14 @@
     
     function setCurrency($id) {
         $array = $GLOBALS['db']->dbGetCurrency($id);
+        if (isset($_SESSION['currency'])){
+            registerError("Currency changed to ".$array['CurrencyName'],"success");
+        }
         $_SESSION['currency']['multiplier'] = $array['CurrencyMultiplier'];
         $_SESSION['currency']['name'] = $array['CurrencyName'];
         $_SESSION['currency']['sign'] = $array['CurrencySign'];
         $_SESSION['currency']['id'] = $array['CurrencyId'];
         $_SESSION['currency']['position'] = $array['CurrencyLayout'];
-        if (isset($_SESSION['currency'])){
-            registerError("Currency changed to ".$array['CurrencyName'],"success");
-        }
         
     }
     

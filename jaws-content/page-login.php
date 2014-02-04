@@ -103,6 +103,9 @@ jaws_header();
             <div class="col-lg-2">
               <button name="user-login"class="btn btn-primary btn-block btn-margin" type="submit">Login</button>
             </div>
+            <div class="col-lg-2">
+              <a href="/reset-password/" class="btn btn-margin">Forgot Password</a>
+            </div>
           </div>
         </form>
       </div>

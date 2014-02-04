@@ -9,7 +9,7 @@
             isset($_POST['product-category']) && preg_match("$.+$", $_POST['product-category']) &&
             isset($_FILES['product-image'])){
             
-            require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/image-resizer.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/core/image-resizer.php');
             // array of valid extensions
             $validExtensions = array('.jpg','.jpeg');
             // get extension of the uploaded file
@@ -46,7 +46,7 @@
             
             if(isset($_FILES['product-image']) && !empty($_FILES['product-image']['name'])) {
                 echo $_FILES['product-image']['name'];
-                require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/image-resizer.php');
+                require_once($_SERVER['DOCUMENT_ROOT'].'/core/image-resizer.php');
                 $validExtensions = array('.jpg','.jpeg');
                 $fileExtension = strrchr($_FILES['product-image']['name'], ".");
                 if (in_array($fileExtension, $validExtensions)) {

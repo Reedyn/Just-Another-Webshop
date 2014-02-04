@@ -7,7 +7,7 @@
       </ol>
       <div class="carousel-inner">
         <div class="item active">
-          <img src="img/test.jpg" alt="First slide">
+          <img src="/content/img/test.jpg" alt="First slide">
           <div class="container">
             <div class="carousel-caption">
               <h1>We have every equipment you might need!</h1>
@@ -17,7 +17,7 @@
           </div>
         </div> 
         <div class="item">
-          <img src="img/test3.jpg" alt="Third slide">
+          <img src="/content/img/test3.jpg" alt="Third slide">
           <div class="container">
             <div class="carousel-caption">
               <h1>Partnership with Bauer</h1>
@@ -39,7 +39,7 @@
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="img/pic1.jpg" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive" src="/content/img/pic1.jpg" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -47,7 +47,7 @@
 
       <div class="row featurette">
         <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="img/pic2.jpg" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive" src="/content/img/pic2.jpg" alt="Generic placeholder image">
         </div>
         <div class="col-md-7">
           <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
@@ -63,7 +63,7 @@
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="img/pic3.jpg" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive" src="/content/img/pic3.jpg" alt="Generic placeholder image">
         </div>
       </div>
 <?php includeFooter(); ?>

@@ -310,9 +310,11 @@
     }
     function listProductsFromTaxanomy($TaxanomyId){
         $products=NULL;
+        echo '<div class="row">';
+        recursiveListProducts($TaxanomyId);
+        /*
         $products=getProductsFromTaxanomy($TaxanomyId);
         if($products){
-            echo '<div class="row">';
             for($i=0;$i<count($products);$i++){
                 echo '<div class="col-lg-4">
                           <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
@@ -325,9 +327,41 @@
                           </p>
                     </div>';
             }
-            echo '</div>';
+        }
+        */
+        echo '</div>';
+    }
+    function recursiveListProducts($TaxanomyId){
+        $products=getProductsFromTaxanomy($TaxanomyId);
+        if($products){
+            for($i=0;$i<count($products);$i++){
+                echo '<div class="col-lg-4">
+                          <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
+                          <h2>'.$products[$i]->Name.'</h2>
+                          <h3>'.showCurrency($products[$i]->Price).'</h3>
+                          <p>'.$products[$i]->Description.'</p>
+                          <p>
+                            <form method="post">             <a href="/products/'.$_GET['category'].'-';
+                if(isset($_GET['category-name'])){
+                    echo toAscii($_GET["category-name"]);
+                }
+                echo '/'.$products[$i]->ProductId.'-'.toAscii($products[$i]->Name).'"class="btn btn-default">View details</a>
+                            <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
+                          </p>
+                    </div>';
+                    $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
+                    foreach($children as $child){
+                        recursiveListProducts($child);
+                    }
+            }
+        }else{
+            $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
+            foreach($children as $child){
+                recursiveListProducts($child['TaxanomyId']);
+            }
         }
     }
+
     function listSingleProduct($ProductId){
         $product=getProduct($ProductId);
         if($product){
@@ -1245,24 +1279,35 @@
         </script>';
     }
     function listAdminTaxanomies(){
-        $taxanomies=getAllTaxanomies();
+        $taxanomies=$GLOBALS['db']->dbGetTaxanomyTree();
         if($taxanomies){
             echo '<div class="panel panel-primary">
                       <div class="panel-heading">Categories</div>
                       <div class="panel-body">
                         <ul class="list-unstyled">';
-                            for($i=0;$i<count($taxanomies);$i++){
-
-                                echo '<li>'.$taxanomies[$i]->Name.' <a href="/admin/categories/'.$taxanomies[$i]->Id.'" class="btn btn-default btn-xs">Edit</a>
+                            foreach($taxanomies as $taxanomy){
+                                echo '<li>'.$taxanomy['TaxanomyName'].' <a href="/admin/categories/'.$taxanomy['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
                                 </li>';
+                                recursiveAdminTaxanomy($taxanomy['TaxanomyChildren']);
                             }
-
                         echo '<li><a href="/admin/categories/new" class="btn btn-primary">Add category</a>
                         </ul>
                       </div>
                     </div>';
         }
     }
+    function recursiveAdminTaxanomy($taxanomy){
+        if($taxanomy){
+            echo '<ul class="list-styled">';
+            foreach($taxanomy as $child){
+                echo '<li>'.$child['TaxanomyName'].' <a href="/admin/categories/'.$child['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
+                                </li>';
+                recursiveAdminTaxanomy($child['TaxanomyChildren']);
+            }
+            echo '</ul>';
+        }
+    }
+
     function listAdminSingleTaxanomy(){
         if($_GET['category'] != "new"){
         $taxanomy=getTaxanomy($_GET['category']);
@@ -1345,14 +1390,16 @@
                                 <div class="col-lg-4">
                                    <div class="input-group">
                                     <span class="input-group-addon">Parent</span>
-                                    <select class="form-control" name="taxanomy-parent">
-                                      <option value="false">None</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                    </select>
-                                  </div>
+                                    <select class="form-control" name="taxanomy-parent">';
+                                $taxanomies=getAllTaxanomies();
+                                for($i=0;$i<count($taxanomies);$i++){
+                                    if($taxanomies[$i]->Id == 1){
+                                    }else{
+                                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                    }
+                                }
+                                echo '</select>
+                                </div>
                                 </div>
                                 </div><!-- /.row -->
                                 <div class="row">

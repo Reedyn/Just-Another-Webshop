@@ -473,7 +473,7 @@
                         <td><strong>'.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']).'</strong> ('.showCurrency($_SESSION['cart']['items'][$key]['price']*$value['amount']*0.8).')</td>
                     </tr>';
             $totalCost+=($_SESSION['cart']['items'][$key]['price']*$value['amount']);
-            $totalWeight+=$product->ProductWeight;
+            $totalWeight+=$product->ProductWeight*$value['amount'];
         }
 
         if($totalWeight<2000){
@@ -494,7 +494,7 @@
                         <td></td>
                         <td></td>
                         <td class="bold">Shipping Cost</td>
-                        <td><strong>'.showCurrency($shippingCost).'</strong></td>
+                        <td><strong>'.showCurrency($shippingCost).'</strong> ('.(intval($totalWeight)/1000).' kg)</td>
                     </tr>
                     <tr>
                         <td></td>

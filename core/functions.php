@@ -356,7 +356,6 @@
     }
     function listProductsFromTaxanomy($TaxanomyId){
         if($TaxanomyId){
-            $products=NULL;
             echo '<div class="row">';
             recursiveListProducts($TaxanomyId);
             echo '</div>';
@@ -364,6 +363,7 @@
 
     }
     function recursiveListProducts($TaxanomyId){
+        $products=NULL;
         $products=getProductsFromTaxanomy($TaxanomyId);
         if($products){
             for($i=0;$i<count($products);$i++){
@@ -381,15 +381,20 @@
                             <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
                           </p>
                     </div>';
-                    $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
-                    foreach($children as $child){
-                        recursiveListProducts($child['TaxanomyId']);
-                    }
+
+            }
+            $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
+            if($children){
+                foreach($children as $child){
+                    recursiveListProducts($child['TaxanomyId']);
+                }
             }
         }else{
             $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
-            foreach($children as $child){
-                recursiveListProducts($child['TaxanomyId']);
+            if($children){
+                foreach($children as $child){
+                    recursiveListProducts($child['TaxanomyId']);
+                }
             }
         }
     }

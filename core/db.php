@@ -588,7 +588,7 @@
             return $categories;
         }
         public function dbGetTaxanomyChildren($ParentId){
-            $taxanomies=array();
+            $taxanomies=NULL;
             $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyParent='$ParentId'");
             $i=0;
             while($row=$result->fetch_assoc()){
@@ -596,6 +596,7 @@
                 $i++;
             }
             return $taxanomies;
+
         }
 
         /*  ###################################################################################################

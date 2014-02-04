@@ -62,8 +62,8 @@ if(isset($_POST['user-submit'])) {
             redirect();
         }
     } else {
-        if (isset($_POST['user-first-name']) && preg_match("$.+$", $_POST['user-first-name']) &&
-            isset($_POST['user-last-name']) && preg_match("$.+$", $_POST['user-last-name']) &&
+        if (isset($_POST['user-first-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-first-name']) &&
+            isset($_POST['user-last-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-last-name']) &&
             isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone'])) {
             if($_POST['user-admin'] == "false"){
                 $_POST['user-admin'] = false;
@@ -137,14 +137,14 @@ jaws_header();
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^.+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
+                <input pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^.+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
+                <input pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">

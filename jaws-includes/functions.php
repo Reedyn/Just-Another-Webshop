@@ -464,13 +464,13 @@
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-first-name" type="text" class="form-control" value="'.$user->FirstName.'" placeholder="First Name">
+                <input pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-first-name" type="text" class="form-control" value="'.$user->FirstName.'" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input pattern="^\w+$" required name="user-last-name" type="text" class="form-control" value="'.$user->LastName.'" placeholder="Last Name">
+                <input pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-last-name" type="text" class="form-control" value="'.$user->LastName.'" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">

@@ -33,8 +33,8 @@ if(isset($_POST['user-register'])) { // If user has clicked register button
     if (isset($_POST['user-ssn']) && preg_match("$\d{2,4}-?\d{2}-?\d{2}-?\d{4}$", $_POST['user-ssn']) &&
         isset($_POST['user-mail']) && preg_match("$[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$", $_POST['user-mail']) &&
         isset($_POST['user-password']) && preg_match("$[a-zA-ZåäöÅÄÖ0-9]{6,30}$", $_POST['user-password']) &&
-        isset($_POST['user-first-name']) && preg_match("$\w+$", $_POST['user-first-name']) &&
-        isset($_POST['user-last-name']) && preg_match("$\w+$", $_POST['user-last-name']) &&
+        isset($_POST['user-first-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-first-name']) &&
+        isset($_POST['user-last-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-last-name']) &&
         isset($_POST['user-post-address'])&&
         isset($_POST['user-street-address'])&&
         isset($_POST['user-city'])) {
@@ -137,14 +137,14 @@ jaws_header();
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input value="<?php echo fillForm("register","user-first-name"); ?>" pattern="^\w+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
+                <input value="<?php echo fillForm("register","user-first-name"); ?>" pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-first-name" type="text" class="form-control" placeholder="First Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
           
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"></span>
-                <input value="<?php echo fillForm("register","user-last-name"); ?>" pattern="^\w+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
+                <input value="<?php echo fillForm("register","user-last-name"); ?>" pattern="^[A-ZÅÄÖa-zåäö]+$" required name="user-last-name" type="text" class="form-control" placeholder="Last Name">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">

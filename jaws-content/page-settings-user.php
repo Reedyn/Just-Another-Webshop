@@ -2,8 +2,8 @@
 if(isset($_POST['user-submit'])) {
     if (isset($_POST['user-ssn']) && preg_match("$\d{2,4}-?\d{2}-?\d{2}-?\d{4}$", $_POST['user-ssn']) &&
         isset($_POST['user-mail']) && preg_match("$[a-z0-9åäöÅÄÖ._%+-]+[a-zåäöÅÄÖ0-9]+@[a-z0-9.-]+\.[a-z]{2,4}$", $_POST['user-mail']) &&
-        isset($_POST['user-first-name']) && preg_match("$.+$", $_POST['user-first-name']) &&
-        isset($_POST['user-last-name']) && preg_match("$.+$", $_POST['user-last-name']) &&
+        isset($_POST['user-first-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-first-name']) &&
+        isset($_POST['user-last-name']) && preg_match("$[A-ZÅÄÖa-zåäö]+$", $_POST['user-last-name']) &&
         isset($_POST['user-phone']) && preg_match("$(46|\+46|0)(-?\s?[0-9]+)+$", $_POST['user-phone']) && 
         isset($_POST['user-street-address']) && 
         isset($_POST['user-post-address']) && 

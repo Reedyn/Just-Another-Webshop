@@ -131,6 +131,52 @@
         exit();
     }
     
+    function forgotPassword($mail) {
+        $key = generatePassword(20);
+        if($GLOBALS['db']->setResetKey($mail,$key)){
+            registerError("A link with further instructions has been sent to ".$mail,'success');
+            $message = '<html>
+                            <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                <title>[Hockey Gear] Password reset</title>
+                            <head>
+                            <body>
+                                <p>Someone, hopefully you. Has issued a password reset for your account.</p>
+                                <p>If you didn´t reset your password you can simply login with your old password and the following link will cease to exist.</p>
+                                <p>You save your new password at '.$_SERVER['HTTP_HOST'].'/reset-password/'.$key.'</p>
+                            </body>
+                        </html>';
+            $message = wordwrap($message, 70, "\r\n"); 
+            $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
+            $subject = '[Hockey Gear] Password reset';
+            $headers  = 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+            $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
+            $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
+            $headers .= 'X-Mailer: PHP/' . phpversion();
+            mail($to, $subject, $message, $headers);
+            redirect();
+        } else {
+            registerError("Couldn't reset password. Double check your e-mail","danger");
+            redirect();
+        }
+    }
+    
+    function savePassword($key,$password){
+        if($user = $GLOBALS['db']->getResetKey($key)){ // If reset key exists, get SSNr to save new password to.
+            if ($GLOBALS['db']->dbEditUser($user['SSNr'],"ResetKey",null,"Password",$password)) {
+                registerError("Your new password has been saved", "success");
+                redirect("/login/");
+            } else {
+                registerError("Password couldn't be saved", "danger");
+                redirect();
+            }
+        } else {
+            registerError("Your reset key is not valid, please reset your password again", "danger");
+            redirect("/reset-password/");
+        }
+    }
+    
     function setCurrency($id) {
         $array = $GLOBALS['db']->dbGetCurrency($id);
         if (isset($_SESSION['currency'])){

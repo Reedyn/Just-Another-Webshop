@@ -139,6 +139,22 @@
                 return false;
             }
         }
+        
+        public function setResetKey($Mail,$ResetKey){
+            if($this->query("UPDATE users SET ResetKey='$ResetKey' WHERE Mail='$Mail'")){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function getResetKey($ResetKey){
+            if($result=$this->query("SELECT ResetKey,SSNr FROM users WHERE ResetKey='$ResetKey'")){
+                return $result->fetch_assoc();
+            }else{
+                return false;
+            }
+        }
 
         /*  ###################################################################################################
             Cards

@@ -1356,14 +1356,16 @@
                                 <div class="col-lg-4">
                                    <div class="input-group">
                                     <span class="input-group-addon">Parent</span>
-                                    <select class="form-control" name="taxanomy-parent">
-                                      <option value="false">None</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                    </select>
-                                  </div>
+                                    <select class="form-control" name="taxanomy-parent">';
+                                $taxanomies=getAllTaxanomies();
+                                for($i=0;$i<count($taxanomies);$i++){
+                                    if($taxanomies[$i]->Id == 1){
+                                    }else{
+                                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                                    }
+                                }
+                                echo '</select>
+                                </div>
                                 </div>
                                 </div><!-- /.row -->
                                 <div class="row">

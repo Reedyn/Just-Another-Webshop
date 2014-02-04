@@ -24,7 +24,7 @@ if success, register user and go to homepage. */
 $resp = null;
 # the error code from reCAPTCHA, if any
 $error = null;
-require_once($_SERVER['DOCUMENT_ROOT'].'/jaws-includes/recaptchalib.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/core/recaptchalib.php');
 $publickey = "6Lcevu0SAAAAALVA9IWHanPReEOxtSDz5YiNnqkE";
 $privatekey = "6Lcevu0SAAAAACPAZ5dGYqK1yvoFVPTfnpX6PKl8";
 

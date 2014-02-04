@@ -1,7 +1,7 @@
 <?php
 
 function router() { // Function for delivering pages based on GET variables and building website title.
-	require_once($_SERVER['DOCUMENT_ROOT']."/jaws-includes/functions.php");
+	require_once($_SERVER['DOCUMENT_ROOT']."/core/functions.php");
 	if(!isset($_SESSION['currency']) || (!isset($_SESSION['currency']['multiplier']) && $_SESSION['currency']['multiplier'] == null)){ 
         setCurrency(1,"Euro","€", "prefix",1); //Set to the default currency;
     };

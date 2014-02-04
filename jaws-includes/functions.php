@@ -355,27 +355,13 @@
                   </div>';
     }
     function listProductsFromTaxanomy($TaxanomyId){
-        $products=NULL;
-        echo '<div class="row">';
-        recursiveListProducts($TaxanomyId);
-        /*
-        $products=getProductsFromTaxanomy($TaxanomyId);
-        if($products){
-            for($i=0;$i<count($products);$i++){
-                echo '<div class="col-lg-4">
-                          <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
-                          <h2>'.$products[$i]->Name.'</h2>
-                          <h3>'.showCurrency($products[$i]->Price).'</h3>
-                          <p>'.$products[$i]->Description.'</p>
-                          <p>
-                            <form method="post">             <a href="/products/'.$_GET['category'].'-'.toAscii($_GET['category-name']).'/'.$products[$i]->ProductId.'-'.toAscii($products[$i]->Name).'"class="btn btn-default">View details</a>
-                            <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
-                          </p>
-                    </div>';
-            }
+        if($TaxanomyId){
+            $products=NULL;
+            echo '<div class="row">';
+            recursiveListProducts($TaxanomyId);
+            echo '</div>';
         }
-        */
-        echo '</div>';
+
     }
     function recursiveListProducts($TaxanomyId){
         $products=getProductsFromTaxanomy($TaxanomyId);
@@ -397,7 +383,7 @@
                     </div>';
                     $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
                     foreach($children as $child){
-                        recursiveListProducts($child);
+                        recursiveListProducts($child['TaxanomyId']);
                     }
             }
         }else{
@@ -1008,22 +994,14 @@
               <div class="col-lg-4">
                <div class="input-group">
                 <span class="input-group-addon">Category</span>
-                <select class="form-control" name="product-category" value="'.$product->Taxanomy.'">';
+                <select class="form-control" name="product-category">';
                 $taxanomies=getAllTaxanomies();
                 for($i=0;$i<count($taxanomies);$i++){
                     if($taxanomies[$i]->Id == 1){ // Check if we are on parent category
-                        if($taxanomies[$i]->Id == $product->Id){
-                            echo '<option selected value="'.$taxanomies[$i]->Id.'">No category</option>';
-                        } else {
-                            echo '<option value="'.$taxanomies[$i]->Id.'">No category</option>';
-                        }
+                        echo '<option selected value="'.$taxanomies[$i]->Id.'">No category</option>';
                     } else {
-                        if($taxanomies[$i]->Id == $product->Id){
-                            echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                        } else {
-                            echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                        }
-                    }                    
+                        echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
+                    }
                 }
                 echo '</select>
               </div>
@@ -1050,7 +1028,7 @@
             $product=getProduct($ProductId);
             if($product){
                 echo '<div class="panel panel-primary">
-        <div class="panel-heading ">New Product</div>
+        <div class="panel-heading ">Edit Product</div>
         <div class="panel-body">
           <form method="post" enctype="multipart/form-data" class="form-signin" role="form">
             Name
@@ -1089,13 +1067,13 @@
                 $taxanomies=getAllTaxanomies();
                 for($i=0;$i<count($taxanomies);$i++){
                     if($taxanomies[$i]->Id == 1){ // Check if we are on parent category
-                        if($taxanomies[$i]->Id == $product->ProductId){
+                        if($taxanomies[$i]->Id == $product->Taxanomy){
                             echo '<option selected value="'.$taxanomies[$i]->Id.'">No category</option>';
                         } else {
                             echo '<option value="'.$taxanomies[$i]->Id.'">No category</option>';
                         }
                     } else {
-                        if($taxanomies[$i]->Id == $product->ProductId){
+                        if($taxanomies[$i]->Id == $product->Taxanomy){
                             echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
                         } else {
                             echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
@@ -1389,7 +1367,9 @@
                                     } else {
                                         if($taxanomies[$i]->Id==$taxanomy->Parent){
                                             echo '<option selected value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
-                                        }else{
+                                        }else if($taxanomies[$i]->Id==$taxanomy->Id) {
+
+                                        }else {
                                             echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
                                         }
                                     }
@@ -1440,6 +1420,7 @@
                                 $taxanomies=getAllTaxanomies();
                                 for($i=0;$i<count($taxanomies);$i++){
                                     if($taxanomies[$i]->Id == 1){
+                                        echo '<option value="'.$taxanomies[$i]->Id.'">No parent</option>';
                                     }else{
                                         echo '<option value="'.$taxanomies[$i]->Id.'">'.$taxanomies[$i]->Name.' ('.$taxanomies[$i]->Id.')</option>';
                                     }

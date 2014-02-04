@@ -147,7 +147,7 @@
                             </body>
                         </html>';
             $message = wordwrap($message, 70, "\r\n"); 
-            $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
+            $to      = $mail;
             $subject = '[Hockey Gear] Password reset';
             $headers  = 'MIME-Version: 1.0' . "\r\n";
             $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

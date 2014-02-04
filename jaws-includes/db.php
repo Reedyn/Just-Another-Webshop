@@ -549,6 +549,25 @@
             }
             return $taxanomy_list;
         }
+        public function dbGetTaxanomyTree($parent_id = 1){
+            $categories = array();
+            $resultCategory=array();
+            $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyParent='$parent_id'");
+            $i=0;
+            while($row=$result->fetch_assoc()){
+                $resultCategory[$i]=$row;
+                $i++;
+            }
+            foreach ($resultCategory as $mainCategory) {
+                $category = array();
+                $category['TaxanomyId'] = $mainCategory['TaxanomyId'];
+                $category['TaxanomyName'] = $mainCategory['TaxanomyName'];
+                $category['TaxanomyParent'] = $mainCategory['TaxanomyParent'];
+                $category['TaxanomyChildren'] = $this->dbGetTaxanomyTree($category['TaxanomyId']);
+                $categories[$mainCategory['TaxanomyId']] = $category;
+            }
+            return $categories;
+        }
 
         /*  ###################################################################################################
             Currency

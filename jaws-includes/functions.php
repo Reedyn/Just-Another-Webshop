@@ -1245,24 +1245,35 @@
         </script>';
     }
     function listAdminTaxanomies(){
-        $taxanomies=getAllTaxanomies();
+        $taxanomies=$GLOBALS['db']->dbGetTaxanomyTree();
         if($taxanomies){
             echo '<div class="panel panel-primary">
                       <div class="panel-heading">Categories</div>
                       <div class="panel-body">
                         <ul class="list-unstyled">';
-                            for($i=0;$i<count($taxanomies);$i++){
-
-                                echo '<li>'.$taxanomies[$i]->Name.' <a href="/admin/categories/'.$taxanomies[$i]->Id.'" class="btn btn-default btn-xs">Edit</a>
+                            foreach($taxanomies as $taxanomy){
+                                echo '<li>'.$taxanomy['TaxanomyName'].' <a href="/admin/categories/'.$taxanomy['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
                                 </li>';
+                                recursiveAdminTaxanomy($taxanomy['TaxanomyChildren']);
                             }
-
                         echo '<li><a href="/admin/categories/new" class="btn btn-primary">Add category</a>
                         </ul>
                       </div>
                     </div>';
         }
     }
+    function recursiveAdminTaxanomy($taxanomy){
+        if($taxanomy){
+            echo '<ul class="list-styled">';
+            foreach($taxanomy as $child){
+                echo '<li>'.$child['TaxanomyName'].' <a href="/admin/categories/'.$child['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
+                                </li>';
+                recursiveAdminTaxanomy($child['TaxanomyChildren']);
+            }
+            echo '</ul>';
+        }
+    }
+
     function listAdminSingleTaxanomy(){
         if($_GET['category'] != "new"){
         $taxanomy=getTaxanomy($_GET['category']);

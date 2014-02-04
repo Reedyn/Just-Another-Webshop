@@ -337,7 +337,7 @@
                     </div>';
                     $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
                     foreach($children as $child){
-                        recursiveListProducts($child);
+                        recursiveListProducts($child['TaxanomyId']);
                     }
             }
         }else{

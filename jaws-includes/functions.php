@@ -1779,7 +1779,7 @@
             for($i=0;$i<21;$i++){
                 $sessionkey.=$chars[rand(0,count($chars)-1)];
             }
-            if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey)==TRUE){
+            if($GLOBALS['db']->dbEditUser($CurrentUser[0],"SessionKey",$sessionkey,"ResetKey",null)){
                 $_SESSION['SessionKey']=$sessionkey;
                 $_SESSION['LoginSSNr']=$CurrentUser[0];
                 return true;

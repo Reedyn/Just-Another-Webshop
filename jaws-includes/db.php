@@ -526,13 +526,14 @@
 
         public function dbGetProductsFromTaxanomy($TaxanomyId){ //Returns an array of product arrays. Failure returns NULL.
             
-            $product_list=NULL;
+            $product_list=array();
 
-            $result=$this->query("SELECT * FROM products WHERE Taxanomy in ($TaxanomyId)");
-            $i=0;
-            while($row=$result->fetch_assoc()){
-                $product_list[$i]=$row;
-                $i++;
+            if($result=$this->query("SELECT * FROM products WHERE Taxanomy in ('$TaxanomyId')")){
+                $i=0;
+                while($row=$result->fetch_assoc()){
+                    $product_list[$i]=$row;
+                    $i++;
+                }
             }
             return $product_list;
         }
@@ -567,6 +568,16 @@
                 $categories[$mainCategory['TaxanomyId']] = $category;
             }
             return $categories;
+        }
+        public function dbGetTaxanomyChildren($ParentId){
+            $taxanomies=array();
+            $result=$this->query("SELECT * FROM taxanomies WHERE TaxanomyParent='$ParentId'");
+            $i=0;
+            while($row=$result->fetch_assoc()){
+                $taxanomies[$i]=$row;
+                $i++;
+            }
+            return $taxanomies;
         }
 
         /*  ###################################################################################################

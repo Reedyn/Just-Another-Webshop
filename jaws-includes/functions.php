@@ -310,9 +310,11 @@
     }
     function listProductsFromTaxanomy($TaxanomyId){
         $products=NULL;
+        echo '<div class="row">';
+        recursiveListProducts($TaxanomyId);
+        /*
         $products=getProductsFromTaxanomy($TaxanomyId);
         if($products){
-            echo '<div class="row">';
             for($i=0;$i<count($products);$i++){
                 echo '<div class="col-lg-4">
                           <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
@@ -325,9 +327,41 @@
                           </p>
                     </div>';
             }
-            echo '</div>';
+        }
+        */
+        echo '</div>';
+    }
+    function recursiveListProducts($TaxanomyId){
+        $products=getProductsFromTaxanomy($TaxanomyId);
+        if($products){
+            for($i=0;$i<count($products);$i++){
+                echo '<div class="col-lg-4">
+                          <img class="img-circle" src="'.$products[$i]->ImgUrl.'" alt="Generic placeholder image">
+                          <h2>'.$products[$i]->Name.'</h2>
+                          <h3>'.showCurrency($products[$i]->Price).'</h3>
+                          <p>'.$products[$i]->Description.'</p>
+                          <p>
+                            <form method="post">             <a href="/products/'.$_GET['category'].'-';
+                if(isset($_GET['category-name'])){
+                    echo toAscii($_GET["category-name"]);
+                }
+                echo '/'.$products[$i]->ProductId.'-'.toAscii($products[$i]->Name).'"class="btn btn-default">View details</a>
+                            <button class="btn btn-primary" name="add-to-cart" value="'.$products[$i]->ProductId.'" type="submit">Add to cart</button></form>
+                          </p>
+                    </div>';
+                    $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
+                    foreach($children as $child){
+                        recursiveListProducts($child);
+                    }
+            }
+        }else{
+            $children=$GLOBALS['db']->dbGetTaxanomyChildren($TaxanomyId);
+            foreach($children as $child){
+                recursiveListProducts($child['TaxanomyId']);
+            }
         }
     }
+
     function listSingleProduct($ProductId){
         $product=getProduct($ProductId);
         if($product){

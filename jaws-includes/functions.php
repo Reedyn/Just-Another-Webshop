@@ -1636,7 +1636,7 @@
         }
         ksort($shipping);
         echo '<div class="panel panel-primary">
-                  <div class="panel-heading">Shipping</div>
+                  <div class="panel-heading">Shipping Packages</div>
                   <div class="panel-body">
                     <table id="sortable" class="table">
                         <thead>
@@ -1649,7 +1649,7 @@
             echo    '<tr>
                         <th class="shipping-max-weight">'.$key.'g</th>
                         <th class="shipping-cost">'.showCurrency($value).'</th>
-                        <th><a class="btn btn-default" href="/admin/shipping/'.$key.'">View Shipping Weight</a></th>
+                        <th><a class="btn btn-default" href="/admin/shipping/'.$key.'">View Package Weight</a></th>
                     </tr>';
             } 
         echo '</tbody>

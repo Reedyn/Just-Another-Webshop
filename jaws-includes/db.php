@@ -141,6 +141,7 @@
         }
         
         public function setResetKey($Mail,$ResetKey){
+            $ResetKey = hash("md5",$ResetKey);
             if($this->query("UPDATE users SET ResetKey='$ResetKey' WHERE Mail='$Mail'")){
                 return true;
             } else {
@@ -149,6 +150,7 @@
         }
         
         public function getResetKey($ResetKey){
+            $ResetKey = hash("md5",$ResetKey);
             if($result=$this->query("SELECT ResetKey,SSNr FROM users WHERE ResetKey='$ResetKey'")){
                 return $result->fetch_assoc();
             }else{

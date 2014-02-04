@@ -122,6 +122,12 @@ function router() { // Function for delivering pages based on GET variables and 
 	*/ ######################################	
 	} else if(isset($_GET['login'])) {
 		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/page-login.php");
+    
+    /* ######################################
+					Reset Password
+	*/ ######################################	
+	} else if(isset($_GET['reset-password'])) {
+		require_once($_SERVER['DOCUMENT_ROOT']."/jaws-content/reset-password.php");
 		
 	/* ######################################
 					  404

@@ -22,6 +22,9 @@ RewriteRule ^(products)/(\d+)-?(\w+)?/(\d+)-?(\S+)?/*$              /index.php?$
 # Login/Register
 RewriteRule ^(login|sign-in|signin|register|sign-up|signup)/*$      /index.php?login [QSA]
 
+# Reset Password
+RewriteRule ^(reset-password)/?(.*)/*$                              /index.php?reset-password&key=$2 [QSA]
+
 # Cart
 RewriteRule ^cart/(\w+)*/*$                                         /index.php?cart=$1 [QSA]
 

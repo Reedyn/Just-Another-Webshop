@@ -92,35 +92,7 @@ if(isset($_POST['user-submit'])) {
     
 }
 if (isset($_POST['reset-password']) && isset($_POST['user-mail'])) {
-    $password = generatePassword(20);
-    if ($db->dbEditUser($_POST['user-ssn'],"Password",$password)) {
-        registerError($_POST['user-first-name'].' '.$_POST['user-last-name']."'s password has been reset",'success');
-        $message = '<html>
-                        <head>
-                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                            <title>[Hockey Gear] Your password has been reset</title>
-                        <head>
-                        <body>
-                            <p>Your password has been reset.</p>
-                            <p>Your new password is: '.$password.'</p>
-                            <p>You can login at http://hockeygear.lindqvist.io/login/ and then change your password under settings.</p>
-                        </body>
-                    </html>';
-        $message = wordwrap($message, 70, "\r\n"); 
-        $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
-        $subject = '[Hockey Gear] Password reset';
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
-        $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
-        $headers .= 'X-Mailer: PHP/' . phpversion();
-        
-        mail($to, $subject, $message, $headers);
-        redirect();
-    } else {
-        registerError("Password couldn't be reset", "danger");
-        redirect();
-    }
+    forgotPassword($_POST['user-mail']);
 }
 
 if(isset($_POST['user-delete'])) {

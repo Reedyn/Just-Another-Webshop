@@ -1477,22 +1477,29 @@
                     </div>';
         }
     }
-    function listTaxanomies(){
+    function listTaxanomies($TaxanomyId=1){
+        $sep = " - "
         $taxanomies=getAllTaxanomies();
         echo '<div class="container dropdownCat">
                  <li class="dropdown dropdownCategory">
                   <a id="drop4" role="button" data-toggle="dropdown" href="#">Choose Category <b class="caret"></b></a>
                   <ul id="menu1" class="dropdown-menu dropdown-menuCategory" role="menu" aria-labelledby="drop4">';
-            for($i=0;$i<count($taxanomies);$i++){
-                if($taxanomies[$i]->Id != 1) {
-                    echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$taxanomies[$i]->Id.'-'.toAscii($taxanomies[$i]->Name).'">'.$taxanomies[$i]->Name.'</a></li>';
-                }
-                
-            }
+        recursiveListTaxanomies($TaxanomyId);
          echo      '</ul>
                 </li>
               </div>';
     }
+    recursiveListTaxanomies($ParentId){
+        for($i=0;$i<count($taxanomies);$i++){
+                if($taxanomies[$i]->Id != 1) {
+                    echo '<li role="presentation"><a role="menuitem" tabindex="-1" href="/products/'.$taxanomies[$i]->Id.'-'.toAscii($taxanomies[$i]->Name).'">'.$sep.'.$taxanomies[$i]->Name.'</a></li>';
+                }
+                
+            }
+        
+    }
+    
+    
     function listCurrencies(){
         $currencies=getAllCurrencies();
         echo '<li class="dropdown">

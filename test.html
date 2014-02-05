@@ -1,0 +1,53 @@
+<head>
+    <script type="text/javascript" src="/content/themes/default/js/list.js"></script>
+</head>
+<body>
+    <table class="sortable">
+        <thead> <!-- All headers and buttons for sorting -->
+            <th><a href="#" class="sort" data-sort="column1">Rubrik 1</a></th>
+            <th><a href="#" class="sort" data-sort="column2">Rubrik 2</a></th>
+            <th><a href="#" class="sort" data-sort="column3">Rubrik 3</a></th>
+            <th><a href="#" class="sort" data-sort="column4">Rubrik 4</a></th>
+            <th><input placeholder="Search.." class="form-control search"></th>
+        </thead>
+        <tbody class="list"> <!-- The actual data with sorting -->
+            <tr>
+                <td class="column1"><a href="">Test</a></td>
+                <td class="column2"><a href="">Test</a></td>
+                <td class="column3"><a href="">Test</a></td>
+                <td class="column4"><a href="">Test</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="column1"><a href="">Test</a></td>
+                <td class="column2"><a href="">Test</a></td>
+                <td class="column3"><a href="">Test</a></td>
+                <td class="column4"><a href="">Test</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="column1"><a href="">Test</a></td>
+                <td class="column2"><a href="">Test</a></td>
+                <td class="column3"><a href="">Test</a></td>
+                <td class="column4"><a href="">Test</a></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tfoot> <!-- The footer, useful to have something always at bottom regardless of sorting (such as total value) -->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+        var options = {
+            valueNames: [ "column1", "column2", "column3", "column4" ]
+        };
+        
+        var sortable = new List("sortable", options);
+    </script>
+</body>

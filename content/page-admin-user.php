@@ -108,7 +108,7 @@ includeHeader();
             <div class="col-lg-4">
               <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock" ></span></span>
-                <input title="Password is automatically generated." pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" readonly required name="user-password" type="password" class="form-control" placeholder="Password">
+                <input title="Password is automatically generated." pattern="^[a-zA-ZåäöÅÄÖ0-9]{6,30}$" readonly name="user-password" type="password" class="form-control" placeholder="Password">
               </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->  
             </div><!-- /.row -->

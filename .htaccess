@@ -23,7 +23,7 @@ RewriteRule ^(products)/(\d+)-?([^\/]*)?/(\d+)-?(\S+)?/*$              /index.ph
 RewriteRule ^(login|sign-in|signin|register|sign-up|signup)/*$      /index.php?login [QSA]
 
 # Reset Password
-RewriteRule ^(reset-password)/?(.*)/*$                              /index.php?reset-password&key=$2 [QSA]
+RewriteRule ^(reset-password|set-password)/?(.*)/*$                              /index.php?reset-password&key=$2 [QSA]
 
 # Cart
 RewriteRule ^cart/(\w+)*/*$                                         /index.php?cart=$1 [QSA]

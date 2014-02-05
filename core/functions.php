@@ -162,6 +162,34 @@
         }
     }
     
+    function newPassword($mail) {
+        $key = generatePassword(20);
+        if($GLOBALS['db']->setResetKey($mail,$key)){
+            $message = '<html>
+                            <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                <title>[Hockey Gear] Account created</title>
+                            <head>
+                            <body>
+                                <p>An account at Hockey Gear has been created for you.</p>
+                                <p>You can create your password for logging in at '.$_SERVER['HTTP_HOST'].'/set-password/'.$key.'</p>
+                            </body>
+                        </html>';
+            $message = wordwrap($message, 70, "\r\n"); 
+            $to      = $mail;
+            $subject = '[Hockey Gear] Account created';
+            $headers  = 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+            $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
+            $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
+            $headers .= 'X-Mailer: PHP/' . phpversion();
+            mail($to, $subject, $message, $headers);
+        } else {
+            registerError("Couldn't create user-account","danger");
+            redirect();
+        }
+    }
+    
     function savePassword($key,$password){
         if($user = $GLOBALS['db']->getResetKey($key)){ // If reset key exists, get SSNr to save new password to.
             if ($GLOBALS['db']->dbEditUser($user['SSNr'],"ResetKey",null,"Password",$password)) {

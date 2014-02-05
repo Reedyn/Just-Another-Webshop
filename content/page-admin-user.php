@@ -29,29 +29,8 @@ if(isset($_POST['user-submit'])) {
                     $_POST['user-phone'],
                     $_POST['user-admin'])) {
                     
-                // Send registration email to user
-                $message = '<html>
-                                <head>
-                                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                                    <title>[Hockey Gear] Account created</title>
-                                <head>
-                                <body>
-                                    <p>Your account has been created</p>
-                                    <p>Your password is: '.$password.'</p>
-                                    <p>You can login at http://hockeygear.lindqvist.io/login/</p>
-                                </body>
-                            </html>';
-                $message = wordwrap($message, 70, "\r\n"); 
-                $to      = $_POST['user-first-name'].' '.$_POST['user-last-name'].' <'.$_POST['user-mail'].'>';
-                $subject = '[Hockey Gear] Account created';
-                $headers  = 'MIME-Version: 1.0' . "\r\n";
-                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                $headers .= 'From: Hockey Gear <noreply@hockeygear.com>' . "\r\n";
-                $headers .= 'Reply-To: webmaster@hockeygear.com' . "\r\n";
-                $headers .= 'X-Mailer: PHP/' . phpversion();
-                mail($to, $subject, $message, $headers);
-                    
-                registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' added','success');
+                newPassword($_POST['user-mail']);
+                registerError($_POST['user-first-name'].' '.$_POST['user-last-name'].' added. A mail with further instructions has been sent to '.$_POST['user-mail'],'success');
                 redirect("/admin/users/".$_POST['user-ssn']);
             } else {
                 registerError("Adding user failed", "danger");

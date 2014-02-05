@@ -12,7 +12,9 @@ Det mesta av utvecklandet har skett individuellt och ej i grupp och gruppen har 
 
 Gruppen har fått fram en webbshopp som enligt vår tolkning uppfyller alla de krav som har lagts fram i kravspecifikationen. Och en hel del andra funktioner som ej stod med.
 
-Fullständig historik och resultat finns på http://github.com/reedyn/Just-Another-Webshop
+En live-variant av webbshoppen finns på [http://hockeygear.lindqvist.io](http://hockeygear.lindqvist.io) inloggning för test-konto är `lindqvist.gustav@gmail.com` med lösenord `test`.
+
+Fullständig historik och resultat finns på [http://github.com/reedyn/Just-Another-Webshop](http://github.com/reedyn/Just-Another-Webshop)
 
 Projektet är uppdelat i två större grupper, presentation och data-hantering.
 

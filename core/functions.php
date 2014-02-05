@@ -1354,7 +1354,7 @@
                             <div class="col-lg-4">
                               <div class="input-group">
                                 <span class="input-group-addon">Name</span>
-                                <input pattern="^\w+$" required name="taxanomy-name" value="'.$taxanomy->Name.'" type="text" class="form-control" placeholder="Category Name">
+                                <input pattern="^(\w+|\s?)+$" required name="taxanomy-name" value="'.$taxanomy->Name.'" type="text" class="form-control" placeholder="Category Name">
                               </div><!-- /input-group -->
                             </div><!-- /.col-lg-6 -->
                             <div class="col-lg-4">
@@ -1415,7 +1415,7 @@
                                 <div class="col-lg-4">
                                   <div class="input-group">
                                     <span class="input-group-addon">Name</span>
-                                    <input pattern="^\w+$" required name="taxanomy-name" type="text" class="form-control" placeholder="Category Name">
+                                    <input pattern="^(\w+|\s?)+$" required name="taxanomy-name" type="text" class="form-control" placeholder="Category Name">
                                   </div><!-- /input-group -->
                                 </div><!-- /.col-lg-6 -->
                                 <div class="col-lg-4">

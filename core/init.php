@@ -98,9 +98,9 @@ function router() { // Function for delivering pages based on GET variables and 
 	*/ ######################################	
 	} else if(isset($_GET['cart'])){
 			if($_GET['cart'] == 'review'){
-			    require_once($_SERVER['DOCUMENT_ROOT']."/content/page-cart-review.php");
+			    require_once($_SERVER['DOCUMENT_ROOT']."/content/page-cart-review.php"); // If user is trying access review cart
 			}else {
-			    require_once($_SERVER['DOCUMENT_ROOT']."/content/page-cart.php");
+			    require_once($_SERVER['DOCUMENT_ROOT']."/content/page-cart.php"); // If user is trying access cart
 			}
 			
 
@@ -108,7 +108,7 @@ function router() { // Function for delivering pages based on GET variables and 
 					Home
 	*/ ######################################	
 	} else if(isset($_GET['home'])) {
-		  require_once($_SERVER['DOCUMENT_ROOT']."/content/page-home.php");
+		  require_once($_SERVER['DOCUMENT_ROOT']."/content/page-home.php"); // If user is trying to access home
 		
 	/* ######################################
 					Search

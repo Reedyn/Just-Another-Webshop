@@ -14,10 +14,10 @@ RewriteRule ^admin/(users)/(new|\d+)*/*$                            /index.php?a
 RewriteRule ^admin/(currencies)/(new|\d+)*/*$                       /index.php?admin=$1&currency=$2 [QSA]
 
 # Category
-RewriteRule ^(products)/(\d+)-?(\w+)?/*$                            /index.php?$1&category=$2&category-name=$3 [QSA]
+RewriteRule ^(products)/(\d+)-?([^\/]*)?/*$                            /index.php?$1&category=$2&category-name=$3 [QSA]
 
 # Product
-RewriteRule ^(products)/(\d+)-?(\w+)?/(\d+)-?(\S+)?/*$              /index.php?$1&category=$2&category-name=$3&product=$4&product-name=$5 [QSA]
+RewriteRule ^(products)/(\d+)-?([^\/]*)?/(\d+)-?(\S+)?/*$              /index.php?$1&category=$2&category-name=$3&product=$4&product-name=$5 [QSA]
 
 # Login/Register
 RewriteRule ^(login|sign-in|signin|register|sign-up|signup)/*$      /index.php?login [QSA]

@@ -21,29 +21,31 @@ Upplägget är tänkt att göra det enkelt att utveckla mer funktionalitet senar
 
 På grund av detta är koden i ett flertal filer separerade, som till exempel databas-inloggning lever i `config.php` istället för att skriva in direkt vid skapandet av *Database-objektet*.
 
-```
-index.php
-.htaccess
-/core/
-	This folder contains the files that include the real programming, the router in init.php, database in db.php, functions in functions.php 
-/content/
-	All template-files that include validation and presentation are here.
-	/img/
-    	Folder for uploaded product images
-    /themes/
-    	Folder for themes, We only have one theme right now.
-    	/default/
-        	/css/
-            /js/
-            /fonts/
-            /img/
-```
+
+	index.php
+	.htaccess
+	/core/
+		This folder contains the files that include the real programming, the router in init.php, database in db.php, functions in functions.php 
+	/content/
+		All template-files that include validation and presentation are here.
+		/img/
+	    	Folder for uploaded product images
+	    /themes/
+	    	Folder for themes, We only have one theme right now.
+	    	/default/
+	        	/css/
+	            /js/
+	            /fonts/
+	            /img/
+
 
 Systemet sitter ihop på följande sätt:
-![Systemvy](UML_-_File_Structure.png)
+
+![](https://github.com/reedyn/Just-Another-Webshop/raw/project-report/UML_-_File_Structure.png)
 
 Databasen är uppbyggd på följande sätt:
-![Databasstruktur](UML_-_Database.png)
+
+![](https://github.com/reedyn/Just-Another-Webshop/raw/project-report/UML_-_Database.png)
 
 ### 2.1. Resultat enligt kravspecifikation
 
@@ -216,21 +218,19 @@ David har tagit fram design och struktur för Front-End i HTML, CSS och JavaScri
 
 ### 2.3. Extra (saker som ej stod med i kravspec)
 
-#### Snygga URIs
+#### 2.3.1. Snygga URIs
 
 Webbshoppen har snygga sökmotorsoptimerade URIs som är lätta att utläsa och som är beskrivande. Till exempel `/products/17-figure-skates/16-figure-skates-2000` för produkten *Figure Skates 2000* som är i kategorin *Figure Skates* eller `/settings/user/` för användarinställningarna.
 Snygga URIs är implementerat genom RegularExpressions i `.htaccess` kombinerat med funktionen `router()` i `init.php` som utifrån vilka *get* variabler som skickas med, laddar olika sidor.
 
-```
-RewriteRule ^admin/(shipping)/(\w+)*/*$         /index.php?admin=$1&package=$2 [QSA]
-RewriteRule ^admin/(products)/(new|\d+)+/*$     /index.php?admin=$1&product=$2 [QSA]
-RewriteRule ^admin/(categories)/(new|\d+)*/*$   /index.php?admin=$1&category=$2 [QSA]
-RewriteRule ^admin/(orders)/(\d+)*/*$           /index.php?admin=$1&order=$2 [QSA]
-RewriteRule ^admin/(users)/(new|\d+)*/*$        /index.php?admin=$1&user=$2 [QSA]
-RewriteRule ^admin/(currencies)/(new|\d+)*/*$   /index.php?admin=$1&currency=$2 [QSA]
-```
+	RewriteRule ^admin/(shipping)/(\w+)*/*$         /index.php?admin=$1&package=$2 [QSA]
+	RewriteRule ^admin/(products)/(new|\d+)+/*$     /index.php?admin=$1&product=$2 [QSA]
+	RewriteRule ^admin/(categories)/(new|\d+)*/*$   /index.php?admin=$1&category=$2 [QSA]
+	RewriteRule ^admin/(orders)/(\d+)*/*$           /index.php?admin=$1&order=$2 [QSA]
+	RewriteRule ^admin/(users)/(new|\d+)*/*$        /index.php?admin=$1&user=$2 [QSA]
+	RewriteRule ^admin/(currencies)/(new|\d+)*/*$   /index.php?admin=$1&currency=$2 [QSA]
 
-#### Validering
+#### 2.3.2. Validering
 
 Validering utnyttjar HTML5 validering med JavaScript som fallback på klientsidan och Validering med PHP på serversidan. Valideringen utnyttjar RegularExpressions för att matcha input, anledningen till detta är att RegularExpressions är enkelt för att åstadkomma exakt samma validering på klientsidan som på serversidan med hjälp av `pattern="^[A-ZÅÄÖa-zåäö]+$"` i *HTML* och `preg_match("$[A-ZÅÄÖa-zåäö]+$",string)` i PHP.
 

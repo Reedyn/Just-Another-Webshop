@@ -218,15 +218,29 @@ David har tagit fram design och struktur för Front-End i HTML, CSS och JavaScri
 
 #### Snygga URIs
 
-Webbshoppen har snygga sökmotorsoptimerade URIs som är lätta att utläsa och som är beskrivande.
-För att 
+Webbshoppen har snygga sökmotorsoptimerade URIs som är lätta att utläsa och som är beskrivande. Till exempel `/products/17-figure-skates/16-figure-skates-2000` för produkten *Figure Skates 2000* som är i kategorin *Figure Skates* eller `/settings/user/` för användarinställningarna.
+Snygga URIs är implementerat genom RegularExpressions i `.htaccess` kombinerat med funktionen `router()` i `init.php` som utifrån vilka *get* variabler som skickas med, laddar olika sidor.
+
+```
+RewriteRule ^admin/(shipping)/(\w+)*/*$         /index.php?admin=$1&package=$2 [QSA]
+RewriteRule ^admin/(products)/(new|\d+)+/*$     /index.php?admin=$1&product=$2 [QSA]
+RewriteRule ^admin/(categories)/(new|\d+)*/*$   /index.php?admin=$1&category=$2 [QSA]
+RewriteRule ^admin/(orders)/(\d+)*/*$           /index.php?admin=$1&order=$2 [QSA]
+RewriteRule ^admin/(users)/(new|\d+)*/*$        /index.php?admin=$1&user=$2 [QSA]
+RewriteRule ^admin/(currencies)/(new|\d+)*/*$   /index.php?admin=$1&currency=$2 [QSA]
+```
 
 #### Validering
+
+Validering utnyttjar HTML5 validering med JavaScript som fallback på klientsidan och Validering med PHP på serversidan. Valideringen utnyttjar RegularExpressions för att matcha input, anledningen till detta är att RegularExpressions är enkelt för att åstadkomma exakt samma validering på klientsidan som på serversidan med hjälp av `pattern="^[A-ZÅÄÖa-zåäö]+$"` i *HTML* och `preg_match("$[A-ZÅÄÖa-zåäö]+$",string)` i PHP.
+
+```
 
 ### 2.4. Avgränsningar
 
 Mycket funktionalitet som var påtänkt från början har lagts på hyllan för att göra det möjligt att få färdigt projektet i tid. Bland annat:
 
+ * Statistik i administrationsgränssnittet.
  * Funktionalitet att dynamiskt ändra teman.
  * Bygga presentationen av data på ett sådant sätt att man enkelt kan använda samma metod för att skriva ut flera olika typer av data. Som det är nu finns en funktion för varje specifik typ av data till exempel `listAdminProduct()`. En tanke var att göra liknande WordPress med en generell *loop* som skriver ut det som en viss sida är til för. Tanken var även att göra `router()` funktionen på samma sätt så att den utifrån en viss struktur som `page-*.php` sidorna var uppbyggda på, skicka användaren till rätt sida istället för den mer statiska variant som används nu.
 
@@ -236,4 +250,4 @@ Projektet i sin helhet har gått bra. Ribban sattes något högt initialt vilket
 
 Till nästa gång ska det tänkas på att även om man har en hög ribba, se till att få färdigt den funktionalitet som krävs för lägsta betygen och sen arbeta sig uppåt, för att undvika stress över att inte bli färdiga.
 
-Projektet började även i fel ändå, Front-End skulle gjorts i ett tidigt skede för att enkelt kunna se vad som behöver göras. När man börjar utveckla med databasen blir det ett väldigt abstrakt projekt.
+Projektet började även i fel ändå, Front-End skulle gjorts i ett tidigt skede för att enkelt kunna se vad som behöver göras. När man börjar utveckla med databasen blir det ett väldigt abstrakt projekt vilket gör det svårare att få överblick.

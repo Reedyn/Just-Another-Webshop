@@ -186,6 +186,7 @@ Stöd för flera valutor finns för webbshoppen, dessa är även redigerbara via
 Inställningarna ger även möjlighet att specificera hur den valda valutan ska visas (till exempel svenska kronor skrivs ut som ett suffix: 100 kr eller 100 SEK medans Euro skrivs ut som ett prefix: €10). 
 
 ### 2.2 Individuella resultat
+
 Gruppen har haft tydliga områden som var och en varit ansvarig för men har kodat lite på varandras under tiden, så det är inte 100% en person som gjort varje enskild modul.
 
 #### 2.2.1 Gustav

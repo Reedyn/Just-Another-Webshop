@@ -235,6 +235,10 @@ Snygga URIs är implementerat genom RegularExpressions i `.htaccess` kombinerat 
 
 Validering utnyttjar HTML5 validering med JavaScript som fallback på klientsidan och Validering med PHP på serversidan. Valideringen utnyttjar RegularExpressions för att matcha input, anledningen till detta är att RegularExpressions är enkelt för att åstadkomma exakt samma validering på klientsidan som på serversidan med hjälp av `pattern="^[A-ZÅÄÖa-zåäö]+$"` i *HTML* och `preg_match("$[A-ZÅÄÖa-zåäö]+$",string)` i PHP.
 
+#### 2.3.3. Omdirigeringar
+
+Webbplatsen använder sig frekvent av omdirigeringar. Efter varje *post* sker en redirect mha `redirect()` funktionen vilket gör att användaren slipper se "Vill du återsända formulärdata", det ger även möjlighet (och som vi använder oss av) till kreative omdirigeringar. Till exempel om användaren har lagt till i kundkorgen men ej loggat in så skickas användaren till logga-in sidan och när användaren loggat in skickas hen till sidan som hen försökte besöka, i detta fallet kundkorgen.
+
 ### 2.4. Avgränsningar
 
 Mycket funktionalitet som var påtänkt från början har lagts på hyllan för att göra det möjligt att få färdigt projektet i tid. Bland annat:

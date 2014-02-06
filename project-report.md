@@ -41,12 +41,50 @@ index.php
 ```
 
 Systemet sitter ihop på följande sätt:
-![Systemvy](/content/images/2014/Feb/UML___File_Structure.png)
+![Systemvy](UML_-_File_Structure.png)
 
 Databasen är uppbyggd på följande sätt:
-![Databasstruktur](/content/images/2014/Feb/UML___Database__1_.png)
+![Databasstruktur](UML_-_Database.png)
 
 ### Resultat enligt kravspec
+
+#### Betyg 4
+
+##### Struktur för produkter (Taxonomies)
+
+##### Transaktioner i databasen
+
+##### Klasser
+
+##### Sortering och filtrering
+
+#### Betyg 5
+
+##### Captcha
+
+##### Bildhantering
+
+##### Registrering och kontohantering
+
+##### Databasklass
+
+##### Administrationshantering
+
+##### Valutor
+
+ * [x] Användare ska kunna ändra sin information när dom är inloggade. Nya lösenord skall kunna
+sättas, förutsatt att man matar in det gamla lösenordet.
+ * [x] Databaskopplingen skall göras genom att använda en databasklass. Databasklassen skall ärva
+klassen ”Mysqli” och lämpliga funktioner för databashantering skall finnas, t.ex. SaveUser(),
+saveProduct(), getUserByID() osv.
+ * [x] Administratören skall kunna annullera en order. Serien av ordrar får aldrig brytas, det måste
+finnas en konsekvent serie av ordernummer.
+ * [x] Webshoppen skall ha stöd för flera valutor. Använd EURO som bas. En växlingskurs som kan
+redigeras av administratören räknar sedan om priset för SEK, NOK och USD.
+ * [x] Administratören skall kunna ta fram och presentera på lämpligt sätt uppgifter på
+försäljningsstatistik (antal gjorda ordrar, summa belopp för dessa ordrar, medelvärde, minsta
+resp. största orderbelopp) under en viss tidsperiod för de olika produkterna i en viss
+produktkategori. Dessa uppgifter tas fram från databasen med lämpliga SQL‐frågor.
 
 ### 2.1 Individuella resultat
 Gruppen har haft tydliga områden som var och en varit ansvarig för men har kodat lite på varandras under tiden, så det är inte 100% en person som gjort varje enskild modul.

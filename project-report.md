@@ -55,7 +55,7 @@ Databasen är uppbyggd på följande sätt:
 
 Transaktioner används primärt för borttagning av Ordrar där ListedProducts måste tas bort först.
 
-```
+```php
 public function dbDeleteOrder($OrderId) {
     $this->autocommit(false);
     if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")){
@@ -233,8 +233,6 @@ RewriteRule ^admin/(currencies)/(new|\d+)*/*$   /index.php?admin=$1&currency=$2 
 #### Validering
 
 Validering utnyttjar HTML5 validering med JavaScript som fallback på klientsidan och Validering med PHP på serversidan. Valideringen utnyttjar RegularExpressions för att matcha input, anledningen till detta är att RegularExpressions är enkelt för att åstadkomma exakt samma validering på klientsidan som på serversidan med hjälp av `pattern="^[A-ZÅÄÖa-zåäö]+$"` i *HTML* och `preg_match("$[A-ZÅÄÖa-zåäö]+$",string)` i PHP.
-
-```
 
 ### 2.4. Avgränsningar
 

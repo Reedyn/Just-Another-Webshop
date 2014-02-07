@@ -53,6 +53,50 @@ Databasen är uppbyggd på följande sätt:
 
 ##### 2.1.1.1. Struktur för produkter (Taxonomies)
 
+Kategorier (Taxonomies) för produkter är byggda i en snygg hierarkisk struktur där i systemet inte finns begränsningar för hur många undernivåer man kan få ut (Dock begränsningar i gränssnittet).
+Funktionen för utskrift av kategorierna bygger på en rekursiv funktion för att skriva ut undermenyer i en struktur liknande nedan:
+
+ * Helmets
+   * Hockey Helmets
+   * Cool Hockey Helmets
+     * Super Cool hockey helmets
+   * Goalie Helmets
+ * Skates
+   * Hockey Skates
+   * Figure Skates
+     * Super skates
+
+    function listAdminTaxanomies(){
+        $taxanomies=$GLOBALS['db']->dbGetTaxanomyTree();
+        if($taxanomies){
+            echo '<div class="panel panel-primary">
+                      <div class="panel-heading">Categories</div>
+                      <div class="panel-body">
+                        <ul class="list-unstyled">';
+                            foreach($taxanomies as $taxanomy){
+                                echo '<li>'.$taxanomy['TaxanomyName'].' <a href="/admin/categories/'.$taxanomy['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
+                                </li>';
+                                recursiveAdminTaxanomy($taxanomy['TaxanomyChildren']);
+                            }
+                        echo '<li><a href="/admin/categories/new" class="btn btn-primary">Add category</a>
+                        </ul>
+                      </div>
+                    </div>';
+        }
+    }
+    function recursiveAdminTaxanomy($taxanomy){
+        if($taxanomy){
+            echo '<ul class="list-styled">';
+            foreach($taxanomy as $child){
+                echo '<li>'.$child['TaxanomyName'].' <a href="/admin/categories/'.$child['TaxanomyId'].'" class="btn btn-default btn-xs">Edit</a>
+                                </li>';
+                recursiveAdminTaxanomy($child['TaxanomyChildren']);
+            }
+            echo '</ul>';
+        }
+    }
+
+
 ##### 2.1.1.2. Transaktioner i databasen
 
 Transaktioner används primärt för borttagning av Ordrar där ListedProducts måste tas bort först.

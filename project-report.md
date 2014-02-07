@@ -66,6 +66,7 @@ Funktionen för utskrift av kategorierna bygger på en rekursiv funktion för at
    * Figure Skates
      * Super skates
 
+Rekursiva funktionen ser ut på följande sätt:
 
     function listAdminTaxanomies(){
         $taxanomies=$GLOBALS['db']->dbGetTaxanomyTree();

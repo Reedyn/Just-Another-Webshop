@@ -66,6 +66,7 @@ Funktionen för utskrift av kategorierna bygger på en rekursiv funktion för at
    * Figure Skates
      * Super skates
 
+
     function listAdminTaxanomies(){
         $taxanomies=$GLOBALS['db']->dbGetTaxanomyTree();
         if($taxanomies){
@@ -101,57 +102,54 @@ Funktionen för utskrift av kategorierna bygger på en rekursiv funktion för at
 
 Transaktioner används primärt för borttagning av Ordrar där ListedProducts måste tas bort först.
 
-```php
-public function dbDeleteOrder($OrderId) {
-    $this->autocommit(false);
-    if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")){
-        if($this->query("DELETE FROM orders WHERE OrderId in ($OrderId)")){
-            $this->autocommit(true);
-            return true;
+    public function dbDeleteOrder($OrderId) {
+        $this->autocommit(false);
+        if($this->query("DELETE FROM order_lists WHERE OrderId in ($OrderId)")){
+            if($this->query("DELETE FROM orders WHERE OrderId in ($OrderId)")){
+                $this->autocommit(true);
+                return true;
+            }else{
+                $this->rollback();
+                return false;
+            }
         }else{
             $this->rollback();
             return false;
         }
-    }else{
-        $this->rollback();
-        return false;
     }
-}
-```
 
 ##### 2.1.1.3. Klasser
 
 Klasser används för Database, User, Admin (som ärver User), Order, ListedProduct, Product och Taxonomy.
 
-```php
-class User{
-    public $SSNr;
-    public $Mail;
-    public $Password;
-    public $FirstName;
-    public $LastName;
-    public $StreetAddress;
-    public $PostAddress;
-    public $City;
-    public $Telephone;
-    public $SessionKey;
-    public $IsAdmin;
-
-    public function __construct($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$SessionKey,$IsAdmin) {
-        $this->SSNr         = $SSNr;
-        $this->Mail         = $Mail;
-        $this->Password     = $Password;
-        $this->FirstName    = $FirstName;
-        $this->LastName     = $LastName;
-        $this->StreetAddress= $StreetAddress;
-        $this->PostAddress  = $PostAddress;
-        $this->City         = $City;
-        $this->Telephone    = $Telephone;
-        $this->SessionKey   = $SessionKey;
-        $this->IsAdmin      = $IsAdmin;
+    
+    class User{
+        public $SSNr;
+        public $Mail;
+        public $Password;
+        public $FirstName;
+        public $LastName;
+        public $StreetAddress;
+        public $PostAddress;
+        public $City;
+        public $Telephone;
+        public $SessionKey;
+        public $IsAdmin;
+    
+        public function __construct($SSNr,$Mail,$Password,$FirstName,$LastName,$StreetAddress,$PostAddress,$City,$Telephone,$SessionKey,$IsAdmin) {
+            $this->SSNr         = $SSNr;
+            $this->Mail         = $Mail;
+            $this->Password     = $Password;
+            $this->FirstName    = $FirstName;
+            $this->LastName     = $LastName;
+            $this->StreetAddress= $StreetAddress;
+            $this->PostAddress  = $PostAddress;
+            $this->City         = $City;
+            $this->Telephone    = $Telephone;
+            $this->SessionKey   = $SessionKey;
+            $this->IsAdmin      = $IsAdmin;
+        }
     }
-}
-```
 
 ##### 2.1.1.4. Sortering och filtrering i administrations GUI
 
@@ -185,44 +183,42 @@ Databashanteringen sköts av klassen Database som ärver mysqli. Alla funktioner
 
 De funktioner som ändrar i ett element i databasen har även ett dynamiskt antal element, vilket ger större flexibilitet för hur man anropar klassen och det går att undvika att skriva flera olika funktioner för detta. Detta används till exempel när användare ska spara sin profil i `page-settings-user.php` där en variant av den dynamiska funktionen kallas när användaren inte vill byta lösenord och en annan kallas när användaren vill byta lösenord.
 
-```php
-public function dbEditUser($SSNr) { // Attempts to edit a user and returns a boolean.
-    // Function arguments are dynamic meaning
-    // the first argument is the ID for User (SSNr).
-    // The following arguments follow this pattern
-    // (...,RowToChange,ValueToChangeTo...)
-    // This works endlessly so as long as the
-    // row to change is argument number X
-    // where X%2=0 and value to change to
-    // is argument number Y=X+1.
-
-    $numargs=func_num_args();
-    $arg_list=func_get_args();
-    $param="";
-    for($i=1;$i<$numargs;$i++){
-        if($arg_list[$i]=="Password"){
-            $j=$i+1;
-            $result=$this->query("SELECT PwSalt FROM users WHERE SSNr='$SSNr'");
-            $row=$result->fetch_assoc();
-            $arg_list[$j]=$this->PasswordHash($row['PwSalt'],$arg_list[$j]);
+    public function dbEditUser($SSNr) { // Attempts to edit a user and returns a boolean.
+        // Function arguments are dynamic meaning
+        // the first argument is the ID for User (SSNr).
+        // The following arguments follow this pattern
+        // (...,RowToChange,ValueToChangeTo...)
+        // This works endlessly so as long as the
+        // row to change is argument number X
+        // where X%2=0 and value to change to
+        // is argument number Y=X+1.
+    
+        $numargs=func_num_args();
+        $arg_list=func_get_args();
+        $param="";
+        for($i=1;$i<$numargs;$i++){
+            if($arg_list[$i]=="Password"){
+                $j=$i+1;
+                $result=$this->query("SELECT PwSalt FROM users WHERE SSNr='$SSNr'");
+                $row=$result->fetch_assoc();
+                $arg_list[$j]=$this->PasswordHash($row['PwSalt'],$arg_list[$j]);
+            }
+            if($i==$numargs-2){
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."'";
+            }else{
+                $param.=$arg_list[$i]."='";
+                $i++;
+                $param.=$arg_list[$i]."',";
+            }
         }
-        if($i==$numargs-2){
-            $param.=$arg_list[$i]."='";
-            $i++;
-            $param.=$arg_list[$i]."'";
+        if($this->query("UPDATE users SET $param WHERE SSNr='$SSNr'")==TRUE){
+            return true;
         }else{
-            $param.=$arg_list[$i]."='";
-            $i++;
-            $param.=$arg_list[$i]."',";
+            return false;
         }
     }
-    if($this->query("UPDATE users SET $param WHERE SSNr='$SSNr'")==TRUE){
-        return true;
-    }else{
-        return false;
-    }
-}
-```
 
 ##### 2.1.2.5. Valutor
 

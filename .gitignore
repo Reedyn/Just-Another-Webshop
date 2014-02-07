@@ -9,14 +9,11 @@ jaws-includes/config.php
 GitHub/Just-Another-Webshop/.idea/encodings.xml
 GitHub/Just-Another-Webshop/.idea/scopes/scope_settings.xml
 GitHub/Just-Another-Webshop/.idea/workspace.xml
+node_modules
 img/*
 temp
 .idea/.name
 .idea/www.iml
-Projektrapport.md
-Projektrapport.pdf
-UML - Database (1).png
-UML - Database.png
-UML - File Structure.png
-bilaga.pdf
 d05f71f8.pdf
+Gruntfile.js
+package.json
